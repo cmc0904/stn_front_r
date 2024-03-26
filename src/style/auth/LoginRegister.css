@@ -1,0 +1,111 @@
+
+.my-login-page {
+	width: 100%;
+	height: calc(100vh - 70px);
+	background-color: #f7f9fb;
+	font-size: 14px;
+}
+
+.my-login-page .brand {
+	width: 90px;
+	height: 90px;
+	overflow: hidden;
+	border-radius: 50%;
+	margin: 40px auto;
+	/* box-shadow: 0 4px 8px rgba(0,0,0,.05); */
+	position: relative;
+	z-index: 1;
+}
+
+.my-login-page .brand img {
+	width: 100%;
+}
+
+.my-login-page .card-wrapper {
+	width: 400px;
+}
+
+.my-login-page .card {
+	border-color: transparent;
+	box-shadow: 0 4px 8px rgba(0,0,0,.05);
+}
+
+.my-login-page .card.fat {
+	padding: 10px;
+}
+
+.my-login-page .card .card-title {
+	margin-bottom: 30px;
+}
+
+.my-login-page .form-control {
+	border-width: 2.3px;
+}
+
+.my-login-page .form-group label {
+	width: 100%;
+}
+
+.my-login-page .btn.btn-block {
+	padding: 12px 10px;
+}
+
+.my-login-page .footer {
+	margin: 40px 0;
+	color: #888;
+	text-align: center;
+}
+
+.invalid-feedback {
+	display: inline;
+}
+
+.invalid-feedback.show {
+	display: block;
+}
+
+@media screen and (max-width: 425px) {
+	.my-login-page .card-wrapper {
+		width: 90%;
+		margin: 0 auto;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.my-login-page .card.fat {
+		padding: 0;
+	}
+
+	.my-login-page .card.fat .card-body {
+		padding: 15px;
+	}
+}
+
+
+.gender-btn-wrap {
+	display: flex;
+	width: 100%;
+	height: 35px;
+	border-radius: 5px;
+	border: 2px solid #dee2e6;
+}
+
+.gender-btn {
+	background-color: #fff;
+	flex: 1;
+	border: none;
+	line-height: auto;
+}
+.gender-btn.pressed {
+    background-color: #dddddd; /* 눌렸을 때의 배경색 */
+    /* 원하는 다른 스타일 추가 가능 */
+}
+.gender-btn.male {
+	border-radius: 5px 0 0 5px;
+	border-right: 1px solid #dee2e6;
+}
+
+.gender-btn.female {
+	border-radius: 0 5px 5px 0;
+	border-left: 1px solid #dee2e6;
+}

@@ -1,0 +1,41 @@
+
+#as-form {
+width: 50%;
+margin: 50px auto;
+background-color: #fff;
+padding: 20px;
+border-radius: 8px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#as-form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#as-form input,
+#as-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+#as-form textarea {
+    resize: vertical;
+}
+
+#as-form button {
+    background-color: #434343;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+}
+
+#as-form h2{
+    padding: 10px 0px;
+}

@@ -1,0 +1,54 @@
+
+.member_table {
+    margin: auto;
+    border-collapse: collapse;
+}
+
+.member_table thead tr td {
+    border-top: 3px solid #434343;
+    border-bottom: 2px solid #F4F4F4;
+}
+
+
+.member_table tbody tr td, table tbody tr th {
+    border-bottom: 1px solid #F4F4F4;
+}
+
+.member_table td {
+    padding: 10px;
+    text-align: center;
+}
+.member_table tbody th {
+    /* Added padding for better layout after collapsing */
+    padding: 20px;
+}
+
+
+.page_selector {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 17px;
+}
+
+.page_selector a {
+    padding: 5px;
+}
+
+.search {
+    display: flex;
+    margin-bottom: 5px;
+    height: 30px;
+}
+
+.search input, .search button {
+    margin-right: 5px;
+    border: none;
+}
+
+.search input {
+    border-bottom: 3px solid black;
+}
+
+.search button:focus {
+    background-color: blue;
+}

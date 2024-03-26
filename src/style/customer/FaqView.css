@@ -1,0 +1,33 @@
+.point {
+    color: coral;
+}
+
+
+.faq_title {
+    text-align: center;
+    margin-top: 80px;
+    margin-bottom: 50px;
+}
+
+.faq {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq_item {
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.faq_question,
+.faq_answer {
+    padding: 15px;
+}
+
+.faq_question {
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
+}

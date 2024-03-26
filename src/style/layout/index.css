@@ -1,0 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'TheJamsil5Bold';
+}
+
+@font-face {
+  font-family: 'TheJamsil5Bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+
+/* 각 페이지 상단에 들어가는 제목 */
+.page-title {
+  font-size: 30px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* 헤더와 사이드바를 제외한 나머지 영역 */
+#main {
+  position: relative;
+  left: 250px;
+  width: calc(100% - 270px);
+  margin: 10px;
+}
+
+.page-item.active .page-link {
+  background-color: #434343;
+}
+
+
+.page_selector nav {
+  display: flex;
+  justify-content: center;
+}

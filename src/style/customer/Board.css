@@ -1,0 +1,246 @@
+
+
+ul, li{
+    list-style: none;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+.board_wrap {
+    width: 1000px;
+}
+
+.board_title{
+    margin-bottom: 30px;
+}
+
+.board_title strong{
+    font-size: 3rem;
+}
+
+.board_title p{
+    margin-top: 5px;
+    font-size: 1.4rem;
+
+}
+
+
+
+.bt_wrap{
+    margin-top: 30px;
+    font-size: 0;
+    text-align: center;
+}
+
+.bt_wrap a{
+    display: inline-block;
+    min-width: 80px;
+    margin-left: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 2px;
+    font-size: 1.4rem
+}
+
+.bt_wrap a  :first-child{
+    margin-left: 0;
+}
+
+.bt_wrap a.on{
+    background-color: black;
+    color: white;
+}
+
+.board_list{
+    width: 100%;
+    border-top: 2px solid black;
+}
+.board_list > div{
+    border-bottom: 1px solid #ddd;
+    font-size: 0;
+}
+
+
+.board_list > div.top{
+    border-bottom: 1px solid #999;
+}
+
+.board_list > div:last-child{
+    border-bottom: 1px solid black;
+}
+
+.board_list > div > div {
+    display:  inline-block;
+    padding: 15px 0px;
+    font-size: 1.4rem;
+    text-align: center;
+}
+
+.board_list > div.top > div{
+    font-weight: 600;
+}
+
+
+.board_list .b_title{
+    width: 60%;
+    text-align: left;
+}
+
+.board_list .top .b_title{
+    text-align: center;
+}
+
+.board_list .writer{
+    width: 10%;
+    margin-right: 55px;
+}
+
+.board_list .date{
+    width: 10%;
+}
+
+.board_list .count{
+    width: 10%;
+}
+
+.board_page{
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0;
+}
+
+.board_page a{
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-left: 0;
+    vertical-align: middle;
+    line-height: 100%;
+    
+}
+
+.board_page a.bt{
+    padding-top: 8px;
+    font-size: 1.2rem;
+    letter-spacing: -1px;
+}
+
+.board_page a.num{
+    padding-top: 8px;
+    font-size: 1.4rem;
+}
+
+.board_page a.num.on{
+    border-color: black;
+    background-color: black;
+    color: #fff;
+}
+
+.num {
+    width: 10%;
+}
+
+.board_page a:first-child{
+    border-left: 1px solid #ddd;
+}
+
+
+.board_view{
+    width: 100%;
+    border-top: 2px solid black;
+}
+
+.board_view .title{
+    padding: 20px 15px;
+    border-bottom: 1px dashed #ddd;
+    font-size: 2rem;
+}
+
+.board_view .info{
+    padding: 15px;
+    border-bottom: 1px solid #999;
+    font-size : 0;
+}
+
+.board_view .info dl{
+    position: relative;
+    display: inline-block;
+    padding: 0 20px;
+}
+
+.board_view .info dl:first-child{
+    padding-left: 0;
+}
+
+.board_view .info dl::before{
+    content: "";
+    position: absolute;
+    top: 0.4rem;
+    left: 0px;
+    display: block;
+    width: 1px;
+    height: 12px;
+    background-color: #ddd;
+    
+}
+
+.board_view .info dl:first-child::before{
+    display: none;
+}
+
+.board_view .info dl dt,
+.board_view .info dl dd{
+    display: inline-block;
+    font-size: 1.4rem;
+}
+
+
+
+
+.board_view .info dl dd{
+    margin-left: 10px;
+    color: #777;
+}
+
+.wrap {
+    height: 90px;
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 추가 */
+}
+
+
+.wrap input, .wrap button {
+    margin-right: 5px;
+    border: none;
+}
+
+.wrap input {
+    border-bottom: 3px solid #434343;
+    width: 600px;
+    height: 30px;
+    font-size: 15px;
+}
+
+.mode-btn-wrap {
+	display: flex;
+	width: 100%;
+	height: 35px;
+	border-radius: 5px;
+    margin-top: 5px;
+}
+
+.mode-btn {
+	flex: 1;
+	border: none;
+	line-height: auto;
+}
+.mode-btn.pressed {
+    background-color: #dddddd;
+}
