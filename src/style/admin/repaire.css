@@ -92,3 +92,27 @@ a {
     margin: 5px 0;
     font-weight: 400;
 }
+
+.flex-btn-wrap {
+    display: flex;
+}
+
+.flex-btn {
+    flex: 1;
+    border: none;
+    height: 45px;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.flex-btn.orange {
+    background-color: orange;
+}
+
+.flex-btn.green {
+    background-color: rgba(66, 164, 66, 0.741);
+}
+
+.flex-btn.red {
+    background-color: red
+}

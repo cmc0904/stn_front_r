@@ -74,6 +74,20 @@ const RepairReception = () => {
         getAllRepairStatus();
     };
 
+    const complete = async (reId) => {
+
+        await axios.post('http://localhost:8081/api/repair/completeRepair',
+            reId,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                }
+            }
+        );
+        getAllRepairStatus();
+    };
+
 
     // 기사 선택시 실행되는 함수
     const adminChange = (event) => {
@@ -83,6 +97,44 @@ const RepairReception = () => {
     // 시간 선택시 실행되는 함수
     const timeChange = (event) => {
         setMeetingTime(event.target.value);
+    };
+
+    // 이미 접수된 접수 담당 관리자, 방문 시간 초기화
+    const selectItem = (item) => {
+        if(item.adminId == null && item.finished == 0) {
+            return;
+        }
+
+        setSelectedAdmin(item.adminId);
+        setMeetingTime(item.visitDate);
+    };
+
+    // 담당 관리자, 방문 시간대 변경
+    const edit = async (reId) => {
+        if (selectedAdmin === "NONE") {
+            return;
+        }
+
+        console.log(            {
+                repairIdx: reId,
+                adminId: selectedAdmin,
+                visitDate: meetingTime
+            },)
+
+        await axios.put('http://localhost:8081/api/repair/editAdminIdVisitDate',
+            {
+                idx: reId,
+                adminId: selectedAdmin,
+                visitDate: meetingTime
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                }
+            }
+        );
+        getAllRepairStatus();
     };
 
     return (
@@ -149,11 +201,21 @@ const RepairReception = () => {
                     {repairs.map((item, index) => (
                         <div className="collapse-box" key={index}>
                             <div className="information-btn-container">
-                                <a data-bs-toggle="collapse" href={`#collapseContainer${index + 1}`} role="button" aria-expanded="false" aria-controls="collapseContainer">
+                                <a onClick={() => selectItem(item)} data-bs-toggle="collapse" href={`#collapseContainer${index + 1}`} role="button" aria-expanded="false" aria-controls="collapseContainer">
                                     <div className="as-information">
                                         <div className="as-title">
-                                            {item.adminId == null ? <span style={{ color: 'red' }}>[접수대기]</span> : <span style={{ color: 'green' }}>[접수완료]</span>}
+                                            {item.adminId == null && item.finished == 0 &&
+                                                <span style={{ color: 'red' }}>[접수 대기]</span>
+                                            }
 
+                                            {item.adminId != null && item.finished == 0 &&
+                                                <span style={{ color: 'orange' }}>[방문 예정]</span>
+                                            }
+
+                                            {item.adminId != null && item.finished == 1 &&
+                                                <span style={{ color: 'green' }}>[처리 완료]</span>
+                                            }
+                                            
                                             {item.problemTitle}
                                         </div>
                                         <div className="as-profile">
@@ -211,7 +273,23 @@ const RepairReception = () => {
                                             min="2023-12-22T16:04"
                                             onChange={timeChange}
                                         />
-                                        {item.adminId == null ? <button className="as-p-btn" onClick={() => registerRepair(item.idx)}>접수완료</button> : <button className="as-p-btn" onClick={() => registerRepair(item.idx)} disabled>접수완료</button>}
+
+                                        {item.adminId == null && item.finished == 0 &&
+                                            <button className="as-p-btn" onClick={() => registerRepair(item.idx)}>접수완료</button>
+                                        }
+
+                                        {item.adminId != null && item.finished == 0 &&
+                                            <div className='flex-btn-wrap'>
+                                                <button className='flex-btn orange' onClick={()=> edit(item.idx)}>접수 변경</button>
+                                                <button className='flex-btn green' onClick={()=> complete(item.idx)}>처리 완료</button>
+                                            </div>
+                                        }
+
+                                        {item.adminId != null && item.finished == 1 &&
+                                            <button className="as-p-btn" onClick={() => registerRepair(item.idx)} disabled>접수완료</button>
+                                        }
+
+                                        {/* {item.adminId == null ? <button className="as-p-btn" onClick={() => registerRepair(item.idx)}>접수완료</button> : <button className="as-p-btn" onClick={() => registerRepair(item.idx)} disabled>접수완료</button>} */}
                                     </div>
                                 </div>
                             </div>
