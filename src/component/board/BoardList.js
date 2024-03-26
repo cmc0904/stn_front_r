@@ -64,25 +64,6 @@ const BoardList = (type) => {
     };
 
 
-    const search = async () => {
-        try {
-            const response = await axios.get('http://localhost:8081/api/board/getBoardByPageNumber?page=' + item,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
-
-            console.log(response.data)
-
-            setShowData(response.data)
-        } catch (e) {
-            console.log(e)
-        }
-    };
-
 
     return (
         <>

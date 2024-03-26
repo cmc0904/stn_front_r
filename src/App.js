@@ -48,7 +48,7 @@ function App() {
 
           {/* 게시판 부분 */}
           <Route path="/:type/board/boardwrite" element={<AdminBoardWriteView />} />
-          <Route path="/:type/board/boardView/:paramName" element={<AdminBoardView />} />
+          <Route path="/:type/board/boardView/:paramName" element={<AdminBoardDetailView />} />
           <Route path="/:type/board" element={<AdminBoardView />} />
         </Route>
       </Routes>
