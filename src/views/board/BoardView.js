@@ -21,7 +21,6 @@ const AdminBoardView = () => {
 
 
     useEffect(() => {
-        console.log("t " + type)
         getComments();
         getBoardContent();
     }, []);
@@ -89,9 +88,9 @@ const AdminBoardView = () => {
 
     return (
         <>
-            <Header content="Management"></Header>
-            <SideBar setting={
-                {
+            {
+                type === "manager" &&
+                <><Header content="Management"></Header><SideBar setting={{
                     "logindUserName": window.localStorage.getItem("name"),
                     "allMenus": [
                         {
@@ -139,12 +138,61 @@ const AdminBoardView = () => {
                                 }
                             ]
                         }
-
                     ]
+                }} /></>
+
+            }
+
+            {
+                type === "customer" &&
+                <>
+                    <Header content="고객서비스"></Header>
+                    <SideBar setting={
 
 
-                }}
-            />
+                        {
+                            "logindUserName": "최문찬",
+                            "allMenus": [
+                                {
+                                    "categoryName": "고객센터",
+                                    "subMenus": [
+                                        {
+                                            "subMenuName": "게시판",
+                                            "link": "/customer/board",
+                                            "isSelected": true
+                                        },
+                                        {
+                                            "subMenuName": "A/S접수",
+                                            "link": "/customer/as",
+                                            "isSelected": false
+                                        }
+                                    ]
+                                },
+                                {
+                                    "categoryName": "관리",
+                                    "subMenus": [
+                                        {
+                                            "subMenuName": "내 정보",
+                                            "link": "/customer/myinfo",
+                                            "isSelected": false
+                                        },
+                                        {
+                                            "subMenuName": "자주 묻는 질문",
+                                            "link": "/customer/faq",
+                                            "isSelected": false
+                                        }
+                                    ]
+                                }
+
+                            ]
+
+
+                        }
+                    }
+                    />
+                </>
+
+            }
             <section id="main">
                 <div className="board_wrap">
 
