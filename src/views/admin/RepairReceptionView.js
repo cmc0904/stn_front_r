@@ -49,16 +49,22 @@ const RepairReception = () => {
     // 모든 A/S 정보 불러오기
     const getAllRepairStatus = async () => {
 
-        const response = await axios.get('http://localhost:8081/api/repair/getRepairStatus',
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+        try {
+            const response = await axios.get('http://localhost:8081/api/repair/getRepairStatus',
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
                 }
-            }
-        );
+            );
+    
+            setRepairs(response.data);
 
-        setRepairs(response.data);
+        } catch(e) {
+            console.log(e)
+        }
+
 
     };
 
