@@ -98,6 +98,9 @@ const Register = () => {
     if (!input.phone) {
       setErrors({ ...errors, phone: "전화번호를 입력해주세요." });
       return false;
+    }else if (input.phone.length >= 11) {
+      setErrors({ ...errors, phone: "전화번호는 11자리 이상일 수 없습니다." });
+      return false;
     } else if (!phoneNumberRegex.test(input.phone)) {
       setErrors({ ...errors, phone: "올바른 전화번호 형식이 아닙니다. 예)01011112222" })
       return false;
@@ -329,25 +332,25 @@ const Register = () => {
                           <div className="gender-btn-wrap">
                             {input.gender === "M" &&
                               <><button onClick={() => handleGenderChange('M')} className='gender-btn male pressed' type='button'>
-                                <img width="30px" height="30px" src={male}></img>
+                                <img width="30px" height="30px" src={male} alt="남성 아이콘"></img>
                               </button><button onClick={() => handleGenderChange('F')} className='gender-btn female' type='button'>
-                                  <img width="30px" height="30px" src={female}></img>
+                                  <img width="30px" height="30px" src={female} alt="여성 아이콘"></img>
                                 </button></>
                             }
 
                             {input.gender === "F" &&
                               <><button onClick={() => handleGenderChange('M')} className='gender-btn male' type='button'>
-                                <img width="30px" height="30px" src={male}></img>
+                                <img width="30px" height="30px" src={male} alt="남성 아이콘"></img>
                               </button><button onClick={() => handleGenderChange('F')} className='gender-btn female pressed' type='button'>
-                                  <img width="30px" height="30px" src={female}></img>
+                                  <img width="30px" height="30px" src={female} alt="여성 아이콘"></img>
                                 </button></>
                             }
 
                             {input.gender === "" &&
                               <><button onClick={() => handleGenderChange('M')} className='gender-btn male' type='button'>
-                                <img width="30px" height="30px" src={male}></img>
+                                <img width="30px" height="30px" src={male} alt="남성 아이콘"></img>
                               </button><button onClick={() => handleGenderChange('F')} className='gender-btn female' type='button'>
-                                  <img width="30px" height="30px" src={female}></img>
+                                  <img width="30px" height="30px" src={female} alt="여성 아이콘"></img>
                                 </button></>
                             }
 
