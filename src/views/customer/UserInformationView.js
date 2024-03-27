@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {Link} from 'react-router-dom';
 import Header from '../../component/Header';
 import SideBar from '../../component/SideBar';
 import '../../style/customer/MyInfoView.css';
@@ -151,6 +152,10 @@ const MyInfoView = () => {
                         <dt>성별:</dt>
                         <dd>{userInformation.userGender}</dd>
                     </dl>
+
+                    <div className="bt_wrap">
+                        <Link className="on" to={"/customer/myinfo/myinfoedit"}>정보수정</Link>
+                    </div>
                 </div>
 
 

@@ -3,6 +3,7 @@ import RegisterView from './views/RegisterView.js';
 
 import UserRequestRepairView from './views/customer/UserRequestRepairView.js';
 import UserInformationView from './views/customer/UserInformationView.js';
+import UserInformationEdit from './views/customer/UserInfomationEdit.js';
 
 import FaQListView from './views/customer/FaQListView.js';
 
@@ -38,6 +39,8 @@ function App() {
           <Route path="/customer/as" element={<UserRequestRepairView />} />
           <Route path="/customer/myinfo" element={<UserInformationView />} />
           <Route path="/customer/faq" element={<FaQListView />} />
+          <Route path="/customer/myinfo/myinfoedit" element={<UserInformationEdit />} />
+
 
           {/* 관리자(Admin) 부분 */}
           <Route path="/manager/members" element={<MemberListView />} />
