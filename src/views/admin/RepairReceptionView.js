@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../component/Header.js';
-import SideBar from '../../component/SideBar';
+import SideBar from '../../component/SideBar.js';
 import '../../style/admin/repaire.css';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap 스타일 import
 
@@ -11,15 +11,42 @@ const RepairReception = () => {
     const [repairs, setRepairs] = useState([]);
     const [admins, setAdmins] = useState([]);
 
+    const [error, setError] = useState({});
     const [selectedAdmin, setSelectedAdmin] = useState('');
-    const [meetingTime, setMeetingTime] = useState('2023-12-22T19:30');
+    const [meetingTime, setMeetingTime] = useState('');
+
+
+    const getToday = () => {
+        var options = { timeZone: 'Asia/Seoul' };
+        var koreaTime = new Date().toLocaleString('en-US', options);
+
+        var formattedKoreaTime = new Date(koreaTime).toISOString().slice(0, 19);
+
+        return formattedKoreaTime;
+    }
 
     useEffect(() => {
+        setMeetingTime(getToday())
         getAllAdmin();
         getAllRepairStatus();
-        console.log(window.localStorage.getItem("name"))
     }, []);
 
+
+    const validation = (idx) => {
+
+
+        if (selectedAdmin === "") {
+            setError({ ...error, [idx]: { "admin": "관리자를 선택해주세요." } });
+            return false;
+        } else if (selectedAdmin === "NONE") {
+            setError({ ...error, [idx]: { "admin": "관리자를 선택해주세요." } });
+            return false;
+        }
+
+        return true;
+    }
+
+    // 모든 A/S 정보 불러오기
     const getAllRepairStatus = async () => {
 
         const response = await axios.get('http://localhost:8081/api/repair/getRepairStatus',
@@ -31,66 +58,74 @@ const RepairReception = () => {
             }
         );
 
-        console.log(response.data)
-
         setRepairs(response.data);
 
     };
 
+    // 접수 화면에 뜰 관리자 목록
     const getAllAdmin = async () => {
-
-        const response = await axios.get('http://localhost:8081/api/user/getAllAdmins',
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+        try {
+            const response = await axios.get('http://localhost:8081/api/user/getAllAdmins',
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
                 }
-            }
-        );
-        console.log(response.data)
-        setAdmins(response.data);
+            );
 
+            setAdmins(response.data);
+        } catch (e) {
+            console.log(e)
+        }
     };
 
+    // 접수
     const registerRepair = async (reId) => {
-        if (selectedAdmin === "NONE") {
-            return;
+        try {
+            await axios.post('http://localhost:8081/api/repair/processrepair',
+                {
+                    repairIdx: reId,
+                    adminId: selectedAdmin,
+                    visitDate: meetingTime
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
+                }
+            );
+            getAllRepairStatus();
+        } catch (e) {
+            console.log(e)
         }
 
-
-        await axios.post('http://localhost:8081/api/repair/processrepair',
-            {
-                repairIdx: reId,
-                adminId: selectedAdmin,
-                visitDate: meetingTime
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                }
-            }
-        );
-        getAllRepairStatus();
     };
 
+    // 처리 완료
     const complete = async (reId) => {
-
-        await axios.post('http://localhost:8081/api/repair/completeRepair',
-            reId,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+        try {
+            await axios.post('http://localhost:8081/api/repair/completeRepair',
+                reId,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
                 }
-            }
-        );
-        getAllRepairStatus();
+            );
+
+            getAllRepairStatus();
+        } catch (e) {
+            console.log(e)
+        }
     };
 
 
     // 기사 선택시 실행되는 함수
     const adminChange = (event) => {
+        setError({})
         setSelectedAdmin(event.target.value);
     };
 
@@ -101,40 +136,43 @@ const RepairReception = () => {
 
     // 이미 접수된 접수 담당 관리자, 방문 시간 초기화
     const selectItem = (item) => {
-        if(item.adminId == null && item.finished == 0) {
+        if (item.adminId === null && item.finished === 0) {
             return;
         }
-
         setSelectedAdmin(item.adminId);
         setMeetingTime(item.visitDate);
     };
 
     // 담당 관리자, 방문 시간대 변경
-    const edit = async (reId) => {
-        if (selectedAdmin === "NONE") {
-            return;
+    const edit = async (reId, idx) => {
+        console.log(error)
+        if(!validation(idx)) return;
+
+        try {
+            const res = await axios.put('http://localhost:8081/api/repair/editAdminIdVisitDate',
+                {
+                    idx: reId,
+                    adminId: selectedAdmin,
+                    visitDate: meetingTime
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
+                }
+            );
+
+            if (res.data.result === "FAILED") {
+                alert("접수 일정 및 관리자 변경을 실패하였습니다.")
+            } else {
+                alert("접수 일정 및 담당 관리자를 변경하였습니다.")
+                getAllRepairStatus();
+            }
+        } catch (e) {
+            console.log(e)
         }
 
-        console.log(            {
-                repairIdx: reId,
-                adminId: selectedAdmin,
-                visitDate: meetingTime
-            },)
-
-        await axios.put('http://localhost:8081/api/repair/editAdminIdVisitDate',
-            {
-                idx: reId,
-                adminId: selectedAdmin,
-                visitDate: meetingTime
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                }
-            }
-        );
-        getAllRepairStatus();
     };
 
     return (
@@ -194,7 +232,8 @@ const RepairReception = () => {
 
 
                 }}
-            />            <section id="main">
+            />  
+            <section id="main">
                 <div className="page-title">A/S 접수 및 처리</div>
                 <div className="container-md">
 
@@ -204,18 +243,18 @@ const RepairReception = () => {
                                 <a onClick={() => selectItem(item)} data-bs-toggle="collapse" href={`#collapseContainer${index + 1}`} role="button" aria-expanded="false" aria-controls="collapseContainer">
                                     <div className="as-information">
                                         <div className="as-title">
-                                            {item.adminId == null && item.finished == 0 &&
+                                            {item.adminId === null && item.finished === 0 &&
                                                 <span style={{ color: 'red' }}>[접수 대기]</span>
                                             }
 
-                                            {item.adminId != null && item.finished == 0 &&
+                                            {item.adminId != null && item.finished === 0 &&
                                                 <span style={{ color: 'orange' }}>[방문 예정]</span>
                                             }
 
-                                            {item.adminId != null && item.finished == 1 &&
+                                            {item.adminId != null && item.finished === 1 &&
                                                 <span style={{ color: 'green' }}>[처리 완료]</span>
                                             }
-                                            
+
                                             {item.problemTitle}
                                         </div>
                                         <div className="as-profile">
@@ -257,12 +296,16 @@ const RepairReception = () => {
                                     </div>
 
                                     <div className="as-process">
-                                        <select className="form-select form-select-lg" aria-label="Large select example" value={selectedAdmin} onChange={adminChange}>
+                                        <select className="form-select form-select-lg" aria-label="Large select example" defaultValue={selectedAdmin} onChange={adminChange}>
                                             <option value="NONE" selected>담당 기사를 배정해주세요</option>
                                             {admins.map((admin, idx) => (
                                                 <><option value={`${admin.userId}`}>{admin.userName}</option></>
                                             ))}
                                         </select>
+
+                                        {error[item.idx] !== undefined && 
+                                            <div className="invalid-feedback show">{error[item.idx].admin}</div>
+                                        }
 
                                         <input
                                             type="datetime-local"
@@ -274,18 +317,21 @@ const RepairReception = () => {
                                             onChange={timeChange}
                                         />
 
-                                        {item.adminId == null && item.finished == 0 &&
+                                        {/* <div className="invalid-feedback show">{error[item.idx].meetingTime}</div> */}
+
+
+                                        {item.adminId === null && item.finished === 0 &&
                                             <button className="as-p-btn" onClick={() => registerRepair(item.idx)}>접수완료</button>
                                         }
 
-                                        {item.adminId != null && item.finished == 0 &&
+                                        {item.adminId != null && item.finished === 0 &&
                                             <div className='flex-btn-wrap'>
-                                                <button className='flex-btn orange' onClick={()=> edit(item.idx)}>접수 변경</button>
-                                                <button className='flex-btn green' onClick={()=> complete(item.idx)}>처리 완료</button>
+                                                <button className='flex-btn orange' onClick={() => edit(item.ridx, item.idx)}>접수 변경</button>
+                                                <button className='flex-btn green' onClick={() => complete(item.idx)}>처리 완료</button>
                                             </div>
                                         }
 
-                                        {item.adminId != null && item.finished == 1 &&
+                                        {item.adminId != null && item.finished === 1 &&
                                             <button className="as-p-btn" onClick={() => registerRepair(item.idx)} disabled>접수완료</button>
                                         }
 
