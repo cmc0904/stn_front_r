@@ -181,6 +181,31 @@ const RepairReception = () => {
 
     };
 
+
+    const getFilteringData = async (type) => {
+        try{
+            const response = await axios.get("http://localhost:8081/api/repair/getRepairFiltering?type="+type,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                },
+            }
+        );
+            console.log(response.data)
+            setRepairs(response.data)
+
+        }catch(e){
+            console.log(e)
+        }
+        
+    
+    };
+    
+
+    
+    
+
     return (
         <>
             <Header content="Management" />
@@ -242,6 +267,12 @@ const RepairReception = () => {
             <section id="main">
                 <div className="page-title">A/S 접수 및 처리</div>
                 <div className="container-md">
+                    <div className="button-container">
+                        <button onClick={() => getFilteringData("allData")}>전체보기</button>
+                        <button onClick={() => getFilteringData("waiting")}>접수 대기</button>
+                        <button onClick={() => getFilteringData("willVisit")}>방문 예정</button>
+                        <button onClick={() => getFilteringData("finished")}>처리 완료</button>
+                    </div>
 
                     {repairs.map((item, index) => (
                         <div className="collapse-box" key={index}>
