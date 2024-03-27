@@ -48,123 +48,40 @@
 .board_write {
     border-top: 2px solid #000;
 }
-
-.board_write .title,
-.board_write .info {
-    padding: 10px;
+.board-container {
+    width: 100%;
+    border-top: 2px solid black;
+    border-bottom: 1px solid black;
 }
 
-.board_write .title dt,
-.board_write .title dd,
-.board_write .info dt,
-.board_write .info dd {
-    display: inline-block;
-    vertical-align: middle;
-    font-size: 1.4rem;
+.board-container tr {
+    height: 45px;
+    font-size: 20px;
 }
 
-.board_write .information {
-    vertical-align: middle;
+.board-container tr th {
+    text-align: center;
 }
 
-
-.board_write .title dd {
-    width: calc(100% - 100px);
+.board-container tr th, .tr td {
+    border: none;
 }
 
-.board_write .title input[type="text"],
-.board_write .info input[type="text"],
-.board_write .info input[type="password"] {
-    padding: 10px;
-    box-sizing: border-box;
+.board-container input[type="text"] {
+    height: 45px;
+    width: 100%;
+    margin: 5px;
 }
 
-.board_write .title input[type="text"] {
-    width: 80%;
+.board-container .isPrivate {
+    margin: 5px;
 }
 
-
-.board_write .title dt,
-.board_write .info dt {
-    width: 100px;
-}
-
-.board_write .info {
-    border-top: 1px dashed #ddd;
-    border-bottom: 1px solid #000;
-    font-size: 0;
-}
-
-.board_write .title dl {
-    font-size: 0;
-}
-
-.board_write .info dl {
-    display: inline-block;
-    width: 50%;
-    vertical-align: middle;
-}
-
-.board_write .cont {
-    border-bottom: 1px solid #000;
-}
-
-.board_write .cont textarea {
-    display: block;
+.board-container .content-box textarea{
     width: 100%;
     height: 300px;
+    resize: none;
+    border: none;
     padding: 15px;
-    box-sizing: border-box;
-    border: 0;
-    resize: vertical;
-}
-
-
-.file-input {
-    margin-top: 10px;
-    padding: 10px 0;
-    width: 100%;
-}
-
-.file-input input {
-    display: none;
-}
-
-.file-input label,
-.file-input button {
-    background-color: #4caf50;
-    color: white;
-    padding: 5px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100%;
-    box-sizing: border-box;
-    text-align: center;
-    /* 중앙 정렬을 위해 추가 */
-    display: block;
-    /* 블록 요소로 변경 */
-}
-
-.file-input button {
-    margin-top: 10px;
-    /* 버튼 사이에 간격 추가 */
-}
-
-.file-link {
-    margin-top: 10px;
-}
-
-.file-box {
-    border: 1px solid #ccc;
-    padding: 15px;
-    margin-top: 5px;
-}
-
-.file-box a {
-    color: #4caf50;
-    text-decoration: none;
-    display: block;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    font-size: 15px;
 }

@@ -80,6 +80,8 @@ const AdminBoardView = () => {
                 }
             );
 
+            console.log(response.data)
+
             setCommentLists(response.data);
         } catch (e) {
             console.log(e)
@@ -220,9 +222,10 @@ const AdminBoardView = () => {
 
 
                             </div>
-                            <div className="cont">
-                                {content.boardDetail}
-                            </div>
+
+
+                            <div className="cont" dangerouslySetInnerHTML={{ __html: content.boardDetail }}></div>
+
 
                             <div className="comment-section">
                                 <h2>댓글</h2>
@@ -237,8 +240,8 @@ const AdminBoardView = () => {
                                 <ul className="comment-list">
                                     {commentLists.map((item, index) => (
                                         <li className="comment-item">
-                                            <strong>{item.writerId}</strong>
-                                            <div className="comment-content">- {item.comment}</div>
+                                            <strong>이름 : {item.writerId}</strong>
+                                            <div className="comment-content"><span style={{"color" : "red"}}>-</span> {item.comment}</div>
                                         </li>
                                     ))}
                                 </ul>
