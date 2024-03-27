@@ -20,39 +20,49 @@ const FAQMagementView = () => {
     }, []);
 
     const getAllFaq = async () => {
-        const response = await axios.get('http://localhost:8081/api/faq/getAllFaQ',
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+        try {
+            const response = await axios.get('http://localhost:8081/api/faq/getAllFaQ',
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
                 }
-            }
-        );
+            );
 
-        setFaq(response.data);
+            setFaq(response.data);
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     const addFaQ = async () => {
 
-        if (question === "" || answer === "") {
-            alert("비어있는 입력란이 있어 실패하였습니다.")
-            return;
+        try {
+
+            if (question === "" || answer === "") {
+                alert("비어있는 입력란이 있어 실패하였습니다.")
+                return;
+            }
+
+            await axios.post('http://localhost:8081/api/faq/addFaQ',
+                {
+                    question: question,
+                    answer: answer
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
+                }
+            );
+
+            getAllFaq();
+        } catch (e) {
+            console.log(e)
         }
 
-        await axios.post('http://localhost:8081/api/faq/addFaQ',
-            {
-                question: question,
-                answer: answer
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                }
-            }
-        );
-
-        getAllFaq();
 
 
     };
@@ -60,66 +70,82 @@ const FAQMagementView = () => {
 
     const deleteFaQ = async (faQidx) => {
 
-        await axios.delete('http://localhost:8081/api/faq/deleteFaQ?idx=' + faQidx,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+        try {
+
+            await axios.delete('http://localhost:8081/api/faq/deleteFaQ?idx=' + faQidx,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
                 }
-            }
-        );
+            );
 
 
-        getAllFaq();
+            getAllFaq();
+
+        } catch (e) {
+            console.log(e)
+        }
 
     };
 
     const getFaQ = async (faQidx) => {
 
-        const response = await axios.get('http://localhost:8081/api/faq/getFaQByIdx?idx=' + faQidx,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+        try {
+            const response = await axios.get('http://localhost:8081/api/faq/getFaQByIdx?idx=' + faQidx,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
                 }
-            }
-        );
-        setQuestion(response.data.question);
-        setAnswer(response.data.answer);
+            );
+            setQuestion(response.data.question);
+            setAnswer(response.data.answer);
+    
+    
+            setMode({ "mode": "edit", "idx": faQidx });
+        } catch(e) {
+            console.log(e)
+        }
 
-
-        setMode({"mode" : "edit", "idx" : faQidx});
 
     };
 
     const editFaQ = async () => {
-        if (question === "" || answer === "") {
-            alert("비어있는 입력란이 있어 실패하였습니다.")
-            return;
+        try {
+            if (question === "" || answer === "") {
+                alert("비어있는 입력란이 있어 실패하였습니다.")
+                return;
+            }
+
+            await axios.put('http://localhost:8081/api/faq/updateFaQ',
+                {
+                    idx: mode.idx,
+                    question: question,
+                    answer: answer
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
+                }
+            );
+
+
+
+            setMode({ "mode": "add", "idx": null });
+
+
+            setAnswer("")
+            setQuestion("")
+            getAllFaq();
+        } catch (e) {
+            console.log(e)
         }
 
-
-        await axios.put('http://localhost:8081/api/faq/updateFaQ',
-            {
-                idx: mode.idx,
-                question: question,
-                answer: answer
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                }
-            }
-        );
-
- 
-        setMode({"mode" : "add", "idx" : null});
-
-
-        setAnswer("")
-        setQuestion("")
-        getAllFaq();
     };
 
 
@@ -131,7 +157,7 @@ const FAQMagementView = () => {
 
     return (
         <>
-            <Header content="Management"/>
+            <Header content="Management" />
             <SideBar setting={
                 {
                     "logindUserName": window.localStorage.getItem("name"),

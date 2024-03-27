@@ -44,6 +44,7 @@ function App() {
           <Route path="/manager/managers" element={<AdminListView />} />
           <Route path="/manager/repaireprocess" element={<RepairReceptionView />} />
           <Route path="/manager/asklist" element={<FAQMagementView />} />
+          <Route path="/manager/user/:paramName" element={<AdminUserInformationView />} />
 
 
           {/* 게시판 부분 */}

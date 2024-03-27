@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../component/Header.js';
 import SideBar from '../../component/SideBar';
+import MemberListTable from '../../component/member/MemberList.js';
+
 import axios from 'axios';
 
 import { Link } from 'react-router-dom';
@@ -146,7 +148,8 @@ const MemberList = () => {
 
 
                 }}
-            />            <section id="main">
+            />  
+            <section id="main">
                 <div className="page-title">회원관리</div>
                 <div className='container'>
                     <div className='search'>
@@ -157,31 +160,7 @@ const MemberList = () => {
                         <button onClick={() => changeFinedMode("userId")}>아이디로 검색</button>
                         <button onClick={() => changeFinedMode("name")}>이름으로 검색</button>
                     </div>
-                    <table className="member_table">
-                        <thead>
-                            <tr>
-                                <td>아이디</td>
-                                <td>성명</td>
-                                <td>주소</td>
-                                <td>전화번호</td>
-                                <td>이메일</td>
-                                <td>성별</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {showData.map((item, index) => (
-                                <tr>
-                                    <th><Link to={`/manager/user/${item.userId}`}>{item.userId}</Link></th>
-                                    <th>{item.userName}</th>
-                                    <th>{item.userAddress}</th>
-                                    <th>{item.userPhone}</th>
-                                    <th>{item.userEmail}</th>
-                                    <th>{item.userGender}</th>
-                                </tr>
-                            ))}
-
-                        </tbody>
-                    </table>
+                    <MemberListTable showData={showData}></MemberListTable>
                     <div className='page_selector'>
                         <nav>
                             <ul className="pagination pagination-sm">

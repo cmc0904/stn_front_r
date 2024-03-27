@@ -17,6 +17,7 @@ const MyInfoView = () => {
 
 
     const getUserInformation = async () => {
+        
         const response = await axios.get('http://localhost:8081/api/user/getUserByUserId?userId='+paramName,
             {
                 headers: {
