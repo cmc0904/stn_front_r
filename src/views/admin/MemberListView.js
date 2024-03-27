@@ -5,7 +5,6 @@ import MemberListTable from '../../component/member/MemberList.js';
 
 import axios from 'axios';
 
-import { Link } from 'react-router-dom';
 
 
 import '../../style/admin/adminMemberList.css';

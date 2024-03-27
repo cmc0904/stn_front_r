@@ -3,7 +3,7 @@ import Header from '../../component/Header';
 import SideBar from '../../component/SideBar';
 
 import '../../style/customer/MyInfoView.css';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 
 import axios from 'axios';
@@ -89,7 +89,7 @@ const MyInfoView = () => {
                 }
             );
 
-            if (res.status == 200) {
+            if (res.status === 200) {
                 alert("관리자 지정에 성공하였습니다.")
 
             }
