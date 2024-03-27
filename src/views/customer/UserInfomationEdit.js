@@ -176,10 +176,8 @@ const MyInfoEdit = () => {
 
     console.log(response.data);
 
-    if (response.data.result === "ㄴㅁㄴ") {
+    if (response.data.result === "UPDATE") {
       navigate('/customer/myinfo');
-    } else if (response.data.message === "DUPLICATE_USER") {
-      console.log('업데이트 실패');
     }
   };
 
