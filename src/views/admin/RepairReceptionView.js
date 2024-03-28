@@ -6,14 +6,19 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap 스타일 import
 
 import axios from 'axios';
 
+
 const RepairReception = () => {
 
     const [repairs, setRepairs] = useState([]);
     const [admins, setAdmins] = useState([]);
 
+
+
+
     const [error, setError] = useState({});
     const [selectedAdmin, setSelectedAdmin] = useState('');
     const [meetingTime, setMeetingTime] = useState('');
+    const [selectedMode, setSelectedMode] = useState('allData');
 
 
     const getToday = () => {
@@ -29,6 +34,7 @@ const RepairReception = () => {
         setMeetingTime(getToday())
         getAllAdmin();
         getAllRepairStatus();
+        //getsearchRepair();
     }, []);
 
 
@@ -180,6 +186,58 @@ const RepairReception = () => {
         }
 
     };
+    
+
+
+    const getFilteringData = async (type) => {
+        console.log(type)   
+        setSelectedMode(type);
+        try{
+            const response = await axios.get("http://localhost:8081/api/repair/getRepairFiltering?type="+type,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                },
+            }
+        );
+            console.log(response.data)
+            setRepairs(response.data)
+
+        }catch(e){
+            console.log(e)
+        }
+        
+    
+    };
+
+    const getsearchRepair = async (getValue) => {
+        console.log(getValue);
+        try{
+            const response = await axios.get(`http://localhost:8081/api/repair/searchRepair?userId=${getValue}&type=${selectedMode}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                }
+            }
+            );
+            console.log(response.data)
+            
+            setRepairs(response.data)
+
+        }catch(e){
+            console.log(e)
+        }
+
+        
+
+    };
+
+    
+
+    
+    
 
 
     const getFilteringData = async (type) => {
@@ -274,6 +332,32 @@ const RepairReception = () => {
                         <button onClick={() => getFilteringData("finished")}>처리 완료</button>
                     </div>
 
+                    <div className='wrap'>
+                        <div className="search-container" style={{"width":"100%"}}>
+                            <div style={{"width":"100%"}}>
+                                
+                                <input type='text' placeholder='아이디로 검색' onChange={(e) => getsearchRepair(e.target.value)}></input>
+
+                                <button onClick={null} className="btn btn-dark">검색</button>
+                            </div>
+                            
+
+                            <div className="mode-btn-wrap">
+                                <button onClick={() => getFilteringData("allData")} className='mode-btn'>전체보기</button>
+                                <button onClick={() => getFilteringData("waiting")} className='mode-btn'>접수 대기</button>
+                                <button onClick={() => getFilteringData("willVisit")} className='mode-btn'>방문 예정</button>
+                                <button onClick={() => getFilteringData("finished")} className='mode-btn'>처리 완료</button>
+                            </div>
+                    </div>
+
+                    </div>
+                    
+                   
+
+
+                   
+
+                    
                     {repairs.map((item, index) => (
                         <div className="collapse-box" key={index}>
                             <div className="information-btn-container">

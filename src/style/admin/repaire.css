@@ -116,3 +116,42 @@ a {
 .flex-btn.red {
     background-color: red
 }
+
+
+.wrap {
+    height: 90px;
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 추가 */
+}
+
+
+.wrap input, .wrap button {
+    margin-right: 5px;
+    border: none;
+}
+
+.wrap input {
+    border-bottom: 3px solid #434343;
+    width: 600px;
+    height: 30px;
+    font-size: 15px;
+}
+
+.mode-btn-wrap {
+	display: flex;
+	width: 100%;
+	height: 35px;
+	border-radius: 5px;
+    margin-top: 5px;
+}
+
+.mode-btn {
+	flex: 1;
+	border: none;
+	line-height: auto;
+}
+.mode-btn.pressed {
+    background-color: #dddddd;
+}
