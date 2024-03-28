@@ -18,7 +18,7 @@ const BoadItem = ({item}) => {
             <div className="num">{item.boardIdx}</div>
             <div className="b_title"><Link to={`/${type}/board/boardview/${item.boardIdx}`}>{item.boardTitle}</Link></div>
             <div className="writer">{item.writerId}</div>
-            <div className="date">{item.createAt.replaceAll("-", ".")}</div>
+            <div className="date">{item.createAt}</div>
         </div>
     );
 
