@@ -62,6 +62,8 @@ const Board = () => {
             );
 
             setShowData(response.data)
+
+            console.log(response.data)
         } catch (e) {
             console.log(e)
         }
@@ -120,7 +122,6 @@ const Board = () => {
             );
 
             setShowData(response.data);
-
         } catch (e) {
             setShowData([])
         }

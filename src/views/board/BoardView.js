@@ -10,11 +10,12 @@ import axios from 'axios';
 
 const AdminBoardView = () => {
 
-    
+
 
     const [content, setContent] = useState({});
     const [comment, setComment] = useState('');
     const [commentLists, setCommentLists] = useState([]);
+    const [fileNames, setFileNames] = useState([]);
 
 
     const { paramName, type } = useParams();
@@ -23,6 +24,7 @@ const AdminBoardView = () => {
     useEffect(() => {
         getComments();
         getBoardContent();
+        getFileName();
     }, []);
 
     const getBoardContent = async () => {
@@ -83,6 +85,61 @@ const AdminBoardView = () => {
             console.log(response.data)
 
             setCommentLists(response.data);
+        } catch (e) {
+            console.log(e)
+        }
+    };
+
+    const downloadImage = async (item) => {
+        const apiUrl = "http://localhost:8081/api/board/image/download?fileName="+item;
+
+
+        try {
+            const response = await axios.get(apiUrl,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    },
+                    responseType: 'blob' // Blob 형식으로 데이터 받기
+                }
+            );
+
+
+            const blob = new Blob([response.data], { type: "application/octet-stream" });
+            const url = window.URL.createObjectURL(blob);
+
+            // 다운로드 링크 생성
+            const downloadLink = document.createElement('a');
+            downloadLink.href = url;
+            downloadLink.setAttribute('download', item.split("=")[1]);
+
+            // 링크를 body에 추가하고 클릭하여 다운로드 시작
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+
+            // 다운로드가 완료되면 링크 제거
+            document.body.removeChild(downloadLink);
+        } catch (e) {
+            console.log("MemberList" + e)
+        }
+
+    };
+
+
+
+    const getFileName = async () => {
+        try {
+            const response = await axios.get('http://localhost:8081/api/board/getFileNames?boardIdx=' + paramName,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
+                }
+            );
+            console.log(response.data)
+            setFileNames(response.data)
         } catch (e) {
             console.log(e)
         }
@@ -204,53 +261,62 @@ const AdminBoardView = () => {
                     </div>
 
 
-                    <div className="board_list_wrap">
-                        <div className="board_view">
-                            <div className="title">
-                                {content.boardTitle}
-                            </div>
-                            <div className="info">
-                                <dl>
-                                    <dt>번호</dt>
-                                    <dd>{content.boardIdx}</dd>
-                                </dl>
+                    <table className="board-container">
+                        <tr className="title">
+                            <th>{content.boardTitle}</th>
+                            
+                        </tr>
+                        <tr className="info">
+                            <td>
+                                <span style={{"marginRight":"15px"}}>번호 : {content.boardIdx}</span>
+                                <span>글쓴이 : {content.writerId}</span>
+                            </td>
+                        </tr>
+                        <tr className="file-list">
+                            <td>
+                                <span>
+                                    파일 목록 :  
+                                    <span>
+                                        {fileNames.map((item, index) => (
+                                            <a onClick={() => {downloadImage(item)}}>{item.split("=")[1]}</a>
+                                        ))}
+                                    </span>
+                                </span>
+                            </td>
+                        </tr>        
 
-                                <dl>
-                                    <dt>글쓴이</dt>
-                                    <dd>{content.writerId}</dd>
-                                </dl>
+                        <tr >
+                            <td className="content-box">
+                                <div className='content' dangerouslySetInnerHTML={{ __html: content.boardDetail }}></div>
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                    <div className="comment-section">
+                        <h2>댓글</h2>
 
 
-                            </div>
-
-
-                            <div className="cont" dangerouslySetInnerHTML={{ __html: content.boardDetail }}></div>
-
-
-                            <div className="comment-section">
-                                <h2>댓글</h2>
-
-
-                                <div className="comment-form">
-                                    <textarea placeholder="댓글을 입력하세요" value={comment} onChange={(e) => setComment(e.target.value)} required autoFocus></textarea>
-                                    <button onClick={addComment}>댓글 작성</button>
-                                </div>
-
-
-                                <ul className="comment-list">
-                                    {commentLists.map((item, index) => (
-                                        <li className="comment-item">
-                                            <strong>이름 : {item.writerId}</strong>
-                                            <div className="comment-content"><span style={{"color" : "red"}}>-</span> {item.comment}</div>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-
+                        <div className="comment-form">
+                            <textarea placeholder="댓글을 입력하세요" value={comment} onChange={(e) => setComment(e.target.value)} required autoFocus></textarea>
+                            <button onClick={addComment}>댓글 작성</button>
                         </div>
-                        <div className="bt_wrap">
-                            <Link className="on" to={`/${type}/board`}>목록</Link>
-                        </div>
+
+
+                        <ul className="comment-list">
+                            {commentLists.map((item, index) => (
+                                <li className="comment-item">
+                                    <strong>이름 : {item.writerId}</strong>
+                                    <div className="comment-content"><span style={{ "color": "red" }}>-</span> {item.comment}</div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div className="bt_wrap">
+                        <Link className="on" to={`/${type}/board`}>목록</Link>
                     </div>
                 </div>
             </section>
