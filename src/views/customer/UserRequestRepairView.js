@@ -45,7 +45,7 @@ const AsView = () => {
             if(!validation()) return;
     
     
-            await axios.post('http://localhost:8081/api/repair/registrationrepair', {
+            const res =  await axios.post('http://localhost:8081/api/repair/registrationrepair', {
                 problemTitle: title,
                 problemComment: content
             },
@@ -56,6 +56,16 @@ const AsView = () => {
                     }
                 }
             );
+
+            if(res.data.results === "정상적으로 처리되었습니다.") {
+                alert("정상적으로 접수되었습니다.")
+                setContent('');
+                setTitle('');
+                setErrors({
+                    title: '',
+                    content: '',
+                });
+            }
         } catch (e) {
             console.log(e);
             

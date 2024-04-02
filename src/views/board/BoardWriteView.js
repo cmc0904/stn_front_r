@@ -25,11 +25,11 @@ const BoardWriteView = () => {
 
     const validation = () => {
         if (title.length > 50) {
-            setErrors({ ...errors, title: "제목은 50글자 이상일 수 없습니다." });
+            setErrors({ ...errors, title: "제목은 50글자를 초과할 수 없습니다" });
             return false;
         } else if (title.length < 5) {
             console.log(title)
-            setErrors({ ...errors, title: "제목은 5글자 미만이여야 합니다." });
+            setErrors({ ...errors, title: "제목은 5글자 이상이여야 합니다." });
             return false;
         } else if (title.replaceAll(" ", "").length === 0) {
             setErrors({ ...errors, title: "제목은 공백만 적을 수 없습니다." });

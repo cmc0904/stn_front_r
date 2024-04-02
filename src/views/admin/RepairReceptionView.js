@@ -44,7 +44,7 @@ const RepairReception = () => {
         if (selectedAdmin === "") {
             setError({ ...error, [idx]: { "admin": "관리자를 선택해주세요." } });
             return false;
-        } else if (selectedAdmin === "NONE") {
+        } else if (selectedAdmin === "") {
             setError({ ...error, [idx]: { "admin": "관리자를 선택해주세요." } });
             return false;
         }
@@ -384,7 +384,7 @@ const RepairReception = () => {
 
                                     <div className="as-process">
                                         <select className="form-select form-select-lg" aria-label="Large select example" defaultValue={selectedAdmin} onChange={adminChange}>
-                                            <option value="NONE" selected>담당 기사를 배정해주세요</option>
+                                            <option value="" selected>담당 기사를 배정해주세요</option>
                                             {admins.map((admin, idx) => (
                                                 <><option value={`${admin.userId}`}>{admin.userName}</option></>
                                             ))}
@@ -419,7 +419,7 @@ const RepairReception = () => {
                                         }
 
                                         {item.adminId != null && item.finished === 1 &&
-                                            <button className="as-p-btn" onClick={() => registerRepair(item.idx)} disabled>접수완료</button>
+                                            <button className="as-p-btn" onClick={() => registerRepair(item.idx)} disabled>처리완료</button>
                                         }
 
                                         {/* {item.adminId == null ? <button className="as-p-btn" onClick={() => registerRepair(item.idx)}>접수완료</button> : <button className="as-p-btn" onClick={() => registerRepair(item.idx)} disabled>접수완료</button>} */}

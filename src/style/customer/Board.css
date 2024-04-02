@@ -95,11 +95,10 @@ a{
 
 .board_list .writer{
     width: 10%;
-    margin-right: 55px;
 }
 
 .board_list .date{
-    width: 10%;
+    width: 20%;
 }
 
 .board_list .count{
