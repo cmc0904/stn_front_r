@@ -13,60 +13,80 @@ const MyInfoView = () => {
     const [repairs, setRepairs] = useState([]);
 
     const getUserInformation = async () => {
-        const response = await axios.get('http://localhost:8081/api/user/getUserByUserId',
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+        try {
+            const response = await axios.get('http://localhost:8081/api/user/getUserByUserId',
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
                 }
-            }
-        );
-
-        setUserInformation(response.data.result);
+            );
+    
+            setUserInformation(response.data.result);
+            
+        } catch (e) {
+            console.log(e);            
+        }
 
     };
 
     const getBoard = async () => {
-        const response = await axios.get('http://localhost:8081/api/board/getBoardByUserIdx',
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+        try {
+            const response = await axios.get('http://localhost:8081/api/board/getBoardByUserIdx',
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
                 }
-            }
-        );
-
-        setBoards(response.data);
-        console.log(response.data);
+            );
+    
+            setBoards(response.data);
+            console.log(response.data);
+            
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     const getRepairs = async () => {
-        const response = await axios.get('http://localhost:8081/api/repair/getRepairStatusByUserId',
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+        try {
+            
+            const response = await axios.get('http://localhost:8081/api/repair/getRepairStatusByUserId',
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
                 }
-            }
-        );
-
-        setRepairs(response.data);
-        console.log(response.data);
+            );
+    
+            setRepairs(response.data);
+            console.log(response.data);
+        } catch (e) {
+            console.log(e);
+        }
     };
 
 
     const deleteBoard = async (boardIdx) => {
-        console.log(boardIdx)
-        var res = await axios.delete('http://localhost:8081/api/board/deleteBoard?boardIdx=' + boardIdx,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+        try {
+            console.log(boardIdx)
+            var res = await axios.delete('http://localhost:8081/api/board/deleteBoard?boardIdx=' + boardIdx,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
                 }
-            }
-        );
-        console.log(res.data)
-        getBoard();
+            );
+            console.log(res.data)
+            getBoard();
+            
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     useEffect(() => {

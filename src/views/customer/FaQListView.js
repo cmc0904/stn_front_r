@@ -16,16 +16,21 @@ const FaqView = () => {
     }, []);
 
     const getAllFaq = async () => {
-        const response = await axios.get('http://localhost:8081/api/faq/getAllFaQ',
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+        try {
+            
+            const response = await axios.get('http://localhost:8081/api/faq/getAllFaQ',
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
                 }
-            }
-        );
-
-        setFaq(response.data);
+            );
+    
+            setFaq(response.data);
+        } catch (e) {
+            console.log(e);     
+        }
     };
 
 

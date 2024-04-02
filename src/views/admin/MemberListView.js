@@ -50,18 +50,23 @@ const MemberList = () => {
 
 
     const getDataByPageNumber = async (item) => {
-        setCurrentPage(item)
-        const response = await axios.get('http://localhost:8081/api/user/getUsersByPage?page=' + item,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+        try {
+            setCurrentPage(item)
+            const response = await axios.get('http://localhost:8081/api/user/getUsersByPage?page=' + item,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
                 }
-            }
-        );
-
-
-        setShowData(response.data);
+            );
+    
+    
+            setShowData(response.data);
+            
+        } catch (e) {
+            console.log(e);
+        }
 
     };
 
@@ -70,24 +75,29 @@ const MemberList = () => {
     };
 
     const searchUser = async (content) => {
-        console.log(content)
-        console.log(content === '')
-        if (content === '') {
-            getDataByPageNumber(1)
-            return
-        }
-
-        const response = await axios.get(`http://localhost:8081/api/user/search?type=${findMode}&content=${content}`,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                }
+        try {
+            
+            console.log(content)
+            console.log(content === '')
+            if (content === '') {
+                getDataByPageNumber(1)
+                return
             }
-        );
-
-
-        setShowData(response.data);
+    
+            const response = await axios.get(`http://localhost:8081/api/user/search?type=${findMode}&content=${content}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
+                }
+            );
+    
+    
+            setShowData(response.data);
+        } catch (e) {
+            console.log(e);            
+        }
     };
 
     return (

@@ -17,69 +17,91 @@ const MyInfoView = () => {
 
 
     const getUserInformation = async () => {
-        
-        const response = await axios.get('http://localhost:8081/api/user/getUserByUserId?userId='+paramName,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+        try {
+            const response = await axios.get('http://localhost:8081/api/user/getUserByUserId?userId=' + paramName,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
                 }
-            }
-        );
+            );
+            setUserInformation(response.data.result);
 
-        setUserInformation(response.data.result);
+
+        } catch (e) {
+            console.log(e)
+        }
+
+
+
 
     };
 
     const getBoard = async () => {
-        const response = await axios.get('http://localhost:8081/api/board/getBoardByUserIdx?userId='+paramName,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+        try {
+            
+            const response = await axios.get('http://localhost:8081/api/board/getBoardByUserIdx?userId=' + paramName,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
                 }
-            }
-        );
-
-        setBoards(response.data);
-        console.log(response.data);
+            );
+    
+            setBoards(response.data);
+            console.log(response.data);
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     const getRepairs = async () => {
-        const response = await axios.get('http://localhost:8081/api/repair/getRepairStatusByUserId?userId='+paramName,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+        try {
+            const response = await axios.get('http://localhost:8081/api/repair/getRepairStatusByUserId?userId=' + paramName,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
                 }
-            }
-        );
-
-        setRepairs(response.data);
-        console.log(response.data);
+            );
+    
+            setRepairs(response.data);
+            console.log(response.data);
+            
+        } catch (e) {
+            console.log(e);
+        }
     };
 
 
     const deleteBoard = async (boardIdx) => {
-        console.log(boardIdx)
-        var res = await axios.delete('http://localhost:8081/api/board/deleteBoard?boardIdx='+boardIdx,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+        try {
+            console.log(boardIdx)
+            var res = await axios.delete('http://localhost:8081/api/board/deleteBoard?boardIdx=' + boardIdx,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
                 }
-            }
-        );
-        console.log(res.data)
-        getBoard();
+            );
+            console.log(res.data)
+            getBoard();
+            
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     const addAdmin = async () => {
         try {
             var res = await axios.post('http://localhost:8081/api/user/addRole',
                 {
-                    "userId" : paramName,
-                    "role" : "Admin"
+                    "userId": paramName,
+                    "role": "Admin"
                 },
                 {
                     headers: {
@@ -93,7 +115,7 @@ const MyInfoView = () => {
                 alert("관리자 지정에 성공하였습니다.")
 
             }
-        } catch(e) {
+        } catch (e) {
             alert("관리자 지정에 실패하였습니다.")
         }
     };
@@ -165,7 +187,7 @@ const MyInfoView = () => {
             />            <section id="main">
                 <div className="page-title">내 정보</div>
 
-            
+
                 <div className="info_section">
                     <h2>기본 정보</h2>
                     <dl>
@@ -198,7 +220,7 @@ const MyInfoView = () => {
                     </dl>
                 </div>
 
-            
+
                 <div className="section">
                     <h2>A/S 접수 내역</h2>
 
@@ -208,20 +230,20 @@ const MyInfoView = () => {
                             <p>신청일: {item.createAt.split("T")[0]}</p>
                             <p>
                                 처리 상태: {
-                                    item.adminId == null ? 
+                                    item.adminId == null ?
                                         <span className="status-ing">[접수 대기]</span>
-                                    : 
+                                        :
                                         <><span className="status-ing" style={{ "color": "green" }}>[접수 완료]</span><span>  방문 예정일  : {item.visitDate.replaceAll("T", " ")}</span></>
                                 }
                             </p>
-                            
+
                             <p>내용: {item.problemComment}</p>
                         </div>
                     ))}
 
                 </div>
 
-                
+
                 <div className="section">
                     <h2>내 문의 글</h2>
                     <div className="my_inquiry_list">

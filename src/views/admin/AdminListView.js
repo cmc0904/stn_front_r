@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../component/Header.js';
 import SideBar from '../../component/SideBar.js';
 import axios from 'axios';
@@ -14,20 +14,27 @@ const AdminList = () => {
 
     useEffect(() => {
         getAllAdmin();
-    }, []); 
+    }, []);
 
     const getAllAdmin = async () => {
+        try {
+            const response = await axios.get('http://localhost:8081/api/user/getAllAdmins',
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
+                }
+            );
 
-        const response = await axios.get('http://localhost:8081/api/user/getAllAdmins',
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-            }
+            setAdmins(response.data);
+        } catch (e) {
+            console.log(e);
         }
-        );
 
-        setAdmins(response.data);
+
+
+
 
     };
 
@@ -88,11 +95,11 @@ const AdminList = () => {
 
 
                 }}
-            />  
+            />
             <section id="main">
                 <div className="page-title">관리자 관리</div>
                 <div className='container'>
-                    <table className="member_table" style={{"margin" :"auto"}}>
+                    <table className="member_table" style={{ "margin": "auto" }}>
                         <thead>
                             <tr>
                                 <td>아이디</td>
@@ -116,10 +123,10 @@ const AdminList = () => {
                             ))}
                         </tbody>
                     </table>
-                 
+
                 </div>
             </section>
-        </>    
+        </>
 
     );
 };

@@ -169,25 +169,30 @@ const Register = () => {
   };
 
   const handleRegister = async () => {
-    if (!validation()) {
-      return;
-    }
-
-    const response = await axios.post('http://localhost:8081/api/user/register', {
-      userId: input.userId,
-      userPassword: input.password,
-      userName: input.name,
-      userEmail: input.email,
-      userAddress: input.address,
-      userPhone: input.phone,
-      userGender: input.gender,
-      createAt: getTodayDate()
-    });
-
-    console.log(response.data);
-
-    if (response.data.result === "REGISTER_COMPLETE") {
-      navigate('/');
+    try {
+      if (!validation()) {
+        return;
+      }
+  
+      const response = await axios.post('http://localhost:8081/api/user/register', {
+        userId: input.userId,
+        userPassword: input.password,
+        userName: input.name,
+        userEmail: input.email,
+        userAddress: input.address,
+        userPhone: input.phone,
+        userGender: input.gender,
+        createAt: getTodayDate()
+      });
+  
+      console.log(response.data);
+  
+      if (response.data.result === "REGISTER_COMPLETE") {
+        navigate('/');
+      }
+      
+    } catch (e) {
+      console.log(e);
     }
   };
 

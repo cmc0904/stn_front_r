@@ -11,23 +11,29 @@ const AsView = () => {
     const [content, setContent] = useState('');
 
     const registration = async () => {
-        if (title === "" || content === "") {
-            alert("비어있는 입력란이 있습니다.")
-            return
-        }
-
-
-        await axios.post('http://localhost:8081/api/repair/registrationrepair', {
-            problemTitle: title,
-            problemComment: content
-        },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                }
+        try {
+            
+            if (title === "" || content === "") {
+                alert("비어있는 입력란이 있습니다.")
+                return
             }
-        );
+    
+    
+            await axios.post('http://localhost:8081/api/repair/registrationrepair', {
+                problemTitle: title,
+                problemComment: content
+            },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
+                }
+            );
+        } catch (e) {
+            console.log(e);
+            
+        }
     };
 
     return (

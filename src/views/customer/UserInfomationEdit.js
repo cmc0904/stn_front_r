@@ -45,34 +45,39 @@ const MyInfoEdit = () => {
 
 
   const getUserInformation = async () => {
-    const response = await axios.get('http://localhost:8081/api/user/getUserByUserId',
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+    try {
+      const response = await axios.get('http://localhost:8081/api/user/getUserByUserId',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+          }
         }
-      }
-    );
-
-
-    console.log(response.data.result);
-    console.log(response.data.result.userId);
-    console.log(response.data.result.userEmail);
-
-    setInput({
-      ...input,
-      userId: response.data.result.userId,
-      password: response.data.result.userPassword,
-      name: response.data.result.userName,
-      email: response.data.result.userEmail,
-      phone: response.data.result.userPhone,
-      gender: response.data.result.userGender,
-      address : response.data.result.userAddress
+      );
+  
+  
+      console.log(response.data.result);
+      console.log(response.data.result.userId);
+      console.log(response.data.result.userEmail);
+  
+      setInput({
+        ...input,
+        userId: response.data.result.userId,
+        password: response.data.result.userPassword,
+        name: response.data.result.userName,
+        email: response.data.result.userEmail,
+        phone: response.data.result.userPhone,
+        gender: response.data.result.userGender,
+        address : response.data.result.userAddress
+        
+      });
+  
+  
+      console.log(input)
       
-    });
-
-
-    console.log(input)
+    } catch (e) {
+      console.log(e);
+    }
     
 
   };
@@ -151,34 +156,41 @@ const MyInfoEdit = () => {
   };
 
   const handleUpadte = async () => {
-    if (!validation()) {
-      return;
-    }
+    
 
-    const response = await axios.put('http://localhost:8081/api/user/updateUser',
-      {
-        userId: input.userId,
-        userPassword: input.password,
-        userName: input.name,
-        userEmail: input.email,
-        userAddress: input.address,
-        userPhone: input.phone,
-        userGender: input.gender
-       
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-        }
+    try {
+      if (!validation()) {
+        return;
       }
-    );
-
-    console.log(response.data);
-
-    if (response.data.result === "UPDATE") {
-      navigate('/customer/myinfo');
+      
+      const response = await axios.put('http://localhost:8081/api/user/updateUser',
+        {
+          userId: input.userId,
+          userPassword: input.password,
+          userName: input.name,
+          userEmail: input.email,
+          userAddress: input.address,
+          userPhone: input.phone,
+          userGender: input.gender
+         
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+          }
+        }
+      );
+  
+      console.log(response.data);
+  
+      if (response.data.result === "UPDATE") {
+        navigate('/customer/myinfo');
+      }
+    } catch (e) {
+      console.log(e);
     }
+
   };
 
   const onCompletePost = data => {
