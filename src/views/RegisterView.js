@@ -173,7 +173,7 @@ const Register = () => {
       return;
     }
 
-    const response = await axios.post('http://43.203.11.194:8081/api/user/register', {
+    const response = await axios.post('http://localhost:8081/api/user/register', {
       userId: input.userId,
       userPassword: input.password,
       userName: input.name,

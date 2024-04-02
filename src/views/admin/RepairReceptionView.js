@@ -235,33 +235,6 @@ const RepairReception = () => {
     };
 
     
-
-    
-    
-
-
-    const getFilteringData = async (type) => {
-        try{
-            const response = await axios.get("http://localhost:8081/api/repair/getRepairFiltering?type="+type,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                },
-            }
-        );
-            console.log(response.data)
-            setRepairs(response.data)
-
-        }catch(e){
-            console.log(e)
-        }
-        
-    
-    };
-    
-
-    
     
 
     return (
