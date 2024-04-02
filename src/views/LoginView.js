@@ -89,7 +89,7 @@ const Login = () => {
                                     <div className="my-login-validation">
                                         <div className="form-group">
                                             <label htmlFor="userId">아이디</label>
-                                            <input id="userId" type="text" className="form-control" name="userId" value={username} onChange={(e) => setUsername(e.target.value)} required autoFocus/>
+                                            <input id="userId" type="text" className="form-control" name="userId" value={username} onChange={(e) => setUsername(e.target.value)} autoFocus/>
                                             {NOTFOUND && (
                                                 <div className="invalid-feedback show">
                                                     아이디를 확인해주세요.
@@ -99,7 +99,7 @@ const Login = () => {
 
                                         <div className="form-group">
                                             <label htmlFor="password">비밀번호</label>
-                                            <input id="password" type="password" className="form-control" name="password" value={password} onChange={(e) => setPassword(e.target.value)} required data-eye/>
+                                            <input id="password" type="password" className="form-control" name="password" value={password} onChange={(e) => setPassword(e.target.value)} data-eye/>
                                             {NOTFOUND && (
                                                 <div className="invalid-feedback show">
                                                     비밀번호를 확인해주세요.

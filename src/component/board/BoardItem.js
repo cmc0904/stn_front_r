@@ -18,7 +18,7 @@ const BoadItem = ({item}) => {
             <div className="num">{item.boardIdx}</div>
             <div className="b_title"><Link to={`/${type}/board/boardview/${item.boardIdx}`}>{item.boardTitle}</Link></div>
             <div className="writer">{item.writerId}</div>
-            <div className="date">{item.createAt}</div>
+            <div className="date">{new Date(item.createAt).toLocaleDateString()}</div>
         </div>
     );
 

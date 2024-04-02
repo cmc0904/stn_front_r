@@ -89,6 +89,33 @@ const MyInfoView = () => {
         }
     };
 
+
+    const changePrivate = async (boardIdx, priv) => {
+        try {
+
+            console.log(1)
+  
+            const res = await axios.put(
+                'http://localhost:8081/api/board/changePrivate',
+                {
+                    idx: boardIdx,
+                    pri: priv
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
+                }
+            );
+                console.log(res.data)
+            getBoard();
+            
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     useEffect(() => {
         getUserInformation();
         getBoard();
@@ -185,14 +212,22 @@ const MyInfoView = () => {
                     {repairs.map((item, index) => (
                         <div className="box">
                             <h3>A/S 신청 내역#{index + 1}</h3>
-                            <p>신청일: {item.createAt.split("T")[0]}</p>
+                            <p>신청일: {item.createAt[0]}/{item.createAt[1]}/{item.createAt[2]}</p>
                             <p>
-                                처리 상태: {
-                                    item.adminId == null ?
+                                처리 상태: 
+                                    {item.adminId == null &&
                                         <span className="status-ing">[접수 대기]</span>
-                                        :
-                                        <><span className="status-ing" style={{ "color": "green" }}>[접수 완료]</span><span>  방문 예정일  : {item.visitDate.replaceAll("T", " ")}</span></>
-                                }
+                                    }
+
+                                    {item.adminId != null && item.finished === 1 &&
+                                        <span className="status-ing" style={{ "color": "green" }}>[처리완료]</span>
+                                    }
+
+                                    {item.adminId != null && item.finished === 0 &&
+                                        <><span className="status-ing" style={{ "color": "orange" }}>[방문대기]</span><span> (방문 예정일  : {item.visitDate[0]}/{item.visitDate[1]}/{item.visitDate[2]}-{item.visitDate[3]}:{item.visitDate[4]})</span></>
+
+                                    }
+
                             </p>
 
                             <p>내용: {item.problemComment}</p>
@@ -206,9 +241,10 @@ const MyInfoView = () => {
                     <h2>내 문의 글</h2>
                     <div className="my_inquiry_list">
                         {boards.map((item, index) => (
-                            <div className="box">
-                                <h3>제목 : {item.boardTitle} (작성일 : {item.createAt})</h3>
+                            <div className="box" style={{"display" : "flex", "justifyContent" : "space-between"}}>
+                                <h3 style={{"marginTop" : "auto", "marginBottom" : "auto"}}>제목 : {item.boardTitle} (작성일 : {new Date(item.createAt).toLocaleDateString()}) - {item.isPrivate === 0 ? <span>공개</span> : <span>비공개</span>}</h3>
                                 <div className="btn-group">
+                                <button className="btn-delete" onClick={() => changePrivate(item.boardIdx, item.isPrivate === 0 ? 1 : 0)}>공개/비공개 전환</button>
                                     <button className="btn-delete" onClick={() => deleteBoard(item.boardIdx)}>삭제</button>
                                 </div>
                             </div>
