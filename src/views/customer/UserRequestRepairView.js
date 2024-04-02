@@ -9,14 +9,40 @@ import axios from 'axios';
 const AsView = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const [errors, setErrors] = useState({
+        title: '',
+        content: '',
+    });
+    const validation = () => {
+        if (title.length < 5) {
+            setErrors({ ...errors, title: "5글자 이상 작성해주세요." });
+            return false;
+        } else if (title.length > 50) {
+            setErrors({ ...errors, title: "50글자 이하로 작성해주세요." });
+            return false;
+        } else if (title.replaceAll(" ", "").length === 0) {
+            setErrors({ ...errors, title: "공백만 적을 수 없습니다." });
+            return false;
+        }
+
+        if (content.length < 5) {
+            setErrors({ ...errors, content: "5글자 이상 작성해주세요." });
+            return false;
+        } else if (content.length > 100) {
+            setErrors({ ...errors, content: "100글자 이하로 작성해주세요." });
+            return false;
+        } else if (content.replaceAll(" ", "").length === 0) {
+            setErrors({ ...errors, content: "공백만 적을 수 없습니다." });
+            return false;
+        }
+
+        return true;
+    }
 
     const registration = async () => {
         try {
             
-            if (title === "" || content === "") {
-                alert("비어있는 입력란이 있습니다.")
-                return
-            }
+            if(!validation()) return;
     
     
             await axios.post('http://localhost:8081/api/repair/registrationrepair', {
@@ -43,7 +69,7 @@ const AsView = () => {
 
 
                 {
-                    "logindUserName": "최문찬",
+                    "logindUserName":  window.localStorage.getItem("name"),
                     "allMenus": [
                         {
                             "categoryName": "고객센터",
@@ -81,18 +107,19 @@ const AsView = () => {
 
                 }
             }
-            />            <section id="main">
+            />  
+            <section id="main">
                 <div className="page-title">A/S 접수</div>
                 <div id="as-form">
                     <h2>A/S 접수</h2>
-                    <form id="asForm">
-                        <label htmlFor="customerName">문제명:</label>
-                        <input type="text" id="customerName" name="customerName" value={title} onChange={(e) => setTitle(e.target.value)} required />
-                        <label htmlFor="asDescription">문제 설명:</label>
-                        <textarea id="asDescription" name="asDescription" value={content} onChange={(e) => setContent(e.target.value)} required></textarea>
+                    <label htmlFor="customerName">문제명:</label>
+                    <input type="text" id="customerName" name="customerName" value={title} onChange={(e) => setTitle(e.target.value)} autoFocus />
+                    <span className='invaild-feedback show' style={{"fontSize": "13px"}}>{errors.title}</span>
+                    <label htmlFor="asDescription">문제 설명:</label>
+                    <textarea id="asDescription" name="asDescription" value={content} onChange={(e) => setContent(e.target.value)}></textarea>
+                    <span className='invaild-feedback show' style={{"fontSize": "13px"}}>{errors.content}</span>
 
-                        <button type="submit" onClick={registration}>A/S 신청</button>
-                    </form>
+                    <button type="submit" onClick={registration}>A/S 신청</button>
                 </div>
             </section>
 

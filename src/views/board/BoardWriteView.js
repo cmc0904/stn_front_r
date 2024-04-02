@@ -18,19 +18,53 @@ const BoardWriteView = () => {
 
     const { type } = useParams();
 
+    const [errors, setErrors] = useState({
+        title: '',
+        content: '',
+    });
+
+    const validation = () => {
+        if (title.length > 50) {
+            setErrors({ ...errors, title: "제목은 50글자 이상일 수 없습니다." });
+            return false;
+        } else if (title.length < 5) {
+            console.log(title)
+            setErrors({ ...errors, title: "제목은 5글자 미만이여야 합니다." });
+            return false;
+        } else if (title.replaceAll(" ", "").length === 0) {
+            setErrors({ ...errors, title: "제목은 공백만 적을 수 없습니다." });
+            return false;
+        }
+
+        if (content.length > 150) {
+            setErrors({ ...errors, content: "글내용은 150글자 이상일 수 없습니다." });
+            return false;
+        } else if (content.length < 5) {
+            setErrors({ ...errors, content: "글내용은 5글자 미만이여야 합니다." });
+            return false;
+        } else if (content.replaceAll(" ", "").length === 0) {
+            setErrors({ ...errors, content: "글내용은 공백만 적을 수 없습니다." });
+            return false;
+        }
+
+        return true;
+
+    }
+
     const uploadContent = async () => {
-        const formData = new FormData();
-
-        Array.from(file).forEach((fl) => {
-            formData.append("flL", fl);
-        });
-
-        formData.append("title", title);
-        formData.append("content", content);
-        formData.append("isPrivate", isPrivate);
-
-
         try {
+            console.log(1)
+            if(!validation()) return;
+            
+            const formData = new FormData();
+
+            Array.from(file).forEach((fl) => {
+                formData.append("flL", fl);
+            });
+    
+            formData.append("title", title);
+            formData.append("content", content);
+            formData.append("isPrivate", isPrivate);
 
             const response = await axios.post('http://localhost:8081/api/board/postBoard', formData,
                 {
@@ -45,7 +79,7 @@ const BoardWriteView = () => {
             if (response.data.result === "ADD_BOARD_COMPLETE") {
                 navigate(`/${type}/board`);
             };
-
+            
         } catch (e) {
             console.log(e)
         }
@@ -61,56 +95,61 @@ const BoardWriteView = () => {
 
             {
                 type === "manager" &&
-                <><Header content="Management"></Header><SideBar setting={{
-                    "logindUserName": window.localStorage.getItem("name"),
-                    "allMenus": [
+                    <>
+                    <Header content="Management"></Header>
+                    <SideBar setting={
                         {
-                            "categoryName": "회원 관리",
-                            "subMenus": [
+                            "logindUserName": window.localStorage.getItem("name"),
+                            "allMenus": [
                                 {
-                                    "subMenuName": "사용자",
-                                    "link": "/manager/members",
-                                    "isSelected": false
+                                    "categoryName": "회원 관리",
+                                    "subMenus": [
+                                        {
+                                            "subMenuName": "사용자",
+                                            "link": "/manager/members",
+                                            "isSelected": false
+                                        },
+                                        {
+                                            "subMenuName": "관리자",
+                                            "link": "/manager/managers",
+                                            "isSelected": false
+                                        }
+                                    ]
                                 },
                                 {
-                                    "subMenuName": "관리자",
-                                    "link": "/manager/managers",
-                                    "isSelected": false
-                                }
-                            ]
-                        },
-                        {
-                            "categoryName": "고객센터",
-                            "subMenus": [
-                                {
-                                    "subMenuName": "A/S접수",
-                                    "link": "/manager/repaireprocess",
-                                    "isSelected": false
+                                    "categoryName": "고객센터",
+                                    "subMenus": [
+                                        {
+                                            "subMenuName": "A/S접수",
+                                            "link": "/manager/repaireprocess",
+                                            "isSelected": false
+                                        },
+                                        {
+                                            "subMenuName": "게시판",
+                                            "link": "/manager/board",
+                                            "isSelected": true
+                                        },
+                                        {
+                                            "subMenuName": "사용자 페이지 전환",
+                                            "link": "/customer/board",
+                                            "isSelected": false
+                                        }
+                                    ]
                                 },
                                 {
-                                    "subMenuName": "게시판",
-                                    "link": "/manager/board",
-                                    "isSelected": true
-                                },
-                                {
-                                    "subMenuName": "사용자 페이지 전환",
-                                    "link": "/customer/board",
-                                    "isSelected": false
-                                }
-                            ]
-                        },
-                        {
-                            "categoryName": "콘텐츠 관리",
-                            "subMenus": [
-                                {
-                                    "subMenuName": "자주 묻는 질문",
-                                    "link": "/manager/asklist",
-                                    "isSelected": false
+                                    "categoryName": "콘텐츠 관리",
+                                    "subMenus": [
+                                        {
+                                            "subMenuName": "자주 묻는 질문",
+                                            "link": "/manager/asklist",
+                                            "isSelected": false
+                                        }
+                                    ]
                                 }
                             ]
                         }
-                    ]
-                }} /></>
+                    } />
+                </>
 
             }
 
@@ -177,7 +216,10 @@ const BoardWriteView = () => {
 
                                 <tr style={{"borderBottom" : "1px dashed #ddd"}}>
                                     <th>제목</th>
-                                    <td><input type="text" placeholder="제목을 입력해주세요." value={title} onChange={(e) => setTitle(e.target.value)} /></td>
+                                    <td>
+                                        <input type="text" placeholder="제목을 입력해주세요." value={title} onChange={(e) => setTitle(e.target.value)} />
+                                        <span className="invalid-feedback show" style={{'fontSize' : "13px"}}>{errors.title}</span>
+                                    </td>
                                 </tr>
                                 <tr style={{"borderBottom" : "1px solid black"}}>
                                     <th>공개</th>
@@ -192,6 +234,8 @@ const BoardWriteView = () => {
                                 <tr>
                                     <th className="content-box" colSpan="2">
                                         <textarea placeholder="내용을 입력 해주세요." value={content} onChange={(e) => setContent(e.target.value)}></textarea>
+                                        <span className="invalid-feedback show" style={{'fontSize' : "13px", "textAlign":"left"}}>{errors.content}</span>
+
                                     </th>
                                 </tr>
 

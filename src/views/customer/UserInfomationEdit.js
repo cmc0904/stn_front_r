@@ -24,7 +24,8 @@ const MyInfoEdit = () => {
     email: '',
     phone: '',
     gender: '',
-    address: ''
+    address: '',
+    createAt: ''
   });
 
   const [errors, setErrors] = useState({
@@ -68,7 +69,8 @@ const MyInfoEdit = () => {
         email: response.data.result.userEmail,
         phone: response.data.result.userPhone,
         gender: response.data.result.userGender,
-        address : response.data.result.userAddress
+        address : response.data.result.userAddress,
+        createAt : response.data.result.createAt
         
       });
   
@@ -171,7 +173,8 @@ const MyInfoEdit = () => {
           userEmail: input.email,
           userAddress: input.address,
           userPhone: input.phone,
-          userGender: input.gender
+          userGender: input.gender,
+          createAt: input.createAt
          
         },
         {

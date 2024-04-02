@@ -41,7 +41,7 @@ const FaqView = () => {
 
 
                 {
-                    "logindUserName": "최문찬",
+                    "logindUserName": window.localStorage.getItem("name"),
                     "allMenus": [
                         {
                             "categoryName": "고객센터",
