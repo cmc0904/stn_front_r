@@ -298,30 +298,23 @@ const RepairReception = () => {
             <section id="main">
                 <div className="page-title">A/S 접수 및 처리</div>
                 <div className="container-md">
-                    <div className="button-container">
-                        <button onClick={() => getFilteringData("allData")}>전체보기</button>
-                        <button onClick={() => getFilteringData("waiting")}>접수 대기</button>
-                        <button onClick={() => getFilteringData("willVisit")}>방문 예정</button>
-                        <button onClick={() => getFilteringData("finished")}>처리 완료</button>
-                    </div>
 
-                    <div className='wrap'>
-                        <div className="search-container" style={{"width":"100%"}}>
-                            <div style={{"width":"100%"}}>
-                                
-                                <input type='text' placeholder='아이디로 검색' onChange={(e) => getsearchRepair(e.target.value)}></input>
 
-                                <button onClick={null} className="btn btn-dark">검색</button>
-                            </div>
+                    <div className="search-container" style={{"width":"100%"}}>
+                        <div style={{"width":"100%", "display" : 'flex'}}>
                             
+                            <input style={{"flex" : 9}} type='text' placeholder='아이디로 검색' onChange={(e) => getsearchRepair(e.target.value)} />
 
-                            <div className="mode-btn-wrap">
-                                <button onClick={() => getFilteringData("allData")} className='mode-btn'>전체보기</button>
-                                <button onClick={() => getFilteringData("waiting")} className='mode-btn'>접수 대기</button>
-                                <button onClick={() => getFilteringData("willVisit")} className='mode-btn'>방문 예정</button>
-                                <button onClick={() => getFilteringData("finished")} className='mode-btn'>처리 완료</button>
-                            </div>
-                    </div>
+                            <button onClick={null} className="btn btn-dark">검색</button>
+                        </div>
+                        
+
+                        <div className="mode-btn-wrap">
+                            <button onClick={() => getFilteringData("allData")} className='mode-btn'>전체보기</button>
+                            <button onClick={() => getFilteringData("waiting")} className='mode-btn'>접수 대기</button>
+                            <button onClick={() => getFilteringData("willVisit")} className='mode-btn'>방문 예정</button>
+                            <button onClick={() => getFilteringData("finished")} className='mode-btn'>처리 완료</button>
+                        </div>
 
                     </div>
                     

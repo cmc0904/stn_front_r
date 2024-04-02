@@ -13,11 +13,19 @@ const FAQMagementView = () => {
     const [answer, setAnswer] = useState('');
     const [mode, setMode] = useState({ 'mode': "add", "idx": null }); // 'add' by default
     const [faq, setFaq] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+
+    const [errors, setErrors] = useState({
+        question: '',
+        answer: '',
+    });
 
 
     useEffect(() => {
         getAllFaq();
     }, []);
+
+
 
     const getAllFaq = async () => {
         try {
@@ -40,10 +48,7 @@ const FAQMagementView = () => {
 
         try {
 
-            if (question === "" || answer === "") {
-                alert("비어있는 입력란이 있어 실패하였습니다.")
-                return;
-            }
+            if(!validation()) return;
 
             await axios.post('http://localhost:8081/api/faq/addFaQ',
                 {
@@ -59,6 +64,9 @@ const FAQMagementView = () => {
             );
 
             getAllFaq();
+
+            setShowModal(false)
+
         } catch (e) {
             console.log(e)
         }
@@ -93,6 +101,7 @@ const FAQMagementView = () => {
     const getFaQ = async (faQidx) => {
 
         try {
+            setShowModal(true)
             const response = await axios.get('http://localhost:8081/api/faq/getFaQByIdx?idx=' + faQidx,
                 {
                     headers: {
@@ -115,10 +124,7 @@ const FAQMagementView = () => {
 
     const editFaQ = async () => {
         try {
-            if (question === "" || answer === "") {
-                alert("비어있는 입력란이 있어 실패하였습니다.")
-                return;
-            }
+            if(!validation()) return;
 
             await axios.put('http://localhost:8081/api/faq/updateFaQ',
                 {
@@ -142,6 +148,7 @@ const FAQMagementView = () => {
             setAnswer("")
             setQuestion("")
             getAllFaq();
+            setShowModal(false)
         } catch (e) {
             console.log(e)
         }
@@ -152,7 +159,40 @@ const FAQMagementView = () => {
     const clearFaQInput = () => {
         setAnswer("");
         setQuestion("");
+        setErrors({
+            question: '',
+            answer: '',
+        });
+        setShowModal(false)
 
+    }
+
+    const validation = () => {
+
+        if (question.length < 5) {
+            setErrors({ ...errors, question: "질문은 5글자 이상이여야 합니다." });
+            return false;
+        } else if (question.length > 100) {
+            setErrors({ ...errors, question: "질문은 100글자 이상일 수 없습니다." });
+            return false;
+        } else if (question.replaceAll(" ", "").length === 0) {
+            setErrors({ ...errors, question: "질문는 공백을 가질 수 없습니다." });
+            return false;
+        }
+
+        if (answer.length < 5) {
+            setErrors({ ...errors, answer: "답변은 5글자 이상이여야 합니다." });
+            return false;
+        } else if (answer.length > 150) {
+            setErrors({ ...errors, answer: "답변은 150글자 이상일 수 없습니다." });
+            return false;
+        } else if (answer.replaceAll(" ", "").length === 0) {
+            setErrors({ ...errors, answer: "답변는 공백을 가질 수 없습니다." });
+            return false;
+        }
+
+        return true;
+        
     }
 
     return (
@@ -212,7 +252,8 @@ const FAQMagementView = () => {
 
 
                 }}
-            />            <section id="main">
+            />  
+            <section id="main">
                 <div className="page-title">자주 묻는 질문 관리</div>
                 <div className="container-md">
                     {faq.map((item, index) => (
@@ -241,41 +282,44 @@ const FAQMagementView = () => {
                         </div>
                     ))}
 
-                    <button type="button" className="add-btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <button type="button" className="add-btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => setShowModal(true)}>
                         추가하기
                     </button>
                 </div>
 
+                {showModal && (
+                    <div className="modal fade" id="staticBackdrop" data-bs-backdrop="true" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    {mode.mode === 'add' ? <h1 className="modal-title fs-5" id="staticBackdropLabel">자주 묻는 질문 추가</h1> : <h1 className="modal-title fs-5" id="staticBackdropLabel">자주 묻는 질문 수정</h1>}
 
-                <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div className="modal-dialog modal-dialog-centered">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                {mode.mode === 'add' ? <h1 className="modal-title fs-5" id="staticBackdropLabel">자주 묻는 질문 추가</h1> : <h1 className="modal-title fs-5" id="staticBackdropLabel">자주 묻는 질문 수정</h1>}
 
+                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div className="modal-body">
+                                    <form>
+                                        <div className="mb-3">
+                                            <label for="recipient-name" className="col-form-label">질문</label>
+                                            <input type="text" className="form-control" id="recipient-name" value={question} onChange={(e) => setQuestion(e.target.value)} required />
+                                            <div className="invalid-feedback show">{errors.question}</div>
 
-                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div className="modal-body">
-                                <form>
-                                    <div className="mb-3">
-                                        <label for="recipient-name" className="col-form-label">질문</label>
-                                        <input type="text" className="form-control" id="recipient-name" value={question} onChange={(e) => setQuestion(e.target.value)} required />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label for="message-text" className="col-form-label">답변</label>
-                                        <textarea className="form-control" id="message-text" value={answer} onChange={(e) => setAnswer(e.target.value)} required></textarea>
-                                    </div>
-                                </form>
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={clearFaQInput}>취소</button>
-                                {mode.mode === 'add' ? <button type="submit" onClick={addFaQ} className="btn btn-primary" data-bs-dismiss="modal">확인</button> : <button type="submit" onClick={editFaQ} className="btn btn-primary" data-bs-dismiss="modal">확인</button>}
-
+                                        </div>
+                                        <div className="mb-3">
+                                            <label for="message-text" className="col-form-label">답변</label>
+                                            <textarea className="form-control" id="message-text" value={answer} onChange={(e) => setAnswer(e.target.value)} required></textarea>
+                                            <div className="invalid-feedback show">{errors.answer}</div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={clearFaQInput}>취소</button>
+                                    {mode.mode === 'add' ? <button type="submit" onClick={addFaQ} className="btn btn-primary">확인</button> : <button type="submit" onClick={editFaQ} className="btn btn-primary">확인</button>}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                )}
             </section>
         </>
     );
