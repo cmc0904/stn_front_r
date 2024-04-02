@@ -39,13 +39,27 @@ const Register = () => {
 
 
   const validation = (type) => {
+
+
+    setErrors({
+      userId: '',
+      password: '',
+      name: '',
+      email: '',
+      phone: '',
+      gender: '',
+      address: ''
+    });
     // 유저 아이디
 
     if (!input.userId) {
       setErrors({ ...errors, userId: "아이디를 입력해주세요." });
       return false;
-    } else if (input.userId.length <= 5) {
-      setErrors({ ...errors, userId: "아이디는 5글자 이상이여야 합니다." });
+    } else if (input.userId.length < 4) {
+      setErrors({ ...errors, userId: "아이디는 최소 4글자 이상이여야 합니다." });
+      return false;
+    }else if (input.userId.length > 10) {
+      setErrors({ ...errors, userId: "아이디는 최대 11글자를 넘을 수 없습니다." });
       return false;
     } else if (input.userId.includes(" ")) {
       setErrors({ ...errors, userId: "아이디는 공백을 가질 수 없습니다." });
@@ -63,8 +77,11 @@ const Register = () => {
     if (!input.password) {
       setErrors({ ...errors, password: "비밀번호를 입력해주세요." });
       return false;
-    } else if (input.password.length <= 5) {
-      setErrors({ ...errors, password: "비밀번호는 5글자 이상이여야 합니다." });
+    } else if (input.password.length < 3) {
+      setErrors({ ...errors, password: "비밀번호는 최소 3자 이상이여야 합니다." });
+      return false;
+    }else if (input.password.length > 10) {
+      setErrors({ ...errors, password: "비밀번호는 10글자를 넘을 수 없습니다." });
       return false;
     } else if (input.password.includes(" ")) {
       setErrors({ ...errors, password: "비밀번호는 공백을 가질 수 없습니다." });
@@ -76,9 +93,10 @@ const Register = () => {
       setErrors({ ...errors, name: "성함을 입력해주세요." });
       return false;
     } else if (input.name.length < 3) {
-      console.log(input.name.length)
-      console.log(input.name.length < 3)
       setErrors({ ...errors, name: "성함은 3글자 이상이여야 합니다." });
+      return false;
+    }else if (input.name.length > 8) {
+      setErrors({ ...errors, name: "성함은 8글자 이하이여야 합니다." });
       return false;
     }
 
@@ -98,11 +116,11 @@ const Register = () => {
     if (!input.phone) {
       setErrors({ ...errors, phone: "전화번호를 입력해주세요." });
       return false;
-    }else if (input.phone.length >= 11) {
-      setErrors({ ...errors, phone: "전화번호는 11자리 이상일 수 없습니다." });
+    }else if (input.phone.length > 11) {
+      setErrors({ ...errors, phone: "전화번호는 12자리 이상일 수 없습니다." });
       return false;
     } else if (!phoneNumberRegex.test(input.phone)) {
-      setErrors({ ...errors, phone: "올바른 전화번호 형식이 아닙니다. 예)01011112222" })
+      setErrors({ ...errors, phone: "올바른 전화번호 형식이 아닙니다. 예)01012345678" })
       return false;
     }
 
@@ -170,6 +188,7 @@ const Register = () => {
 
   const handleRegister = async () => {
     try {
+
       if (!validation()) {
         return;
       }
