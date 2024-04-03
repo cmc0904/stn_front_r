@@ -18,7 +18,7 @@ const FaqView = () => {
     const getAllFaq = async () => {
         try {
             
-            const response = await axios.get('http://localhost:8081/api/faq/getAllFaQ',
+            const response = await axios.get('/api/faq/getAllFaQ',
                 {
                     headers: {
                         'Content-Type': 'application/json',

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import '../../style/customer/Board.css';
 
@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 
 const MemberListTable = (type) => {
-
+    
 
     return (
         <table className="member_table">

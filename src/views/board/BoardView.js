@@ -29,7 +29,7 @@ const AdminBoardView = () => {
 
     const getBoardContent = async () => {
         try {
-            const response = await axios.get('http://localhost:8081/api/board/getBoardByIdx?boardIdx=' + paramName,
+            const response = await axios.get('/api/board/getBoardByIdx?boardIdx=' + paramName,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ const AdminBoardView = () => {
                 return;
             }
 
-            await axios.post('http://localhost:8081/api/board/addComment',
+            await axios.post('/api/board/addComment',
                 {
                     boardIdx: paramName,
                     comment: comment
@@ -73,7 +73,7 @@ const AdminBoardView = () => {
 
     const getComments = async () => {
         try {
-            const response = await axios.get('http://localhost:8081/api/board/getComment?boardIdx=' + paramName,
+            const response = await axios.get('/api/board/getComment?boardIdx=' + paramName,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ const AdminBoardView = () => {
     };
 
     const downloadImage = async (item) => {
-        const apiUrl = "http://localhost:8081/api/board/image/download?fileName="+item;
+        const apiUrl = "/api/board/image/download?fileName="+item;
 
 
         try {
@@ -130,7 +130,7 @@ const AdminBoardView = () => {
 
     const getFileName = async () => {
         try {
-            const response = await axios.get('http://localhost:8081/api/board/getFileNames?boardIdx=' + paramName,
+            const response = await axios.get('/api/board/getFileNames?boardIdx=' + paramName,
                 {
                     headers: {
                         'Content-Type': 'application/json',

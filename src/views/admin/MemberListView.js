@@ -31,7 +31,7 @@ const MemberList = () => {
     const getPageNumbers = async () => {
 
         try {
-            const response = await axios.get('http://localhost:8081/api/user/pageNumbers',
+            const response = await axios.get('/api/user/pageNumbers?type=users',
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ const MemberList = () => {
     const getDataByPageNumber = async (item) => {
         try {
             setCurrentPage(item)
-            const response = await axios.get('http://localhost:8081/api/user/getUsersByPage?page=' + item,
+            const response = await axios.get('/api/user/getUsersByPage?page=' + item,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ const MemberList = () => {
                 return
             }
     
-            const response = await axios.get(`http://localhost:8081/api/user/search?type=${findMode}&content=${content}`,
+            const response = await axios.get(`/api/user/search?type=${findMode}&content=${content}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',

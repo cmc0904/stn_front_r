@@ -14,7 +14,7 @@ const MyInfoView = () => {
 
     const getUserInformation = async () => {
         try {
-            const response = await axios.get('http://localhost:8081/api/user/getUserByUserId',
+            const response = await axios.get('/api/user/getUserByUserId',
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ const MyInfoView = () => {
 
     const getBoard = async () => {
         try {
-            const response = await axios.get('http://localhost:8081/api/board/getBoardByUserIdx',
+            const response = await axios.get('/api/board/getMyBoards',
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ const MyInfoView = () => {
     const getRepairs = async () => {
         try {
             
-            const response = await axios.get('http://localhost:8081/api/repair/getRepairStatusByUserId',
+            const response = await axios.get('/api/repair/getRepairStatusByUserId',
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ const MyInfoView = () => {
     const deleteBoard = async (boardIdx) => {
         try {
             console.log(boardIdx)
-            var res = await axios.delete('http://localhost:8081/api/board/deleteBoard?boardIdx=' + boardIdx,
+            var res = await axios.delete('/api/board/deleteBoard?boardIdx=' + boardIdx,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -93,13 +93,13 @@ const MyInfoView = () => {
     const changePrivate = async (boardIdx, priv) => {
         try {
 
-            console.log(1)
-  
+            console.log(boardIdx)
+            console.log(!priv)
             const res = await axios.put(
-                'http://localhost:8081/api/board/changePrivate',
+                '/api/board/changePrivate',
                 {
                     idx: boardIdx,
-                    pri: priv
+                    pri: priv === 0 ? 1 : 0
                 },
                 {
                     headers: {
@@ -108,7 +108,7 @@ const MyInfoView = () => {
                     }
                 }
             );
-                console.log(res.data)
+
             getBoard();
             
         } catch (e) {
@@ -244,7 +244,7 @@ const MyInfoView = () => {
                             <div className="box" style={{"display" : "flex", "justifyContent" : "space-between"}}>
                                 <h3 style={{"marginTop" : "auto", "marginBottom" : "auto"}}>제목 : {item.boardTitle} (작성일 : {new Date(item.createAt).toLocaleDateString()}) - {item.isPrivate === 0 ? <span>공개</span> : <span>비공개</span>}</h3>
                                 <div className="btn-group">
-                                <button className="btn-delete" onClick={() => changePrivate(item.boardIdx, item.isPrivate === 0 ? 1 : 0)}>공개/비공개 전환</button>
+                                <button className="btn-delete" onClick={() => changePrivate(item.boardIdx, item.isPrivate)}>공개/비공개 전환</button>
                                     <button className="btn-delete" onClick={() => deleteBoard(item.boardIdx)}>삭제</button>
                                 </div>
                             </div>

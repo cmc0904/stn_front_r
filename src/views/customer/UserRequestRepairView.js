@@ -45,7 +45,7 @@ const AsView = () => {
             if(!validation()) return;
     
     
-            const res =  await axios.post('http://localhost:8081/api/repair/registrationrepair', {
+            const res =  await axios.post('/api/repair/registrationrepair', {
                 problemTitle: title,
                 problemComment: content
             },
