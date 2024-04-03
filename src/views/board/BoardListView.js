@@ -34,7 +34,7 @@ const Board = () => {
 
     const getPageNumbers = async () => {
         try {
-            const response = await axios.get('http://localhost:8081/api/board/pageNumbers',
+            const response = await axios.get('/api/board/pageNumbers',
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ const Board = () => {
     const getDataByPageNumber = async (item) => {
         try {
             setCurrentPage(item)
-            const response = await axios.get('http://localhost:8081/api/board/getBoardByPageNumber?page=' + item,
+            const response = await axios.get('/api/board/getBoardByPageNumber?page=' + item,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ const Board = () => {
     const getBoardByTitle = async () => {
         try {
 
-            const response = await axios.get('http://localhost:8081/api/board/getBoardByTitle?content=' + searchInput,
+            const response = await axios.get('/api/board/getBoardByTitle?content=' + searchInput,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ const Board = () => {
     const getBoardByWriterId = async () => {
         try {
 
-            const response = await axios.get('http://localhost:8081/api/board/getBoardByUserIdx?userId=' + searchInput,
+            const response = await axios.get('/api/board/getBoardByUserIdx?userId=' + searchInput,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ const Board = () => {
     const getBoardByDate = async () => {
         try {
 
-            const response = await axios.get('http://localhost:8081/api/board/getBoardByDate?date=' + searchInput,
+            const response = await axios.get('/api/board/getBoardByDate?date=' + searchInput,
                 {
                     headers: {
                         'Content-Type': 'application/json',

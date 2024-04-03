@@ -18,7 +18,7 @@ const MyInfoView = () => {
 
     const getUserInformation = async () => {
         try {
-            const response = await axios.get('http://localhost:8081/api/user/getUserByUserId?userId=' + paramName,
+            const response = await axios.get('/api/user/getUserByUserId?userId=' + paramName,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ const MyInfoView = () => {
     const getBoard = async () => {
         try {
             
-            const response = await axios.get('http://localhost:8081/api/board/getBoardByUserIdx?userId=' + paramName,
+            const response = await axios.get('/api/board/getBoardByUserIdx?userId=' + paramName,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ const MyInfoView = () => {
 
     const getRepairs = async () => {
         try {
-            const response = await axios.get('http://localhost:8081/api/repair/getRepairStatusByUserId?userId=' + paramName,
+            const response = await axios.get('/api/repair/getRepairStatusByUserId?userId=' + paramName,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ const MyInfoView = () => {
     const deleteBoard = async (boardIdx) => {
         try {
             console.log(boardIdx)
-            var res = await axios.delete('http://localhost:8081/api/board/deleteBoard?boardIdx=' + boardIdx,
+            var res = await axios.delete('/api/board/deleteBoard?boardIdx=' + boardIdx,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ const MyInfoView = () => {
 
     const addAdmin = async () => {
         try {
-            var res = await axios.post('http://localhost:8081/api/user/addRole',
+            var res = await axios.post('/api/user/addRole',
                 {
                     "userId": paramName,
                     "role": "Admin"

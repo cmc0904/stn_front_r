@@ -56,7 +56,7 @@ const RepairReception = () => {
     const getAllRepairStatus = async () => {
 
         try {
-            const response = await axios.get('http://localhost:8081/api/repair/getRepairStatus',
+            const response = await axios.get('/api/repair/getRepairStatus',
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ const RepairReception = () => {
     // 접수 화면에 뜰 관리자 목록
     const getAllAdmin = async () => {
         try {
-            const response = await axios.get('http://localhost:8081/api/user/getAllAdmins',
+            const response = await axios.get('/api/user/getAllAdmins',
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ const RepairReception = () => {
     // 접수
     const registerRepair = async (reId) => {
         try {
-            await axios.post('http://localhost:8081/api/repair/processrepair',
+            await axios.post('/api/repair/processrepair',
                 {
                     repairIdx: reId,
                     adminId: selectedAdmin,
@@ -118,7 +118,7 @@ const RepairReception = () => {
     // 처리 완료
     const complete = async (reId) => {
         try {
-            await axios.post('http://localhost:8081/api/repair/completeRepair',
+            await axios.post('/api/repair/completeRepair',
                 reId,
                 {
                     headers: {
@@ -161,7 +161,7 @@ const RepairReception = () => {
         if(!validation(idx)) return;
 
         try {
-            const res = await axios.put('http://localhost:8081/api/repair/editAdminIdVisitDate',
+            const res = await axios.put('/api/repair/editAdminIdVisitDate',
                 {
                     idx: reId,
                     adminId: selectedAdmin,
@@ -193,7 +193,7 @@ const RepairReception = () => {
         console.log(type)   
         setSelectedMode(type);
         try{
-            const response = await axios.get("http://localhost:8081/api/repair/getRepairFiltering?type="+type,
+            const response = await axios.get("/api/repair/getRepairFiltering?type="+type,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -214,7 +214,7 @@ const RepairReception = () => {
     const getsearchRepair = async (getValue) => {
         console.log(getValue);
         try{
-            const response = await axios.get(`http://localhost:8081/api/repair/searchRepair?userId=${getValue}&type=${selectedMode}`,
+            const response = await axios.get(`/api/repair/searchRepair?userId=${getValue}&type=${selectedMode}`,
             {
                 headers: {
                     'Content-Type': 'application/json',

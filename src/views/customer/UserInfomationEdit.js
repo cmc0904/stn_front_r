@@ -47,7 +47,7 @@ const MyInfoEdit = () => {
 
   const getUserInformation = async () => {
     try {
-      const response = await axios.get('http://localhost:8081/api/user/getUserByUserId',
+      const response = await axios.get('/api/user/getUserByUserId',
         {
           headers: {
             'Content-Type': 'application/json',
@@ -196,7 +196,7 @@ const MyInfoEdit = () => {
         return;
       }
       
-      const response = await axios.put('http://localhost:8081/api/user/updateUser',
+      const response = await axios.put('/api/user/updateUser',
         {
           userId: input.userId,
           userPassword: input.password,

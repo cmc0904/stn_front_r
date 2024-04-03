@@ -21,6 +21,7 @@ const BoardWriteView = () => {
     const [errors, setErrors] = useState({
         title: '',
         content: '',
+        file: '',
     });
 
     const validation = () => {
@@ -47,6 +48,22 @@ const BoardWriteView = () => {
             return false;
         }
 
+        if (file.length > 5) {
+            setErrors({ ...errors, file: "한 게시글 당 5개 까지만 파일을 첨부 할 수 있습니다." });
+            return false;
+        }
+
+
+        if (file.length > 0) {
+            for (var fl of file) {
+                console.log(fl)
+                if(fl.name.length > 10) {
+                    setErrors({ ...errors, file: "파일 이름은 10글자를 넘을 수 없습니다." });
+                    return false;
+                }
+            }
+        }
+
         return true;
 
     }
@@ -66,7 +83,7 @@ const BoardWriteView = () => {
             formData.append("content", content);
             formData.append("isPrivate", isPrivate);
 
-            const response = await axios.post('http://localhost:8081/api/board/postBoard', formData,
+            const response = await axios.post('/api/board/postBoard', formData,
                 {
                     headers: {
                         'Content-Type': 'multipart/form-data; charset=utf-8',
@@ -243,6 +260,8 @@ const BoardWriteView = () => {
                         </table>
                         <div className="mb-3" style={{ "marginTop": "15px" }}>
                             <input className="form-control" type="file" id="formFileMultiple" onChange={handleChangeFile} multiple />
+                            <span className="invalid-feedback show" style={{'fontSize' : "13px", "textAlign":"left"}}>{errors.file}</span>
+
                         </div>
 
                         <div className="bt_wrap">

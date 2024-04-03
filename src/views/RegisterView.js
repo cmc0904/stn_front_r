@@ -145,7 +145,7 @@ const Register = () => {
         return;
       }
       setIsCheckedDuplicate(true);
-      const response = await axios.get('http://localhost:8081/api/user/checkDuplicate?userId=' + input.userId);
+      const response = await axios.get('/api/user/checkDuplicate?userId=' + input.userId);
 
       console.log(response.data)
 
@@ -193,7 +193,7 @@ const Register = () => {
         return;
       }
   
-      const response = await axios.post('http://localhost:8081/api/user/register', {
+      const response = await axios.post('/api/user/register', {
         userId: input.userId,
         userPassword: input.password,
         userName: input.name,

@@ -20,7 +20,7 @@ const Login = () => {
 
 
         try {
-            const response = await axios.post('http://localhost:8081/api/user/login', {
+            const response = await axios.post('/api/user/login', {
                 userId: username,
                 password: password
             }, {
@@ -58,7 +58,7 @@ const Login = () => {
     const setLoginUserInformation = async () => {
 
         try {
-            const response = await axios.get('http://localhost:8081/api/user/getUserByUserId', {
+            const response = await axios.get('/api/user/getUserByUserId', {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
