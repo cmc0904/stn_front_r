@@ -3,6 +3,7 @@ import '../style/auth/LoginRegister.css';
 import Header from '../component/Header';
 import { Link, useNavigate  } from 'react-router-dom';
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -10,6 +11,7 @@ const Login = () => {
     const [NOTFOUND, setNOTFOUNT] = useState(false);
     const navigate = useNavigate();
 
+    const [cookies, setCookie, removeCookie] = useCookies(['jwt_token']);
 
     const handleLogin = async () => {
 
@@ -36,7 +38,7 @@ const Login = () => {
                 return;
             }
 
-
+            //setCookie('jwt_token', response.data.data.token);
             window.localStorage.setItem("jwt_token", response.data.data.token);
             setLoginUserInformation()
 

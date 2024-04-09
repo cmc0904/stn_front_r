@@ -166,8 +166,8 @@ const MemberList = () => {
                             searchUser(e.target.value);  // 검색 함수를 호출합니다.
                         }} placeholder={findMode === 'userId' ? '아이디를 입력해주세요' : '이름을 입력해주세요'} style={{ "flex": 1 }} />
 
-                        <button onClick={() => changeFinedMode("userId")}>아이디로 검색</button>
-                        <button onClick={() => changeFinedMode("name")}>이름으로 검색</button>
+                        <button style={findMode === 'userId' ? {backgroundColor:'rgb(140, 230, 30)'} : {}} onClick={() => changeFinedMode("userId")}>아이디로 검색</button>
+                        <button style={findMode === 'name' ? {backgroundColor:'rgb(140, 230, 30)'} : {}} onClick={() => changeFinedMode("name")}>이름으로 검색</button>
                     </div>
                     <MemberListTable showData={showData}></MemberListTable>
                     <div className='page_selector'>

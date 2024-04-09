@@ -240,6 +240,9 @@ a{
 	border: none;
 	line-height: auto;
 }
-.mode-btn.pressed {
-    background-color: #dddddd;
+
+.mode-btn.selected{
+    background-color:rgb(140, 230, 30);
 }
+
+
