@@ -16,7 +16,7 @@ const Board = () => {
 
     const { type } = useParams();
 
-
+    const [isSelected, setSelected] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     const [pageNumber, setPageNumber] = useState([]);
     const [showData, setShowData] = useState([]);
@@ -27,10 +27,11 @@ const Board = () => {
     useEffect(() => {
         getPageNumbers();
         getDataByPageNumber(1);
+        
     }, []);
 
 
-
+    
 
     const getPageNumbers = async () => {
         try {
@@ -143,6 +144,10 @@ const Board = () => {
 
             getBoardByDate();
         }
+    };
+
+    const activeStyle = {
+        color : '#289951',
     };
 
 
@@ -269,13 +274,13 @@ const Board = () => {
                                     <button type="button" className="btn btn-dark" onClick={search}>검색</button>
                                 </div>
                                 <div className='mode-btn-wrap'>
-                                    <button className='mode-btn' type='button' onClick={() => setSearchMode("title")}>
+                                    <button className={searchMode === "title" ? 'mode-btn selected' : 'mode-btn'} type='button' onClick={() => setSearchMode("title")}>
                                         제목으로 검색
                                     </button>
-                                    <button className='mode-btn' type='button' onClick={() => setSearchMode("writerId")}>
+                                    <button className={searchMode === "writerId" ? 'mode-btn selected' : 'mode-btn'} type='button' onClick={() => setSearchMode("writerId")}>
                                         글쓴이로 검색
                                     </button>
-                                    <button className='mode-btn' type='button' onClick={() => setSearchMode("dt")}>
+                                    <button className={searchMode === "dt" ? 'mode-btn selected' : 'mode-btn'} type='button' onClick={() => setSearchMode("dt")}>
                                         날짜로 검색
                                     </button>
                                 </div>
