@@ -318,12 +318,6 @@ const RepairReception = () => {
 
                     </div>
                     
-                   
-
-
-                   
-
-                    
                     {repairs.map((item, index) => (
                         <div className="collapse-box" key={index}>
                             <div className="information-btn-container">

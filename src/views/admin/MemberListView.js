@@ -16,22 +16,39 @@ const MemberList = () => {
 
     const [pageNumber, setPageNumber] = useState([]);
     const [showData, setShowData] = useState([]);
-    const [findMode, setFindMode] = useState('userId');
+    const [findMode, setFindMode] = useState('');
+    const [content, setContent] = useState('');
+
     const [currentPage, setCurrentPage] = useState(1);
 
-
-
+    
     useEffect(() => {
-        getDataByPageNumber(1)
-        getPageNumbers();
-    }, []);
+        searchUser()
+    }, [content, currentPage]);
+
+
+    const handleSearchInput = (e) => {
+        setContent(e.target.value);
+    }
+
+    const handlePageNation = async (item) => {
+        setCurrentPage(item)
+    };
+
+    const changeFinedMode = (e) => {
+        setFindMode(e);
+    }
 
 
 
-    const getPageNumbers = async () => {
-
+    const searchUser = async () => {
         try {
-            const response = await axios.get('/api/user/pageNumbers?type=users',
+
+
+            console.log(currentPage, content, findMode)
+
+    
+            const response = await axios.get(`/api/user/search?type=${findMode}&content=${content}&currentPage=${currentPage}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -40,61 +57,12 @@ const MemberList = () => {
                 }
             );
 
-            setPageNumber(response.data)
-        } catch (e) {
-            console.log("MemberList" + e)
-        }
-
-
-    };
-
-
-    const getDataByPageNumber = async (item) => {
-        try {
-            setCurrentPage(item)
-            const response = await axios.get('/api/user/getUsersByPage?page=' + item,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
+            console.log(response.data)
     
     
-            setShowData(response.data);
-            
-        } catch (e) {
-            console.log(e);
-        }
+            setShowData(response.data.data);
+            setPageNumber(Array.from({ length: Math.ceil(response.data.totalData / 5) }, (_, index) => index + 1));
 
-    };
-
-    const changeFinedMode = async (item) => {
-        setFindMode(item);
-    };
-
-    const searchUser = async (content) => {
-        try {
-            
-            console.log(content)
-            console.log(content === '')
-            if (content === '') {
-                getDataByPageNumber(1)
-                return
-            }
-    
-            const response = await axios.get(`/api/user/search?type=${findMode}&content=${content}`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
-    
-    
-            setShowData(response.data);
         } catch (e) {
             console.log(e);            
         }
@@ -162,9 +130,7 @@ const MemberList = () => {
                 <div className="page-title">회원관리</div>
                 <div className='container'>
                     <div className='search'>
-                        <input type='text' onChange={(e) => {
-                            searchUser(e.target.value);  // 검색 함수를 호출합니다.
-                        }} placeholder={findMode === 'userId' ? '아이디를 입력해주세요' : '이름을 입력해주세요'} style={{ "flex": 1 }} />
+                        <input type='text' onChange={(e) => handleSearchInput(e)} placeholder={findMode === 'userId' ? '아이디를 입력해주세요' : findMode === 'name' ? '이름을 입력 해주세요' : "검색 모드를 선택 해주세요."} style={{ "flex": 1 }} />
 
                         <button onClick={() => changeFinedMode("userId")}>아이디로 검색</button>
                         <button onClick={() => changeFinedMode("name")}>이름으로 검색</button>
@@ -180,7 +146,7 @@ const MemberList = () => {
                                         </li>
                                     ) : (
                                         <li key={index} className="page-item">
-                                            <a href='#!' className="page-link" onClick={() => getDataByPageNumber(item)}>{item}</a>
+                                            <a href='#!' className="page-link" onClick={() => {handlePageNation(item);}}>{item}</a>
                                         </li>
                                     )
                                 ))}
