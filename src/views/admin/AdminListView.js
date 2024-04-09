@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap 스타일 import
 
 
 const AdminList = () => {
+
     const [admins, setAdmins] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageNumber, setPageNumber] = useState([]);
