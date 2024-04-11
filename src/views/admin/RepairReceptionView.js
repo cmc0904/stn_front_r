@@ -239,62 +239,7 @@ const RepairReception = () => {
 
     return (
         <>
-            <Header content="Management" />
-            <SideBar setting={
-                {
-                    "logindUserName": window.localStorage.getItem("name"),
-                    "allMenus": [
-                        {
-                            "categoryName": "회원 관리",
-                            "subMenus": [
-                                {
-                                    "subMenuName": "사용자",
-                                    "link": "/manager/members",
-                                    "isSelected": false
-                                },
-                                {
-                                    "subMenuName": "관리자",
-                                    "link": "/manager/managers",
-                                    "isSelected": false
-                                }
-                            ]
-                        },
-                        {
-                            "categoryName": "고객센터",
-                            "subMenus": [
-                                {
-                                    "subMenuName": "A/S접수",
-                                    "link": "/manager/repaireprocess",
-                                    "isSelected": true
-                                },
-                                {
-                                    "subMenuName": "게시판",
-                                    "link": "/manager/board",
-                                    "isSelected": false
-                                },
-                                {
-                                    "subMenuName": "사용자 페이지 전환",
-                                    "link": "/customer/board",
-                                    "isSelected": false
-                                }
-                            ]
-                        },
-                        {
-                            "categoryName": "콘텐츠 관리",
-                            "subMenus": [
-                                {
-                                    "subMenuName": "자주 묻는 질문",
-                                    "link": "/manager/asklist",
-                                    "isSelected": false
-                                }
-                            ]
-                        }
 
-                    ]
-
-
-                }}
-            />  
             <section id="main">
                 <div className="page-title">A/S 접수 및 처리</div>
                 <div className="container-md">
@@ -317,12 +262,6 @@ const RepairReception = () => {
                         </div>
 
                     </div>
-                    
-                   
-
-
-                   
-
                     
                     {repairs.map((item, index) => (
                         <div className="collapse-box" key={index}>
