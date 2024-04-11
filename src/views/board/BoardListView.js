@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-import Header from '../../component/Header';
-import SideBar from '../../component/SideBar';
+
 
 import '../../style/customer/Board.css';
 import BoardList from '../../component/board/BoardList';
@@ -16,7 +15,6 @@ const Board = () => {
 
     const { type } = useParams();
 
-    const [isSelected, setSelected] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     const [pageNumber, setPageNumber] = useState([]);
     const [showData, setShowData] = useState([]);

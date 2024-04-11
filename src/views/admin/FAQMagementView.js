@@ -1,5 +1,4 @@
-import Header from '../../component/Header.js';
-import SideBar from '../../component/SideBar';
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Modal, Button, Form } from 'react-bootstrap';

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import Header from '../../component/Header.js';
-import SideBar from '../../component/SideBar';
+
 import '../../style/customer/AsView.css';
 
 

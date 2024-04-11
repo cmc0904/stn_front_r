@@ -146,14 +146,14 @@ function App() {
       )
     } else if(location.pathname === "/") {
       setHeaderContent("Login")
-    } else if(location.pathname === "/regiset") {
+    } else if(location.pathname === "/register") {
       setHeaderContent("Register")
     }
   }, [location])
 
   return (
     <>
-      <Header content={location.pathname.includes("manager") ? "Management" : "고객서비스"} />
+      <Header content={headerContent} />
       {!(location.pathname === "/" || location.pathname === "/register") && 
         <SideBar setting={setting} />
       }

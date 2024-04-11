@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../../component/Header.js';
-import SideBar from '../../component/SideBar';
+
 import MemberListTable from '../../component/member/MemberList.js';
 
 import axios from 'axios';

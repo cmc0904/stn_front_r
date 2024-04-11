@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
-import Header from '../../component/Header';
-import SideBar from '../../component/SideBar';
 import '../../style/customer/MyInfoView.css';
 
 

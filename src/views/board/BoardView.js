@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../../component/Header';
-import SideBar from '../../component/SideBar';
+
 import '../../style/customer/BoardView.css';
 
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../../component/Header.js';
-import SideBar from '../../component/SideBar.js';
+
 import '../../style/admin/repaire.css';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap 스타일 import
 

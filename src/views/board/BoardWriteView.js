@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import Header from '../../component/Header';
-import SideBar from '../../component/SideBar';
 import '../../style/customer/BoardWriteView.css';
 
 
