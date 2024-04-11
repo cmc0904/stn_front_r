@@ -258,7 +258,6 @@ const MyInfoEdit = () => {
 
   return (
     <>
-      <Header content="Register"></Header>
       <div className="my-login-page">
         <section className="h-100">
           <div className="container h-100">

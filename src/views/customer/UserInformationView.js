@@ -125,50 +125,7 @@ const MyInfoView = () => {
 
     return (
         <>
-            <Header content="고객서비스"></Header>
-            <SideBar setting={
-
-
-                {
-                    "logindUserName": window.localStorage.getItem("name"),
-                    "allMenus": [
-                        {
-                            "categoryName": "고객센터",
-                            "subMenus": [
-                                {
-                                    "subMenuName": "게시판",
-                                    "link": "/customer/board",
-                                    "isSelected": false
-                                },
-                                {
-                                    "subMenuName": "A/S접수",
-                                    "link": "/customer/as",
-                                    "isSelected": false
-                                }
-                            ]
-                        },
-                        {
-                            "categoryName": "관리",
-                            "subMenus": [
-                                {
-                                    "subMenuName": "내 정보",
-                                    "link": "/customer/myinfo",
-                                    "isSelected": true
-                                },
-                                {
-                                    "subMenuName": "자주 묻는 질문",
-                                    "link": "/customer/faq",
-                                    "isSelected": false
-                                }
-                            ]
-                        }
-
-                    ]
-
-
-                }
-            }
-            />            <section id="main">
+            <section id="main">
                 <div className="page-title">내 정보</div>
 
 

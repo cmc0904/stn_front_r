@@ -76,7 +76,6 @@ const Login = () => {
 
     return (
         <>
-        <Header content="Login"></Header>
         <div className="my-login-page">
             <section className="h-100">
                 <div className="container h-100">

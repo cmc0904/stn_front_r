@@ -25,235 +25,39 @@ const Board = () => {
 
 
     useEffect(() => {
-        getPageNumbers();
-        getDataByPageNumber(1);
+        search()
     }, []);
 
+    useEffect(() => {
+        search()
+    }, [currentPage]);
 
-
-
-    const getPageNumbers = async () => {
-        try {
-            const response = await axios.get('/api/board/pageNumbers',
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
-
-            setPageNumber(response.data);
-        } catch (e) {
-            console.log(e)
-        }
-    };
-
-    const getDataByPageNumber = async (item) => {
-        try {
-            setCurrentPage(item)
-            const response = await axios.get('/api/board/getBoardByPageNumber?page=' + item,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
-
-            setShowData(response.data)
-
-            console.log(response.data)
-        } catch (e) {
-            console.log(e)
-        }
-    };
-
-    // 제목을 통해서 검색
-    const getBoardByTitle = async () => {
-        try {
-
-            const response = await axios.get('/api/board/getBoardByTitle?content=' + searchInput,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
-            setShowData(response.data);
-
-        } catch (e) {
-            setShowData([])
-
-        }
-    };
-
-    // 글쓴이로 검색
-    const getBoardByWriterId = async () => {
-        try {
-
-            const response = await axios.get('/api/board/getBoardByUserIdx?userId=' + searchInput,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
-            setShowData(response.data);
-
-        } catch (e) {
-            setShowData([])
-        }
-    };
-
-    // 날짜로 검색
-    const getBoardByDate = async () => {
-        try {
-
-            const response = await axios.get('/api/board/getBoardByDate?date=' + searchInput,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
-
-            setShowData(response.data);
-        } catch (e) {
-            setShowData([])
-        }
-    };
 
     // 검색 
-    const search = () => {
-        if (searchInput.trim().length === 0) return;
+    const search = async () => {
+        try {
 
-        if (searchMode === "title") {
-            getBoardByTitle();
-        } else if (searchMode === "writerId") {
-            getBoardByWriterId();
-        } else if (searchMode === "dt") {
+            const response = await axios.get(`/api/board/getAllBoard?type=${searchMode}&content=${searchInput}&currentPage=${currentPage}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
+                }
+            );
+            
 
-            if (!(new Date(searchInput) instanceof Date && !isNaN(new Date(searchInput)))) {
-                return;
-            }
-
-            getBoardByDate();
+            setShowData(response.data.data);
+            setPageNumber(Array.from({ length: Math.ceil(response.data.totalData / 5) }, (_, index) => index + 1));
+            
+        } catch (e) {
+            setShowData([])
         }
     };
 
 
     return (
         <>
-            {
-                type === "manager" &&
-                <><Header content="Management"></Header><SideBar setting={{
-                    "logindUserName": window.localStorage.getItem("name"),
-                    "allMenus": [
-                        {
-                            "categoryName": "회원 관리",
-                            "subMenus": [
-                                {
-                                    "subMenuName": "사용자",
-                                    "link": "/manager/members",
-                                    "isSelected": false
-                                },
-                                {
-                                    "subMenuName": "관리자",
-                                    "link": "/manager/managers",
-                                    "isSelected": false
-                                }
-                            ]
-                        },
-                        {
-                            "categoryName": "고객센터",
-                            "subMenus": [
-                                {
-                                    "subMenuName": "A/S접수",
-                                    "link": "/manager/repaireprocess",
-                                    "isSelected": false
-                                },
-                                {
-                                    "subMenuName": "게시판",
-                                    "link": "/manager/board",
-                                    "isSelected": true
-                                },
-                                {
-                                    "subMenuName": "사용자 페이지 전환",
-                                    "link": "/customer/board",
-                                    "isSelected": false
-                                }
-                            ]
-                        },
-                        {
-                            "categoryName": "콘텐츠 관리",
-                            "subMenus": [
-                                {
-                                    "subMenuName": "자주 묻는 질문",
-                                    "link": "/manager/asklist",
-                                    "isSelected": false
-                                }
-                            ]
-                        }
-                    ]
-                }} /></>
-
-            }
-
-            {
-                type === "customer" &&
-                <>
-                    <Header content="고객서비스"></Header>
-                    <SideBar setting={
-
-
-                        {
-                            "logindUserName": "최문찬",
-                            "allMenus": [
-                                {
-                                    "categoryName": "고객센터",
-                                    "subMenus": [
-                                        {
-                                            "subMenuName": "게시판",
-                                            "link": "/customer/board",
-                                            "isSelected": true
-                                        },
-                                        {
-                                            "subMenuName": "A/S접수",
-                                            "link": "/customer/as",
-                                            "isSelected": false
-                                        }
-                                    ]
-                                },
-                                {
-                                    "categoryName": "관리",
-                                    "subMenus": [
-                                        {
-                                            "subMenuName": "내 정보",
-                                            "link": "/customer/myinfo",
-                                            "isSelected": false
-                                        },
-                                        {
-                                            "subMenuName": "자주 묻는 질문",
-                                            "link": "/customer/faq",
-                                            "isSelected": false
-                                        }
-                                    ]
-                                }
-
-                            ]
-
-
-                        }
-                    }
-                    />
-                </>
-
-            }
-
             <section id="main">
                 <div className="board_wrap">
                     <div className='wrap'>
@@ -275,7 +79,7 @@ const Board = () => {
                                     <button className='mode-btn' type='button' onClick={() => setSearchMode("writerId")}>
                                         글쓴이로 검색
                                     </button>
-                                    <button className='mode-btn' type='button' onClick={() => setSearchMode("dt")}>
+                                    <button className='mode-btn' type='button' onClick={() => setSearchMode("date")}>
                                         날짜로 검색
                                     </button>
                                 </div>
@@ -290,11 +94,11 @@ const Board = () => {
                                 {pageNumber.map((item, index) => (
                                     currentPage === item ? (
                                         <li key={index} className="page-item active" aria-current="page">
-                                            <span className="page-link" onClick={() => getDataByPageNumber(item)}>{item}</span>
+                                            <span className="page-link" onClick={() => setCurrentPage(item)}>{item}</span>
                                         </li>
                                     ) : (
                                         <li key={index} className="page-item">
-                                            <span className="page-link" onClick={() => getDataByPageNumber(item)}>{item}</span>
+                                            <span className="page-link" onClick={() => setCurrentPage(item)}>{item}</span>
                                         </li>
                                     )
                                 ))}

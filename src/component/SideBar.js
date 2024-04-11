@@ -25,7 +25,7 @@ class SideBar extends Component {
                 </div>
 
                 <div className="nav-bar">
-                    {setting.allMenus.map((menu, index) => (
+                    {setting.allMenus && setting.allMenus.map((menu, index) => (
                         <div className="select-item" key={index}>
                             <div className="category-name">{menu.categoryName}</div>
                             <div className="items">
