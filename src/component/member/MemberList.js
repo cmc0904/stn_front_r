@@ -7,7 +7,7 @@ import '../../style/customer/Board.css';
 import { Link } from 'react-router-dom';
 
 
-const MemberListTable = (type) => {
+const MemberListTable = ({showData}) => {
     
 
     return (
@@ -23,7 +23,7 @@ const MemberListTable = (type) => {
                 </tr>
             </thead>
             <tbody>
-                {type.showData.map((item, index) => (
+                {showData.map((item, index) => (
                     <tr>
                         <th><Link to={`/manager/user/${item.userId}`}>{item.userId}</Link></th>
                         <th>{item.userName}</th>

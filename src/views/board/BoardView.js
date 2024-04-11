@@ -24,6 +24,7 @@ const AdminBoardView = () => {
         getComments();
         getBoardContent();
         getFileName();
+        read()
     }, []);
 
     const getBoardContent = async () => {
@@ -38,6 +39,24 @@ const AdminBoardView = () => {
             );
 
             setContent(response.data)
+        } catch (e) {
+            console.log(e)
+        }
+    };
+
+    const read = async () => {
+        try {
+            await axios.put('/api/board/readBoard',
+                {
+                    boardIdx: paramName
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
+                    }
+                }
+            );
         } catch (e) {
             console.log(e)
         }

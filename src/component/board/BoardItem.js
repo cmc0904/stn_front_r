@@ -14,12 +14,13 @@ const BoadItem = ({item}) => {
     const { type } = useParams();
 
     return (
-        <div>
-            <div className="num">{item.boardIdx}</div>
-            <div className="b_title"><Link to={`/${type}/board/boardview/${item.boardIdx}`}>{item.boardTitle}</Link></div>
-            <div className="writer">{item.writerId}</div>
-            <div className="date">{new Date(item.createAt).toLocaleDateString()}</div>
-        </div>
+        <tr style={{"height" : "45px", "borderBottom" : "1px solid #ddd"}}>
+            <td className="key">{item.boardIdx}</td>
+            <td className=""><Link to={`/${type}/board/boardview/${item.boardIdx}`}>{item.boardTitle}</Link></td>
+            <td className="" style={{"textAlign" : "center", "width" : "20px"}}>{item.writerId}</td>
+            <td className="" style={{"textAlign" : "center"}}>{item.createAt.split(" ")[0]}</td>
+            <td className=""style={{"textAlign" : "center"}}>{item.views}</td>
+        </tr>
     );
 
 };

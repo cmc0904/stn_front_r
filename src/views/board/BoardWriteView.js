@@ -81,6 +81,8 @@ const BoardWriteView = () => {
             formData.append("content", content);
             formData.append("isPrivate", isPrivate);
 
+            console.log(formData.keys())
+
             const response = await axios.post('/api/board/postBoard', formData,
                 {
                     headers: {

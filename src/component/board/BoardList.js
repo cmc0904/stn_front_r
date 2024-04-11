@@ -4,7 +4,7 @@ import '../../style/customer/Board.css';
 
 import BoadItem from './BoardItem';
 
-const BoardList = (type) => {
+const BoardList = ({showData}) => {
 
     
 
@@ -12,7 +12,7 @@ const BoardList = (type) => {
     return (
         <>
            
-            <div className="board_list_wrap">
+            {/* <div className="board_list_wrap">
                 <div className="board_list">
                     <div className="top">
                         <div className="num">번호</div>
@@ -26,8 +26,25 @@ const BoardList = (type) => {
                     ))}
 
                 </div>
+            </div> */}
 
-            </div>
+            <table className='board_tbl'>
+                <thead>
+                    <tr className='th_tr'>
+                        <th className='key'>번호</th>
+                        <th>제목</th>
+                        <th>글쓴이</th>
+                        <th>작성일자</th>
+                        <th>조회수</th>
+                    </tr>
+                </thead>
+                    {showData.map((item, index) => (
+                        <BoadItem item={item}></BoadItem>
+                    ))}
+                <tbody>
+
+                </tbody>
+            </table>
 
         </>
 

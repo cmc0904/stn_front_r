@@ -50,6 +50,8 @@ const Board = () => {
             
 
             setShowData(response.data.data);
+
+            console.log(response.data.data)
             setPageNumber(Array.from({ length: Math.ceil(response.data.totalData / 5) }, (_, index) => index + 1));
             
         } catch (e) {
