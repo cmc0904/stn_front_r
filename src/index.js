@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-//import './style/index.css';
+import React from "react";
+import ReactDOM from "react-dom/client";
 import App from './App';
+
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom'; //사용을 위해 import 해주고
 

@@ -258,6 +258,7 @@ const MyInfoEdit = () => {
 
   return (
     <>
+
       <div className="my-login-page">
         <section className="h-100">
           <div className="container h-100">
@@ -275,7 +276,7 @@ const MyInfoEdit = () => {
                               className="form-control"
                               name="id"
                               value={input.userId}
-                              //onChange={(e) => setInput({ ...input, userId: e.target.value })}
+                             
                               
                               autoFocus
 
@@ -296,7 +297,7 @@ const MyInfoEdit = () => {
                           className="form-control"
                           name="password"
                           value={input.password}
-                          onChange={(e) => setInput({ ...input, password: e.target.value })}
+                          
 
                           data-eye
 
@@ -316,6 +317,7 @@ const MyInfoEdit = () => {
                           name="name"
                           value={input.name}
                           onChange={(e) => setInput({ ...input, name: e.target.value })}
+                          maxLength={8}
 
                         />
 
@@ -333,6 +335,7 @@ const MyInfoEdit = () => {
                           name="email"
                           value={input.email}
                           onChange={(e) => setInput({ ...input, email: e.target.value })}
+                          maxLength={20}
 
                         />
 
@@ -350,6 +353,7 @@ const MyInfoEdit = () => {
                           name="phone"
                           value={input.phone}
                           onChange={(e) => setInput({ ...input, phone: e.target.value })}
+                          maxLength={11}
 
                         />
                         <div className="invalid-feedback show">{errors.phone}</div>
@@ -405,6 +409,7 @@ const MyInfoEdit = () => {
                             name="address"
                             value={input.address}
                             onChange={(e) => setInput({ ...input, address: e.target.value })}
+                            maxLength={20}
                             disabled
                           />
                           <input type="button" onClick={() => setModalState(true)} className="btn btn-outline-primary" value="주소" />

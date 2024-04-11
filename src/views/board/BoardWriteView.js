@@ -124,7 +124,7 @@ const BoardWriteView = () => {
                                 <tr style={{"borderBottom" : "1px dashed #ddd"}}>
                                     <th>제목</th>
                                     <td>
-                                        <input type="text" placeholder="제목을 입력해주세요." value={title} onChange={(e) => setTitle(e.target.value)} />
+                                        <input maxLength={20} type="text" placeholder="제목을 입력해주세요." value={title} onChange={(e) => setTitle(e.target.value)} />
                                         <span className="invalid-feedback show" style={{'fontSize' : "13px"}}>{errors.title}</span>
                                     </td>
                                 </tr>
@@ -140,7 +140,7 @@ const BoardWriteView = () => {
 
                                 <tr>
                                     <th className="content-box" colSpan="2">
-                                        <textarea placeholder="내용을 입력 해주세요." value={content} onChange={(e) => setContent(e.target.value)}></textarea>
+                                        <textarea maxLength={100} placeholder="내용을 입력 해주세요." value={content} onChange={(e) => setContent(e.target.value)}></textarea>
                                         <span className="invalid-feedback show" style={{'fontSize' : "13px", "textAlign":"left"}}>{errors.content}</span>
 
                                     </th>

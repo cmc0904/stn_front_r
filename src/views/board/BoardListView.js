@@ -16,7 +16,7 @@ const Board = () => {
 
     const { type } = useParams();
 
-
+    const [isSelected, setSelected] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     const [pageNumber, setPageNumber] = useState([]);
     const [showData, setShowData] = useState([]);
@@ -25,7 +25,9 @@ const Board = () => {
 
 
     useEffect(() => {
+
         search()
+
     }, []);
 
     useEffect(() => {
@@ -33,8 +35,10 @@ const Board = () => {
     }, [currentPage]);
 
 
-    // 검색 
+
+    // 날짜로 검색
     const search = async () => {
+
         try {
 
             const response = await axios.get(`/api/board/getAllBoard?type=${searchMode}&content=${searchInput}&currentPage=${currentPage}`,
@@ -73,13 +77,15 @@ const Board = () => {
                                     <button type="button" className="btn btn-dark" onClick={search}>검색</button>
                                 </div>
                                 <div className='mode-btn-wrap'>
-                                    <button className='mode-btn' type='button' onClick={() => setSearchMode("title")}>
+                                    <button className={searchMode === "title" ? 'mode-btn selected' : 'mode-btn'} type='button' onClick={() => setSearchMode("title")}>
                                         제목으로 검색
                                     </button>
-                                    <button className='mode-btn' type='button' onClick={() => setSearchMode("writerId")}>
+                                    <button className={searchMode === "writerId" ? 'mode-btn selected' : 'mode-btn'} type='button' onClick={() => setSearchMode("writerId")}>
                                         글쓴이로 검색
                                     </button>
-                                    <button className='mode-btn' type='button' onClick={() => setSearchMode("date")}>
+
+                                    <button className={searchMode === "dt" ? 'mode-btn selected' : 'mode-btn'} type='button' onClick={() => setSearchMode("date")}>
+
                                         날짜로 검색
                                     </button>
                                 </div>

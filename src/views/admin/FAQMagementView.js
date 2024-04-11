@@ -220,14 +220,14 @@ const FAQMagementView = () => {
                         <Form>
                             <Form.Group className="mb-3">
                                 <Form.Label>질문</Form.Label>
-                                <Form.Control type="text" value={question} onChange={(e) => setQuestion(e.target.value)} required />
+                                <Form.Control type="text" value={question} onChange={(e) => setQuestion(e.target.value)} maxLength={50} required />
                                 <div className='invaild-feedback show'>
                                     {errors.question}
                                 </div>
                             </Form.Group>
                             <Form.Group className="mb-3">
                                 <Form.Label>답변</Form.Label>
-                                <Form.Control as="textarea" rows={3} value={answer} onChange={(e) => setAnswer(e.target.value)} required />
+                                <Form.Control as="textarea" rows={3} value={answer} onChange={(e) => setAnswer(e.target.value)} maxLength={100} required />
                                 <div className='invaild-feedback show'>
                                     {errors.answer}
                                 </div>                            

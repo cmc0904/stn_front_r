@@ -258,7 +258,7 @@ const Register = () => {
                               onChange={(e) => setInput({ ...input, userId: e.target.value })}
                               style={{ "border": "1px solid lightgreen" }}
                               autoFocus
-
+                              maxLength={10}
                               disabled
                             />
                           }
@@ -271,7 +271,7 @@ const Register = () => {
                               value={input.userId}
                               onChange={(e) => setInput({ ...input, userId: e.target.value })}
                               autoFocus
-
+                              maxLength={10}
                             />
                           }
                           <input type="button" onClick={checkDuplicateUser} className="btn btn-outline-primary" value="중복확인" />
@@ -291,7 +291,7 @@ const Register = () => {
                           name="password"
                           value={input.password}
                           onChange={(e) => setInput({ ...input, password: e.target.value })}
-
+                          maxLength={10}
                           data-eye
                         />
 
@@ -308,6 +308,7 @@ const Register = () => {
                           name="name"
                           value={input.name}
                           onChange={(e) => setInput({ ...input, name: e.target.value })}
+                          maxLength={8}
 
                         />
 
@@ -325,6 +326,7 @@ const Register = () => {
                           name="email"
                           value={input.email}
                           onChange={(e) => setInput({ ...input, email: e.target.value })}
+                          maxLength={20}
 
                         />
 
@@ -342,7 +344,7 @@ const Register = () => {
                           name="phone"
                           value={input.phone}
                           onChange={(e) => setInput({ ...input, phone: e.target.value })}
-
+                          maxLength={11}
                         />
                         <div className="invalid-feedback show">{errors.phone}</div>
 
@@ -403,6 +405,7 @@ const Register = () => {
                             name="address"
                             value={input.address}
                             onChange={(e) => setInput({ ...input, address: e.target.value })}
+                            maxLength={60}
                             disabled
                           />
                           <input type="button" onClick={() => setModalState(true)} className="btn btn-outline-primary" value="주소" />
