@@ -82,7 +82,7 @@ const BoardWriteView = () => {
             formData.append("isPrivate", isPrivate);
 
             console.log(formData.keys())
-
+                                 
             const response = await axios.post('/api/board/postBoard', formData,
                 {
                     headers: {
@@ -91,7 +91,7 @@ const BoardWriteView = () => {
                     }
                 }
             );
-
+            
 
             if (response.data.result === "ADD_BOARD_COMPLETE") {
                 navigate(`/${type}/board`);

@@ -107,7 +107,7 @@ const MemberListTable = ({ item, index, admins, setcheckChange }) => {
         try {
             const res = await axios.put('/api/repair/editAdminIdVisitDate',
                 {
-                    idx: reId,
+                    repairResponseIdx: reId,
                     adminId: selectedAdmin,
                     visitDate: meetingTime
                 },

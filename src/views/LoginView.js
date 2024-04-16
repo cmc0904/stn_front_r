@@ -3,6 +3,8 @@ import '../style/auth/LoginRegister.css';
 import { Link, useNavigate  } from 'react-router-dom';
 import axios from 'axios';
 
+
+
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -36,9 +38,11 @@ const Login = () => {
                 return;
             }
 
-            //setCookie('jwt_token', response.data.data.token);
+
             window.localStorage.setItem("jwt_token", response.data.data.token);
             setLoginUserInformation()
+
+            console.log(response.data)
 
             
             if (response.data.data.roles.includes("Admin")) {
@@ -64,7 +68,7 @@ const Login = () => {
                     'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
                 }
             });
-            console.log(response.data.result.userName)
+
             window.localStorage.setItem("name", response.data.result.userName);
             window.localStorage.setItem("userId", response.data.result.userId);
 

@@ -169,10 +169,8 @@ const AdminBoardView = () => {
             <section id="main">
                 <div className="board_wrap">
 
-                    <div className="board_title">
-                        <strong>기타문의</strong>
-                        <p>문의사항을 입력해주세요</p>
-                    </div>
+                    <div style={{"marginBottom" : "45px"}}></div>
+
 
 
                     <table className="board-container">

@@ -73,7 +73,7 @@ const Board = () => {
                         <div className="search-container">
                             <div>
                                 <div>
-                                    <input type='text' placeholder={searchMode === "title" ? "제목을 입력 해주세요." : searchMode === "writerId" ? "아이디를 정확하게 입력해주세요." : searchMode === "dt" && "날짜를 입력해주세요. 예)2024-03-27"} value={searchInput} onChange={(e) => setSearchInput(e.target.value)} />
+                                    <input type='text' placeholder={searchMode === "title" ? "제목을 입력 해주세요." : searchMode === "writerId" ? "아이디를 정확하게 입력해주세요." : searchMode === "date" && "날짜를 입력해주세요. 예)2024-03-27"} value={searchInput} onChange={(e) => setSearchInput(e.target.value)} />
                                     <button type="button" className="btn btn-dark" onClick={search}>검색</button>
                                 </div>
                                 <div className='mode-btn-wrap'>
@@ -84,8 +84,7 @@ const Board = () => {
                                         글쓴이로 검색
                                     </button>
 
-                                    <button className={searchMode === "dt" ? 'mode-btn selected' : 'mode-btn'} type='button' onClick={() => setSearchMode("date")}>
-
+                                    <button className={searchMode === "date" ? 'mode-btn selected' : 'mode-btn'} type='button' onClick={() => setSearchMode("date")}>
                                         날짜로 검색
                                     </button>
                                 </div>
