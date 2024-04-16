@@ -14,12 +14,7 @@ const ProtectedRoute = () => {
         const validationJWT = async () => {
             console.log(isAuthenticated)
             try {
-                const res = await axios.get('/api/user/checkVaildJWT', {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + isAuthenticated,
-                    }
-                });
+                const res = await axios.get('/api/user/checkVaildJWT');
                 console.log(res.data.results)
                 setIsVaild(res.data.results === "JWT_CHECKED");
             } catch (error) {

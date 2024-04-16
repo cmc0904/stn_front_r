@@ -44,15 +44,10 @@ const AsView = () => {
             if(!validation()) return;
     
     
-            const res =  await axios.post('/api/repair/registrationrepair', {
-                problemTitle: title,
-                problemComment: content
-            },
+            const res =  await axios.post('/api/repair/registrationrepair', 
                 {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
+                    problemTitle: title,
+                    problemComment: content
                 }
             );
 

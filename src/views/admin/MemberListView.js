@@ -42,18 +42,8 @@ const MemberList = () => {
 
     const searchUser = async () => {
         try {
-
-
-            console.log(currentPage, content, findMode)
-            const response = await axios.get(`/api/user/search?type=${findMode}&content=${content}&currentPage=${currentPage}`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
-
+            
+            const response = await axios.get(`/api/user/search?type=${findMode}&content=${content}&currentPage=${currentPage}`);
 
             console.log(response.data)
     

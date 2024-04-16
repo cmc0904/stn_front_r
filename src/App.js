@@ -159,7 +159,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginView />} />
         <Route path="/register" element={<RegisterView />} />
-        <Route element={<ProtecedRouter />}>
+        {/* <Route element={<ProtecedRouter />}> */}
 
           {/* 사용자(Customer) 부분 */}
           <Route path="/customer/as" element={<UserRequestRepairView />} />
@@ -180,7 +180,7 @@ function App() {
           <Route path="/:type/board/boardwrite" element={<AdminBoardWriteView />} />
           <Route path="/:type/board/boardView/:paramName" element={<AdminBoardDetailView />} />
           <Route path="/:type/board" element={<AdminBoardView />} />
-        </Route>
+        {/* </Route> */}
       </Routes>
     </>
   );

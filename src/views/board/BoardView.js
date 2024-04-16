@@ -74,12 +74,6 @@ const AdminBoardView = () => {
                 {
                     boardIdx: paramName,
                     comment: comment
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
                 }
             );
 

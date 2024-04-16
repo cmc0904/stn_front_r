@@ -12,14 +12,7 @@ const MyInfoView = () => {
 
     const getUserInformation = async () => {
         try {
-            const response = await axios.get('/api/user/getUserByUserId',
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
+            const response = await axios.get('/api/user/getUserByUserId');
     
             setUserInformation(response.data.result);
             
@@ -31,14 +24,7 @@ const MyInfoView = () => {
 
     const getBoard = async () => {
         try {
-            const response = await axios.get('/api/board/getMyBoards',
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
+            const response = await axios.get('/api/board/getMyBoards');
     
             setBoards(response.data);
             console.log(response.data);
@@ -51,14 +37,7 @@ const MyInfoView = () => {
     const getRepairs = async () => {
         try {
             
-            const response = await axios.get('/api/repair/getRepairStatusByUserId',
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
+            const response = await axios.get('/api/repair/getRepairStatusByUserId');
     
             setRepairs(response.data);
             console.log(response.data);
@@ -71,14 +50,7 @@ const MyInfoView = () => {
     const deleteBoard = async (boardIdx) => {
         try {
             console.log(boardIdx)
-            var res = await axios.delete('/api/board/deleteBoard?boardIdx=' + boardIdx,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
+            var res = await axios.delete('/api/board/deleteBoard?boardIdx=' + boardIdx);
             console.log(res.data)
             getBoard();
             
@@ -98,12 +70,6 @@ const MyInfoView = () => {
                 {
                     idx: boardIdx,
                     pri: priv === 0 ? 1 : 0
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
                 }
             );
 

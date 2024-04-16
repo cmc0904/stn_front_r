@@ -54,12 +54,6 @@ const FAQMagementView = () => {
                 {
                     question: question,
                     answer: answer
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
                 }
             );
 

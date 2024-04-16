@@ -46,14 +46,7 @@ const MyInfoEdit = () => {
 
   const getUserInformation = async () => {
     try {
-      const response = await axios.get('/api/user/getUserByUserId',
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-          }
-        }
-      );
+      const response = await axios.get('/api/user/getUserByUserId');
   
   
       console.log(response.data.result);

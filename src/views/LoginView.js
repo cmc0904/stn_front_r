@@ -47,10 +47,8 @@ const Login = () => {
                 return;
             }
 
-            setCookie('jwt_token', 'Bearer ' + response.data.data.token, 1)
 
-
-            window.localStorage.setItem("jwt_token", response.data.data.token);
+            //window.localStorage.setItem("jwt_token", response.data.data.token);
             setLoginUserInformation()
 
             console.log(response.data)

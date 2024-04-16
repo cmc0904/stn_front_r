@@ -31,14 +31,7 @@ const RepairReception = () => {
     // 접수 화면에 뜰 관리자 목록
     const getAllAdmin = async () => {
         try {
-            const response = await axios.get('/api/user/getAllAdmins',
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
+            const response = await axios.get('/api/user/getAllAdmins');
 
             setAdmins(response.data);
         } catch (e) {
@@ -53,14 +46,7 @@ const RepairReception = () => {
         setSelectedMode(type);
 
         try{
-            const response = await axios.get("/api/repair/getRepairFiltering?type="+type,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                },
-            }
-        );
+            const response = await axios.get("/api/repair/getRepairFiltering?type="+type);
             console.log(response.data)
             setRepairs(response.data)
 
@@ -74,14 +60,7 @@ const RepairReception = () => {
     const getSearchRepair = async () => {
         console.log(input);
         try{
-            const response = await axios.get(`/api/repair/searchRepair?userId=${input}&type=${selectedMode}`,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                }
-            }
-            );
+            const response = await axios.get(`/api/repair/searchRepair?userId=${input}&type=${selectedMode}`);
             console.log(response.data)
             
             setRepairs(response.data)

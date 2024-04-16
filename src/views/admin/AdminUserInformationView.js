@@ -40,14 +40,7 @@ const MyInfoView = () => {
     const getBoard = async () => {
         try {
             
-            const response = await axios.get('/api/board/getBoardByUserIdx?userId=' + paramName,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
+            const response = await axios.get('/api/board/getBoardByUserIdx?userId=' + paramName);
     
             setBoards(response.data);
             console.log(response.data);
@@ -58,14 +51,7 @@ const MyInfoView = () => {
 
     const getRepairs = async () => {
         try {
-            const response = await axios.get('/api/repair/getRepairStatusByUserId?userId=' + paramName,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
+            const response = await axios.get('/api/repair/getRepairStatusByUserId?userId=' + paramName);
     
             setRepairs(response.data);
             console.log(response.data);
@@ -79,14 +65,7 @@ const MyInfoView = () => {
     const deleteBoard = async (boardIdx) => {
         try {
             console.log(boardIdx)
-            var res = await axios.delete('/api/board/deleteBoard?boardIdx=' + boardIdx,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
+            var res = await axios.delete('/api/board/deleteBoard?boardIdx=' + boardIdx);
             console.log(res.data)
             getBoard();
             
@@ -101,12 +80,6 @@ const MyInfoView = () => {
                 {
                     "userId": paramName,
                     "role": "Admin"
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
                 }
             );
 

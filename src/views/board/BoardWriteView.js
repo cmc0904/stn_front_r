@@ -81,14 +81,7 @@ const BoardWriteView = () => {
             formData.append("isPrivate", isPrivate);
 
                                  
-            const response = await axios.post('/api/board/postBoard', formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data; charset=utf-8',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
+            const response = await axios.post('/api/board/postBoard', formData);
             
 
             if (response.data.result === "ADD_BOARD_COMPLETE") {

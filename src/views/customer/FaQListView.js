@@ -16,14 +16,7 @@ const FaqView = () => {
     const getAllFaq = async () => {
         try {
             
-            const response = await axios.get('/api/faq/getAllFaQ',
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
+            const response = await axios.get('/api/faq/getAllFaQ');
     
             setFaq(response.data);
         } catch (e) {
