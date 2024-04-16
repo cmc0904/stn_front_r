@@ -21,7 +21,7 @@ class SideBar extends Component {
         return (
             <nav id="side-bar">
                 <div className="welcome">
-                    {setting.logindUserName}님, 환영합니다!
+                    {localStorage.getItem('name')}님, 환영합니다!
                 </div>
 
                 <div className="nav-bar">

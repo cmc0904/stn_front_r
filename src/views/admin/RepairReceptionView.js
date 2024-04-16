@@ -124,7 +124,7 @@ const RepairReception = () => {
                     </div>
                     
                     {repairs.map((item, index) => (
-                        <ReapirItem item={item} index={index} admins={admin} setcheckChange={setcheckChange}></ReapirItem>
+                        <ReapirItem key={index} item={item} index={index} admins={admin} setcheckChange={setcheckChange}></ReapirItem>
                     ))}
 
 

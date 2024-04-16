@@ -43,7 +43,6 @@ function App() {
 
 
   useEffect(() => {
-    console.log(location);
 
     if (location.pathname.includes("manager")) {
       setHeaderContent("Management");

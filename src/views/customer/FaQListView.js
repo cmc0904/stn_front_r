@@ -38,7 +38,7 @@ const FaqView = () => {
                 <div className="page-title">자주 묻는 질문</div>
                 <div className="faq">
                     {faq.map((item, index) => (
-                        <div className="faq_item">
+                        <div className="faq_item" key={index}>
                             <div className="faq_question">Q : {item.question}</div>
                             <div className="faq_answer">
                                 A : {item.answer}

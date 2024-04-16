@@ -45,8 +45,6 @@ const MemberList = () => {
 
 
             console.log(currentPage, content, findMode)
-
-    
             const response = await axios.get(`/api/user/search?type=${findMode}&content=${content}&currentPage=${currentPage}`,
                 {
                     headers: {
@@ -55,6 +53,7 @@ const MemberList = () => {
                     }
                 }
             );
+
 
             console.log(response.data)
     

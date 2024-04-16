@@ -24,7 +24,7 @@ const MemberListTable = ({showData}) => {
             </thead>
             <tbody>
                 {showData.map((item, index) => (
-                    <tr>
+                    <tr key={index}>
                         <th><Link to={`/manager/user/${item.userId}`}>{item.userId}</Link></th>
                         <th>{item.userName}</th>
                         <th>{item.userAddress}</th>

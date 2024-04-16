@@ -39,7 +39,7 @@ const BoardList = ({showData}) => {
                     </tr>
                 </thead>
                     {showData.map((item, index) => (
-                        <BoadItem item={item}></BoadItem>
+                        <BoadItem key={index} item={item}></BoadItem>
                     ))}
                 <tbody>
 

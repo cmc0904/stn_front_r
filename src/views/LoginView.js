@@ -11,7 +11,16 @@ const Login = () => {
     const [NOTFOUND, setNOTFOUNT] = useState(false);
     const navigate = useNavigate();
 
-   
+    // 쿠키를 설정하는 함수
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
 
     const handleLogin = async () => {
 
@@ -38,6 +47,8 @@ const Login = () => {
                 return;
             }
 
+            setCookie('jwt_token', 'Bearer ' + response.data.data.token, 1)
+
 
             window.localStorage.setItem("jwt_token", response.data.data.token);
             setLoginUserInformation()
@@ -62,13 +73,14 @@ const Login = () => {
     const setLoginUserInformation = async () => {
 
         try {
+
             const response = await axios.get('/api/user/getUserByUserId', {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
                 }
             });
-
+            
             window.localStorage.setItem("name", response.data.result.userName);
             window.localStorage.setItem("userId", response.data.result.userId);
 

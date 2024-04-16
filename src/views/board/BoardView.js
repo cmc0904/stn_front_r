@@ -70,7 +70,7 @@ const AdminBoardView = () => {
                 return;
             }
 
-            await axios.post('/api/board/addComment',
+            const res = await axios.post('/api/board/addComment',
                 {
                     boardIdx: paramName,
                     comment: comment
@@ -83,7 +83,13 @@ const AdminBoardView = () => {
                 }
             );
 
-            getComments();
+            console.log(res.data.results )
+
+            if(res.data.results === "ADD_COMMENT_COMPLETE") {
+                setComment("");
+                getComments();
+            }
+
         } catch (e) {
             console.log(e)
         }

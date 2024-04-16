@@ -165,7 +165,7 @@ const MyInfoView = () => {
                         <h2>A/S 접수 내역</h2>
 
                         {repairs.map((item, index) => (
-                            <div className="box">
+                            <div className="box" key={index}>
                                 <h3>A/S 신청 내역#{index + 1}</h3>
                                 <p>신청일: {item.createAt[0]}/{item.createAt[1]}/{item.createAt[2]}</p>
                                 <p>

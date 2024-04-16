@@ -46,14 +46,11 @@ const FAQMagementView = () => {
     };
 
     const addFaQ = async () => {
-
-        console.log("추기용")
-
         try {
 
             if(!validation()) return;
 
-            await axios.post('/api/faq/addFaQ',
+            const res = await axios.post('/api/faq/addFaQ',
                 {
                     question: question,
                     answer: answer
@@ -67,9 +64,10 @@ const FAQMagementView = () => {
             );
 
             getAllFaq();
+            clearFaQInput()
 
             setShowModal(false)
-
+            
         } catch (e) {
             console.log(e)
         }
@@ -185,7 +183,7 @@ const FAQMagementView = () => {
                 <div className="page-title">자주 묻는 질문 관리</div>
                 <div className="container-md">
                     {faq.map((item, index) => (
-                        <div className="collapse-box">
+                        <div className="collapse-box" key={index}>
                             <div className="information-btn-container">
                                 <a data-bs-toggle="collapse" href={`#collapseContainer${index + 1}`} role="button" aria-expanded="false"
                                     aria-controls="collapseContainer">

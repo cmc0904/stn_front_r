@@ -169,7 +169,7 @@ const MyInfoView = () => {
                     <h2>A/S 접수 내역</h2>
 
                     {repairs.map((item, index) => (
-                        <div className="box">
+                        <div className="box" key={index}>
                             <h3>A/S 신청 내역#{index + 1}</h3>
                             <p>신청일: {item.createAt.split("T")[0]}</p>
                             <p>
@@ -192,7 +192,7 @@ const MyInfoView = () => {
                     <h2>내 문의 글</h2>
                     <div className="my_inquiry_list">
                         {boards.map((item, index) => (
-                            <div className="box">
+                            <div className="box" key={index}>
                                 <h3>제목 : {item.boardTitle} (작성일 : {item.createAt})</h3>
                                 <div className="btn-group">
                                     <button className="btn-delete" onClick={() => deleteBoard(item.boardIdx)}>삭제</button>
