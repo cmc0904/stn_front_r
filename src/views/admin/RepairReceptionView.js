@@ -23,7 +23,6 @@ const RepairReception = () => {
     }, []);
 
     useEffect(() => {
-        console.log(1)
         getFilteringData("ALL_DATA")
     }, [checkChange]);
 
@@ -47,12 +46,10 @@ const RepairReception = () => {
 
 
     const getFilteringData = async (type) => {
-        console.log(type)   
         setSelectedMode(type);
 
         try{
             const response = await axios.get("/api/repair/getRepairFiltering?type="+type);
-            console.log(response.data)
             setRepairs(response.data)
 
         }catch(e){
@@ -65,9 +62,7 @@ const RepairReception = () => {
     const getSearchRepair = async () => {
         console.log(input);
         try{
-            const response = await axios.get(`/api/repair/searchRepair?userId=${input}&type=${selectedMode}`);
-            console.log(response.data)
-            
+            const response = await axios.get(`/api/repair/searchRepair?userId=${input}&type=${selectedMode}`);            
             setRepairs(response.data)
 
         }catch(e){

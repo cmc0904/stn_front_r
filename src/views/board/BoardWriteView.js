@@ -77,10 +77,7 @@ const BoardWriteView = () => {
             formData.append("isPrivate", isPrivate);
 
                                  
-            const response = await axios.post('/api/board/postBoard', formData);
-
-            console.log(response.data)
-            
+            const response = await axios.post('/api/board/postBoard', formData);            
 
             if (response.data.results === "ADD_BOARD_COMPLETE") {
                 navigate(`/${type}/board`);
@@ -113,7 +110,7 @@ const BoardWriteView = () => {
                                 <tr style={{"borderBottom" : "1px dashed #ddd"}}>
                                     <th>제목</th>
                                     <td>
-                                        <input maxLength={20} type="text" placeholder="제목을 입력해주세요." value={title} onChange={(e) => {setTitle(e.target.value); validation()}} />
+                                        <input maxLength={20} type="text" placeholder="제목을 입력해주세요." value={title} onChange={(e) => {setTitle(e.target.value)}} />
                                         <span className="invalid-feedback show" style={{'fontSize' : "13px"}}>{errors.title}</span>
                                     </td>
                                 </tr>

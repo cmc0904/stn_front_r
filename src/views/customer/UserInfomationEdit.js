@@ -56,7 +56,7 @@ const MyInfoEdit = () => {
       setInput({
         ...input,
         userId: response.data.result.userId,
-        password: response.data.result.userPassword,
+        password: "none",
         name: response.data.result.userName,
         email: response.data.result.userEmail,
         phone: response.data.result.userPhone,
@@ -67,8 +67,6 @@ const MyInfoEdit = () => {
       });
 
 
-      console.log(input)
-
     } catch (e) {
       console.log(e);
     }
@@ -78,7 +76,6 @@ const MyInfoEdit = () => {
 
 
   const handleGenderChange = (gender) => {
-    console.log(gender)
     setInput({ ...input, gender: gender });
   };
 
@@ -181,9 +178,7 @@ const MyInfoEdit = () => {
         }
       );
 
-      console.log(response.data);
-
-      if (response.data.result === "UPDATE") {
+      if (response.data.results === "UPDATE") {
         navigate('/customer/myinfo');
       }
     } catch (e) {
@@ -195,7 +190,6 @@ const MyInfoEdit = () => {
   const onCompletePost = data => {
     setModalState(false);
 
-    console.log(data)
     setInput({ ...input, address: data.address });
   };
 

@@ -43,7 +43,6 @@ const MyInfoView = () => {
             const response = await axios.get('/api/board/getBoardByUserIdx?userId=' + paramName);
     
             setBoards(response.data);
-            console.log(response.data);
         } catch (e) {
             console.log(e);
         }
@@ -54,7 +53,6 @@ const MyInfoView = () => {
             const response = await axios.get('/api/repair/getRepairStatusByUserId?userId=' + paramName);
     
             setRepairs(response.data);
-            console.log(response.data);
             
         } catch (e) {
             console.log(e);
@@ -64,9 +62,7 @@ const MyInfoView = () => {
 
     const deleteBoard = async (boardIdx) => {
         try {
-            console.log(boardIdx)
-            var res = await axios.delete('/api/board/deleteBoard?boardIdx=' + boardIdx);
-            console.log(res.data)
+            await axios.delete('/api/board/deleteBoard?boardIdx=' + boardIdx);
             getBoard();
             
         } catch (e) {

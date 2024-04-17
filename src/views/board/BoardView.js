@@ -77,8 +77,6 @@ const AdminBoardView = () => {
                 }
             );
 
-            console.log(res.data.results )
-
             if(res.data.results === "ADD_COMMENT_COMPLETE") {
                 setComment("");
                 getComments();
@@ -99,8 +97,6 @@ const AdminBoardView = () => {
                     }
                 }
             );
-
-            console.log(response.data)
 
             setCommentLists(response.data);
         } catch (e) {
@@ -156,7 +152,6 @@ const AdminBoardView = () => {
                     }
                 }
             );
-            console.log(response.data)
             setFileNames(response.data)
         } catch (e) {
             console.log(e)

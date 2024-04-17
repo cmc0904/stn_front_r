@@ -171,7 +171,6 @@ const Register = () => {
       setIsCheckedDuplicate(true);
       const response = await axios.get('/api/user/checkDuplicate?userId=' + input.userId);
 
-      console.log(response.data)
 
       if (response.data.result === "DUPLICATE_USER") {
         setIsDuplicate(true);
@@ -188,7 +187,6 @@ const Register = () => {
   };
 
   const handleGenderChange = (gender) => {
-    console.log(gender)
     setInput({ ...input, gender: gender });
   };
 
@@ -197,7 +195,6 @@ const Register = () => {
   const onCompletePost = data => {
     setModalState(false);
 
-    console.log(data)
     setInput({ ...input, address: data.address });
   };
 
@@ -228,7 +225,6 @@ const Register = () => {
         createAt: getTodayDate()
       });
   
-      console.log(response.data);
   
       if (response.data.results === "REGISTER_COMPLETE") {
         navigate('/');

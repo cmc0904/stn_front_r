@@ -23,11 +23,6 @@ const MemberListTable = ({ item, index, admins, setcheckChange, reload }) => {
     //처리 완료
     const complete = async (reId) => {
         try {
-            /*
-            await axios.post('/api/repair/completeRepair',
-                reId,
-            );
-            */
             await axios.post('/api/repair/completeRepair',
                 {
                     idx: reId
@@ -81,7 +76,6 @@ const MemberListTable = ({ item, index, admins, setcheckChange, reload }) => {
 
 
         if (selectedAdmin === "") {
-            console.log(1)
             setError({ ...error, "admin": "관리자를 선택해주세요." });
             return false;
         } 
@@ -90,7 +84,6 @@ const MemberListTable = ({ item, index, admins, setcheckChange, reload }) => {
     }
 
     const edit = async (reId, idx) => {
-        console.log(error)
         if(!validation(idx)) return;
 
         try {
@@ -98,11 +91,13 @@ const MemberListTable = ({ item, index, admins, setcheckChange, reload }) => {
                 {
                     repairResponseIdx: reId,
                     adminId: selectedAdmin,
-                    visitDate: meetingTime
+                    visitDate: meetingTime.replaceAll(" ", "T")
                 }
             );
 
-            if (res.data.result === "FAILED") {
+
+
+            if (res.data.results === "FAILED") {
                 alert("접수 일정 및 관리자 변경을 실패하였습니다.")
             } else {
                 alert("접수 일정 및 담당 관리자를 변경하였습니다.")

@@ -11,16 +11,6 @@ const Login = () => {
     const [NOTFOUND, setNOTFOUNT] = useState(false);
     const navigate = useNavigate();
 
-    // 쿠키를 설정하는 함수
-    function setCookie(name, value, days) {
-        var expires = "";
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            expires = "; expires=" + date.toUTCString();
-        }
-        document.cookie = name + "=" + (value || "") + expires + "; path=/";
-    }
 
     const handleLogin = async () => {
 
@@ -39,20 +29,13 @@ const Login = () => {
                     'Content-Type': 'application/json'
                 }
             });
-            
-            console.log(response.data);
 
             if (response.data.message !== "Login") {
                 setNOTFOUNT(true)
                 return;
             }
 
-
-
             setLoginUserInformation()
-
-            console.log(response.data)
-
             
             if (response.data.data.roles.includes("Admin")) {
                 navigate('/manager/repaireprocess');
@@ -90,10 +73,8 @@ const Login = () => {
 
     
     const handleKeyDown = (e) => {
-        console.log("awdawawdaw");
         if (e.key === 'Enter') {
-          handleLogin(); // 작성한 댓글 post 요청하는 함수 
-          
+          handleLogin(); 
         }
     };
     

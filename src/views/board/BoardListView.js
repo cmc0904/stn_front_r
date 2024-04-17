@@ -42,8 +42,6 @@ const Board = () => {
             const response = await axios.get(`/api/board/getAllBoard?type=${searchMode}&content=${searchInput}&currentPage=${currentPage}`);
             
             setShowData(response.data.data);
-
-            console.log(response.data.data)
             setPageNumber(Array.from({ length: Math.ceil(response.data.totalData / 5) }, (_, index) => index + 1));
             
         } catch (e) {

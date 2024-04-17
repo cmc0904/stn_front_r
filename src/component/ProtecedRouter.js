@@ -12,13 +12,10 @@ const ProtectedRoute = () => {
 
     useEffect(() => {
         const validationJWT = async () => {
-            console.log(isAuthenticated)
             try {
                 const res = await axios.get('/api/user/checkVaildJWT');
-                console.log(res.data.results)
                 setIsVaild(res.data.results === "JWT_CHECKED");
             } catch (error) {
-                console.error('JWT validation error:', error);
                 setIsVaild(false);
             }finally {
                 setLoading(false); // 로딩 상태를 false로 설정하여 완료됨을 알림
