@@ -50,20 +50,27 @@ const Register = () => {
       address: ''
     });
     // 유저 아이디
+    const regExpUserIdFormat = /^[a-zA-Z0-9]+$/; // 아이디의 형식을 검사하는 정규식
+    const regExpUserIdLength = /^.{4,10}$/; // 아이디의 길이를 검사하는 정규식
 
     if (!input.userId) {
       setErrors({ ...errors, userId: "아이디를 입력해주세요." });
       return false;
-    } else if (input.userId.length < 4) {
-      setErrors({ ...errors, userId: "아이디는 최소 4글자 이상이여야 합니다." });
-      return false;
-    }else if (input.userId.length > 10) {
-      setErrors({ ...errors, userId: "아이디는 최대 11글자를 넘을 수 없습니다." });
-      return false;
-    } else if (input.userId.includes(" ")) {
+    }
+    if (input.userId.includes(" ")) {
       setErrors({ ...errors, userId: "아이디는 공백을 가질 수 없습니다." });
       return false;
-    } else if (type === "DUPLICATE_CHECK") {
+    }
+    if (!regExpUserIdLength.test(input.userId)) {
+      setErrors({ ...errors, userId: "아이디는 최소(4) 이상 (10) 이하이어야 합니다." });
+      return false;
+    }
+    if (!regExpUserIdFormat.test(input.userId)) {
+      setErrors({ ...errors, userId: "아이디는 영어/숫자로만 조합해주세요." });
+      return false;
+    }
+
+    if (type === "DUPLICATE_CHECK") {
       return true;
     } else if (!isCheckedDuplicate) {
       setErrors({ ...errors, userId: "중복 확인을 해주세요." });
@@ -73,34 +80,50 @@ const Register = () => {
       return false;
     }
 
+
+    const regExpPasswordFormat = /^^[a-zA-Z\\d`~!@#$%^&*()-_=+]+$/;
+    const regExpPasswordLength = /^.{4,10}$/;
+
     if (!input.password) {
       setErrors({ ...errors, password: "비밀번호를 입력해주세요." });
       return false;
-    } else if (input.password.length < 3) {
-      setErrors({ ...errors, password: "비밀번호는 최소 3자 이상이여야 합니다." });
-      return false;
-    }else if (input.password.length > 10) {
-      setErrors({ ...errors, password: "비밀번호는 10글자를 넘을 수 없습니다." });
-      return false;
-    } else if (input.password.includes(" ")) {
+    }
+    if (input.password.includes(" ")) {
       setErrors({ ...errors, password: "비밀번호는 공백을 가질 수 없습니다." });
       return false;
     }
-
-    // name
-    if (!input.name) {
-      setErrors({ ...errors, name: "성함을 입력해주세요." });
+    if (!regExpPasswordLength.test(input.password)) {
+      setErrors({ ...errors, password: "비밀번호는 최소(4) 이상 (10) 이하이어야 합니다." });
       return false;
-    } else if (input.name.length < 3) {
-      setErrors({ ...errors, name: "성함은 3글자 이상이여야 합니다." });
-      return false;
-    }else if (input.name.length > 8) {
-      setErrors({ ...errors, name: "성함은 8글자 이하이여야 합니다." });
+    }
+    if (!regExpPasswordFormat.test(input.password)) {
+      setErrors({ ...errors, password: "올바른 비밀번호 형식이 아닙니다." });
       return false;
     }
 
+
+
+    // name
+
+    const regExpNameFormat = /^[가-힣a-zA-Z]+$/; // 이름의 형식을 검사하는 정규식
+    const regExpNameLength = /^.{2,8}$/; // 이름의 길이를 검사하는 정규식
+
+    if (!input.name) {
+      setErrors({ ...errors, name: "성함을 입력해주세요." });
+      return false;
+    }
+    if (!regExpNameFormat.test(input.name)) {
+      setErrors({ ...errors, name: "올바른 이름 형식이 아닙니다." });
+      return false;
+    }
+    if (!regExpNameLength.test(input.name)) {
+      setErrors({ ...errors, name: "성함은 최소(2) 이상 (8) 이하이어야 합니다." });
+      return false;
+    }
+
+
     // email
-    var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!input.email) {
       setErrors({ ...errors, email: "이메일을 입력해주세요." });
       return false;
@@ -111,11 +134,12 @@ const Register = () => {
 
 
     // phone
-    var phoneNumberRegex = /^\d{3}\d{3,4}\d{4}$/;
+    const phoneNumberRegex = /^\d{3}\d{3,4}\d{4}$/;
+    const phoneNumberRegexLength = /^.{1,11}$/
     if (!input.phone) {
       setErrors({ ...errors, phone: "전화번호를 입력해주세요." });
       return false;
-    }else if (input.phone.length > 11) {
+    } else if (!phoneNumberRegexLength.test(input.phone)) {
       setErrors({ ...errors, phone: "전화번호는 12자리 이상일 수 없습니다." });
       return false;
     } else if (!phoneNumberRegex.test(input.phone)) {
@@ -129,8 +153,9 @@ const Register = () => {
       return false;
     }
 
+  
     // address
-    if (!input.address) {
+    if (!input.address) { 
       setErrors({ ...errors, address: "주소를 입력해주세요." });
       return false;
     }

@@ -47,12 +47,12 @@ const MyInfoEdit = () => {
   const getUserInformation = async () => {
     try {
       const response = await axios.get('/api/user/getUserByUserId');
-  
-  
+
+
       console.log(response.data.result);
       console.log(response.data.result.userId);
       console.log(response.data.result.userEmail);
-  
+
       setInput({
         ...input,
         userId: response.data.result.userId,
@@ -61,18 +61,18 @@ const MyInfoEdit = () => {
         email: response.data.result.userEmail,
         phone: response.data.result.userPhone,
         gender: response.data.result.userGender,
-        address : response.data.result.userAddress,
-        createAt : response.data.result.createAt
-        
+        address: response.data.result.userAddress,
+        createAt: response.data.result.createAt
+
       });
-  
-  
+
+
       console.log(input)
-      
+
     } catch (e) {
       console.log(e);
     }
-    
+
 
   };
 
@@ -88,7 +88,7 @@ const MyInfoEdit = () => {
 
 
   const validation = () => {
-  
+
     setErrors({
       userId: '',
       password: '',
@@ -98,37 +98,27 @@ const MyInfoEdit = () => {
       gender: '',
       address: ''
     });
-    // 유저 아이디
-
-    if (!input.userId) {
-      setErrors({ ...errors, userId: "아이디를 입력해주세요." });
-      return false;
-    } else if (input.userId.length < 4) {
-      setErrors({ ...errors, userId: "아이디는 최소 4글자 이상이여야 합니다." });
-      return false;
-    }else if (input.userId.length > 10) {
-      setErrors({ ...errors, userId: "아이디는 최대 11글자를 넘을 수 없습니다." });
-      return false;
-    } else if (input.userId.includes(" ")) {
-      setErrors({ ...errors, userId: "아이디는 공백을 가질 수 없습니다." });
-      return false;
-    }
-
-
     // name
+
+    const regExpNameFormat = /^[가-힣a-zA-Z]+$/; // 이름의 형식을 검사하는 정규식
+    const regExpNameLength = /^.{2,8}$/; // 이름의 길이를 검사하는 정규식
+
     if (!input.name) {
       setErrors({ ...errors, name: "성함을 입력해주세요." });
       return false;
-    } else if (input.name.length < 3) {
-      setErrors({ ...errors, name: "성함은 3글자 이상이여야 합니다." });
+    }
+    if (!regExpNameFormat.test(input.name)) {
+      setErrors({ ...errors, name: "올바른 이름 형식이 아닙니다." });
       return false;
-    }else if (input.name.length > 8) {
-      setErrors({ ...errors, name: "성함은 8글자 이하이여야 합니다." });
+    }
+    if (!regExpNameLength.test(input.name)) {
+      setErrors({ ...errors, name: "성함은 최소(2) 이상 (8) 이하이어야 합니다." });
       return false;
     }
 
+
     // email
-    var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!input.email) {
       setErrors({ ...errors, email: "이메일을 입력해주세요." });
       return false;
@@ -139,11 +129,12 @@ const MyInfoEdit = () => {
 
 
     // phone
-    var phoneNumberRegex = /^\d{3}\d{3,4}\d{4}$/;
+    const phoneNumberRegex = /^\d{3}\d{3,4}\d{4}$/;
+    const phoneNumberRegexLength = /^.{1,11}$/
     if (!input.phone) {
       setErrors({ ...errors, phone: "전화번호를 입력해주세요." });
       return false;
-    }else if (input.phone.length > 11) {
+    } else if (!phoneNumberRegexLength.test(input.phone)) {
       setErrors({ ...errors, phone: "전화번호는 12자리 이상일 수 없습니다." });
       return false;
     } else if (!phoneNumberRegex.test(input.phone)) {
@@ -157,6 +148,7 @@ const MyInfoEdit = () => {
       return false;
     }
 
+
     // address
     if (!input.address) {
       setErrors({ ...errors, address: "주소를 입력해주세요." });
@@ -168,13 +160,13 @@ const MyInfoEdit = () => {
   };
 
   const handleUpadte = async () => {
-    
+
 
     try {
       if (!validation()) {
         return;
       }
-      
+
       const response = await axios.put('/api/user/updateUser',
         {
           userId: input.userId,
@@ -185,12 +177,12 @@ const MyInfoEdit = () => {
           userPhone: input.phone,
           userGender: input.gender,
           createAt: input.createAt
-         
+
         }
       );
-  
+
       console.log(response.data);
-  
+
       if (response.data.result === "UPDATE") {
         navigate('/customer/myinfo');
       }
@@ -243,18 +235,18 @@ const MyInfoEdit = () => {
                       <div className="form-group">
                         <label htmlFor="id">아이디</label>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
-                            <input
-                              id="id"
-                              type="text"
-                              className="form-control"
-                              name="id"
-                              value={input.userId}
-                             
-                              
-                              autoFocus
-                              disabled
-                              readOnly
-                            />
+                          <input
+                            id="id"
+                            type="text"
+                            className="form-control"
+                            name="id"
+                            value={input.userId}
+
+
+                            autoFocus
+                            disabled
+                            readOnly
+                          />
                         </div>
 
 
@@ -321,21 +313,21 @@ const MyInfoEdit = () => {
                           <div className="gender-btn-wrap">
                             {input.gender === "M" &&
                               <><button onClick={() => handleGenderChange('M')} className='gender-btn male pressed' type='button'>
-                                <img width="30px" height="30px" src={male} alt="남성 아이콘"/>
+                                <img width="30px" height="30px" src={male} alt="남성 아이콘" />
                               </button><button onClick={() => handleGenderChange('F')} className='gender-btn female' type='button'>
-                                  <img width="30px" height="30px" src={female} alt="여성 아이콘"/>
+                                  <img width="30px" height="30px" src={female} alt="여성 아이콘" />
                                 </button></>
                             }
 
                             {input.gender === "F" &&
                               <><button onClick={() => handleGenderChange('M')} className='gender-btn male' type='button'>
-                                <img width="30px" height="30px" src={male} alt="남성 아이콘"/>
+                                <img width="30px" height="30px" src={male} alt="남성 아이콘" />
                               </button><button onClick={() => handleGenderChange('F')} className='gender-btn female pressed' type='button'>
-                                  <img width="30px" height="30px" src={female} alt="여성 아이콘"/>
+                                  <img width="30px" height="30px" src={female} alt="여성 아이콘" />
                                 </button></>
                             }
 
-                      
+
 
                           </div>
                         </div>
@@ -376,7 +368,7 @@ const MyInfoEdit = () => {
 
 
                       <div className="form-group m-0">
-                        <button type="button" className="btn btn-primary btn-block" onClick={handleUpadte} style={{"margin-left":"0"}}>
+                        <button type="button" className="btn btn-primary btn-block" onClick={handleUpadte} style={{ "margin-left": "0" }}>
                           수정하기
                         </button>
                       </div>
