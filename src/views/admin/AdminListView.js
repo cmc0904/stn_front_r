@@ -16,57 +16,30 @@ const AdminList = () => {
     const [pageNumber, setPageNumber] = useState([]);
     
     useEffect(() => {
-        getPageNumbers();
-        getDataByPageNumber(1);
+        getDataByPageNumber();
     }, []);
+
+    useEffect(() => {
+        getDataByPageNumber();
+    }, [currentPage]);
 
   
 
 
-    const getDataByPageNumber = async (item) => {
+    const getDataByPageNumber = async () => {
         try {
-            setCurrentPage(item)
-            const response = await axios.get('/api/user/getAdminsByPage?page=' + item,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
-                
-            setAdmins(response.data)
-            console.log(response.data)
 
-    
-            //setShowData(response.data);
+            const response = await axios.get(`/api/user/getAdminsByPage?currentPage=${currentPage}`);
+                
+            setAdmins(response.data.data)
+            setPageNumber(Array.from({ length: Math.ceil(response.data.totalData / 5) }, (_, index) => index + 1));
+
             
         } catch (e) {
             console.log(e);
         }
 
     };
-
-    const getPageNumbers = async () => {
-
-        try {
-            const response = await axios.get('/api/user/pageNumbers?type=admins',
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
-
-            setPageNumber(response.data)
-        } catch (e) {
-            console.log("MemberList" + e)
-        }
-
-
-    };
-
 
     return (
         <>
@@ -85,7 +58,7 @@ const AdminList = () => {
                                         </li>
                                     ) : (
                                         <li key={index} className="page-item">
-                                            <a href='#!' className="page-link" onClick={() => getDataByPageNumber(item)}>{item}</a>
+                                            <a href='#!' className="page-link" onClick={() => setCurrentPage(item)}>{item}</a>
                                         </li>
                                     )
                                 ))}

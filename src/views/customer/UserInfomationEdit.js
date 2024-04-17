@@ -114,19 +114,6 @@ const MyInfoEdit = () => {
       return false;
     }
 
-    if (!input.password) {
-      setErrors({ ...errors, password: "비밀번호를 입력해주세요." });
-      return false;
-    } else if (input.password.length < 3) {
-      setErrors({ ...errors, password: "비밀번호는 최소 3자 이상이여야 합니다." });
-      return false;
-    }else if (input.password.length > 10) {
-      setErrors({ ...errors, password: "비밀번호는 10글자를 넘을 수 없습니다." });
-      return false;
-    } else if (input.password.includes(" ")) {
-      setErrors({ ...errors, password: "비밀번호는 공백을 가질 수 없습니다." });
-      return false;
-    }
 
     // name
     if (!input.name) {
@@ -199,12 +186,6 @@ const MyInfoEdit = () => {
           userGender: input.gender,
           createAt: input.createAt
          
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-          }
         }
       );
   
@@ -271,32 +252,13 @@ const MyInfoEdit = () => {
                              
                               
                               autoFocus
-
+                              disabled
                               readOnly
                             />
                         </div>
 
 
                         <div className="invalid-feedback show">{errors.userId}</div>
-
-                      </div>
-
-                      <div className="form-group">
-                        <label htmlFor="password">비밀번호</label>
-                        <input
-                          id="password"
-                          type="password"
-                          className="form-control"
-                          name="password"
-                          value={input.password}
-                          
-
-                          data-eye
-
-                          readOnly
-                        />
-
-                        <div className="invalid-feedback show">{errors.password}</div>
 
                       </div>
 

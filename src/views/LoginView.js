@@ -48,7 +48,7 @@ const Login = () => {
             }
 
 
-            //window.localStorage.setItem("jwt_token", response.data.data.token);
+
             setLoginUserInformation()
 
             console.log(response.data)

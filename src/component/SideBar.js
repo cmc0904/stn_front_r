@@ -4,12 +4,22 @@ import PropTypes from 'prop-types'; // 추가
 import '../style/layout/sidebar.css';
 
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
 class SideBar extends Component {
 
-    logout = () => {
+    logout = async () =>  {
         // 로컬 스토리지에서 jwt_token 삭제
-        localStorage.removeItem('jwt_token');
-        localStorage.removeItem('name');
+
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+        try {
+            
+            await axios.get('/api/user/logout');
+
+        } catch (e) {
+            console.log(e);     
+        }
 
         // 로그인 페이지로 이동
         window.location.href = '/'; // 새로고침을 통해 라우팅을 다시 시작
