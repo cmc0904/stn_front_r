@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react';
 
-
-
 import '../../style/customer/Board.css';
 import BoardList from '../../component/board/BoardList';
 import { useParams, Link } from 'react-router-dom';
@@ -24,7 +22,7 @@ const Board = () => {
 
     useEffect(() => {
 
-        search()
+        search();
 
     }, []);
 

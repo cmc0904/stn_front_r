@@ -140,7 +140,7 @@ const BoardWriteView = () => {
 
                                 <tr>
                                     <th className="content-box" colSpan="2">
-                                        <textarea maxLength={100} placeholder="내용을 입력 해주세요." value={content} onChange={(e) => setContent(e.target.value)}></textarea>
+                                        <textarea maxLength={300} placeholder="내용을 입력 해주세요." value={content} onChange={(e) => setContent(e.target.value)}></textarea>
                                         <span className="invalid-feedback show" style={{'fontSize' : "13px", "textAlign":"left"}}>{errors.content}</span>
 
                                     </th>

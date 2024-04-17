@@ -16,41 +16,26 @@ const AdminList = () => {
     const [pageNumber, setPageNumber] = useState([]);
     
     useEffect(() => {
-        getPageNumbers();
-        getDataByPageNumber(1);
-    }, []);
+        //getPageNumbers();
+        // getDataByPageNumber(1);
+        searchUser();
+    }, [currentPage]);
 
   
 
-
-    const getDataByPageNumber = async (item) => {
-        try {
-            setCurrentPage(item)
-            const response = await axios.get('/api/user/getAdminsByPage?page=' + item,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
-                
-            setAdmins(response.data)
-            console.log(response.data)
-
-    
-            //setShowData(response.data);
-            
-        } catch (e) {
-            console.log(e);
-        }
-
+    const handlePageNation = async (item) => {
+        setCurrentPage(item)
     };
 
-    const getPageNumbers = async () => {
 
+    const searchUser = async () => {
         try {
-            const response = await axios.get('/api/user/pageNumbers?type=admins',
+
+
+            console.log(currentPage)
+
+    
+            const response = await axios.get(`/api/user/search?currentPage=${currentPage}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -59,12 +44,15 @@ const AdminList = () => {
                 }
             );
 
-            setPageNumber(response.data)
+            console.log(response.data)
+    
+    
+            setAdmins(response.data.data);
+            setPageNumber(Array.from({ length: Math.ceil(response.data.totalData / 5) }, (_, index) => index + 1));
+
         } catch (e) {
-            console.log("MemberList" + e)
+            console.log(e);            
         }
-
-
     };
 
 
@@ -85,7 +73,7 @@ const AdminList = () => {
                                         </li>
                                     ) : (
                                         <li key={index} className="page-item">
-                                            <a href='#!' className="page-link" onClick={() => getDataByPageNumber(item)}>{item}</a>
+                                            <a href='#!' className="page-link" onClick={() => {handlePageNation(item);}}>{item}</a>
                                         </li>
                                     )
                                 ))}

@@ -24,7 +24,8 @@ const MyInfoEdit = () => {
     phone: '',
     gender: '',
     address: '',
-    createAt: ''
+    // createAt: '',
+    // roles:''
   });
 
   const [errors, setErrors] = useState({
@@ -34,7 +35,8 @@ const MyInfoEdit = () => {
     email: '',
     phone: '',
     gender: '',
-    address: ''
+    address: '',
+    //roles:''
   });
   const navigate = useNavigate();
 
@@ -69,7 +71,8 @@ const MyInfoEdit = () => {
         phone: response.data.result.userPhone,
         gender: response.data.result.userGender,
         address : response.data.result.userAddress,
-        createAt : response.data.result.createAt
+        // createAt : response.data.result.createAt,
+        // roles : response.data.result.roles
         
       });
   
@@ -103,52 +106,31 @@ const MyInfoEdit = () => {
       email: '',
       phone: '',
       gender: '',
-      address: ''
+      address: '',
+      // roles:''
     });
     // 유저 아이디
-
-    if (!input.userId) {
-      setErrors({ ...errors, userId: "아이디를 입력해주세요." });
-      return false;
-    } else if (input.userId.length < 4) {
-      setErrors({ ...errors, userId: "아이디는 최소 4글자 이상이여야 합니다." });
-      return false;
-    }else if (input.userId.length > 10) {
-      setErrors({ ...errors, userId: "아이디는 최대 11글자를 넘을 수 없습니다." });
-      return false;
-    } else if (input.userId.includes(" ")) {
-      setErrors({ ...errors, userId: "아이디는 공백을 가질 수 없습니다." });
-      return false;
-    }
-
-    if (!input.password) {
-      setErrors({ ...errors, password: "비밀번호를 입력해주세요." });
-      return false;
-    } else if (input.password.length < 3) {
-      setErrors({ ...errors, password: "비밀번호는 최소 3자 이상이여야 합니다." });
-      return false;
-    }else if (input.password.length > 10) {
-      setErrors({ ...errors, password: "비밀번호는 10글자를 넘을 수 없습니다." });
-      return false;
-    } else if (input.password.includes(" ")) {
-      setErrors({ ...errors, password: "비밀번호는 공백을 가질 수 없습니다." });
-      return false;
-    }
-
     // name
+
+    const regExpNameFormat = /^[가-힣a-zA-Z]+$/; // 이름의 형식을 검사하는 정규식
+    const regExpNameLength = /^.{2,8}$/; // 이름의 길이를 검사하는 정규식
+
     if (!input.name) {
       setErrors({ ...errors, name: "성함을 입력해주세요." });
       return false;
-    } else if (input.name.length < 3) {
-      setErrors({ ...errors, name: "성함은 3글자 이상이여야 합니다." });
+    }
+    if (!regExpNameFormat.test(input.name)) {
+      setErrors({ ...errors, name: "올바른 이름 형식이 아닙니다." });
       return false;
-    }else if (input.name.length > 8) {
-      setErrors({ ...errors, name: "성함은 8글자 이하이여야 합니다." });
+    }
+    if (!regExpNameLength.test(input.name)) {
+      setErrors({ ...errors, name: "성함은 최소(2) 이상 (8) 이하이어야 합니다." });
       return false;
     }
 
+
     // email
-    var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!input.email) {
       setErrors({ ...errors, email: "이메일을 입력해주세요." });
       return false;
@@ -159,11 +141,12 @@ const MyInfoEdit = () => {
 
 
     // phone
-    var phoneNumberRegex = /^\d{3}\d{3,4}\d{4}$/;
+    const phoneNumberRegex = /^\d{3}\d{3,4}\d{4}$/;
+    const phoneNumberRegexLength = /^.{1,11}$/
     if (!input.phone) {
       setErrors({ ...errors, phone: "전화번호를 입력해주세요." });
       return false;
-    }else if (input.phone.length > 11) {
+    } else if (!phoneNumberRegexLength.test(input.phone)) {
       setErrors({ ...errors, phone: "전화번호는 12자리 이상일 수 없습니다." });
       return false;
     } else if (!phoneNumberRegex.test(input.phone)) {
@@ -177,14 +160,14 @@ const MyInfoEdit = () => {
       return false;
     }
 
+  
     // address
-    if (!input.address) {
+    if (!input.address) { 
       setErrors({ ...errors, address: "주소를 입력해주세요." });
       return false;
     }
 
     return true;
-
   };
 
   const handleUpadte = async () => {
@@ -204,7 +187,8 @@ const MyInfoEdit = () => {
           userAddress: input.address,
           userPhone: input.phone,
           userGender: input.gender,
-          createAt: input.createAt
+          // createAt: input.createAt,
+          // roles: input.roles
          
         },
         {
@@ -217,7 +201,7 @@ const MyInfoEdit = () => {
   
       console.log(response.data);
   
-      if (response.data.result === "UPDATE") {
+      if (response.data.results === "UPDATE") {
         navigate('/customer/myinfo');
       }
     } catch (e) {
@@ -316,7 +300,7 @@ const MyInfoEdit = () => {
                           name="name"
                           value={input.name}
                           onChange={(e) => setInput({ ...input, name: e.target.value })}
-                          maxLength={8}
+                        
 
                         />
 
@@ -334,7 +318,7 @@ const MyInfoEdit = () => {
                           name="email"
                           value={input.email}
                           onChange={(e) => setInput({ ...input, email: e.target.value })}
-                          maxLength={20}
+                       
 
                         />
 
@@ -352,7 +336,7 @@ const MyInfoEdit = () => {
                           name="phone"
                           value={input.phone}
                           onChange={(e) => setInput({ ...input, phone: e.target.value })}
-                          maxLength={11}
+               
 
                         />
                         <div className="invalid-feedback show">{errors.phone}</div>
@@ -408,7 +392,7 @@ const MyInfoEdit = () => {
                             name="address"
                             value={input.address}
                             onChange={(e) => setInput({ ...input, address: e.target.value })}
-                            maxLength={20}
+                        
                             disabled
                           />
                           <input type="button" onClick={() => setModalState(true)} className="btn btn-outline-primary" value="주소" />
