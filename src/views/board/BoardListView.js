@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 
@@ -40,10 +40,10 @@ const Board = () => {
         try {
 
             const response = await axios.get(`/api/board/getAllBoard?type=${searchMode}&content=${searchInput}&currentPage=${currentPage}`);
-            
+
             setShowData(response.data.data);
             setPageNumber(Array.from({ length: Math.ceil(response.data.totalData / 5) }, (_, index) => index + 1));
-            
+
         } catch (e) {
             setShowData([])
         }
@@ -86,6 +86,15 @@ const Board = () => {
                     <div className='page_selector'>
                         <nav style={{ display: 'flex', justifyContent: 'center' }}>
                             <ul className="pagination pagination-sm">
+                                {currentPage === 1 ? 
+                                    <li class="page-item disabled">
+                                        <a class="page-link">Previous</a>
+                                    </li>
+                                    : 
+                                    <li class="page-item">
+                                        <a class="page-link" onClick={()=> {setCurrentPage(currentPage - 1)}}>Previous</a>
+                                    </li>
+                                }
                                 {pageNumber.map((item, index) => (
                                     currentPage === item ? (
                                         <li key={index} className="page-item active" aria-current="page">
@@ -97,6 +106,15 @@ const Board = () => {
                                         </li>
                                     )
                                 ))}
+                                {currentPage === pageNumber.length ?
+                                    <li class="page-item disabled">
+                                        <a class="page-link">Next</a>
+                                    </li>
+                                    :
+                                    <li class="page-item">
+                                        <a class="page-link" onClick={() => { setCurrentPage(currentPage + 1) }}>Next</a>
+                                    </li>
+                                }
 
                             </ul>
                         </nav>

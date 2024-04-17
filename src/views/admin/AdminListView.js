@@ -51,6 +51,15 @@ const AdminList = () => {
                     <div className='page_selector'>
                         <nav>
                             <ul className="pagination pagination-sm">
+                                {currentPage === 1 ? 
+                                    <li class="page-item disabled">
+                                        <a class="page-link">Previous</a>
+                                    </li>
+                                    : 
+                                    <li class="page-item">
+                                        <a class="page-link" onClick={()=> {setCurrentPage(currentPage - 1)}}>Previous</a>
+                                    </li>
+                                }
                                 {pageNumber.map((item, index) => (
                                     currentPage === item ? (
                                         <li key={index} className="page-item active" aria-current="page">
@@ -62,6 +71,15 @@ const AdminList = () => {
                                         </li>
                                     )
                                 ))}
+                                {currentPage === pageNumber.length ? 
+                                    <li class="page-item disabled">
+                                        <a class="page-link">Next</a>
+                                    </li>
+                                    : 
+                                    <li class="page-item">
+                                        <a class="page-link" onClick={()=> {setCurrentPage(currentPage + 1)}}>Next</a>
+                                    </li>
+                                }
 
                             </ul>
                         </nav>
