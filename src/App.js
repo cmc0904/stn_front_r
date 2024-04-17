@@ -56,7 +56,7 @@ function App() {
                 {
                   "subMenuName": "사용자",
                   "link": "/manager/members",
-                  "isSelected": location.pathname === "/manager/members"
+                  "isSelected": location.pathname === "/manager/members" || location.pathname.startsWith("/manager/user")
                 },
                 {
                   "subMenuName": "관리자",

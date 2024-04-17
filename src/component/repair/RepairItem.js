@@ -5,36 +5,36 @@ import '../../style/customer/Board.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import { Link } from 'react-router-dom';
 
-
-const MemberListTable = ({ item, index, admins, setcheckChange }) => {
+const MemberListTable = ({ item, index, admins, setcheckChange, reload }) => {
 
 
     const [error, setError] = useState({});
     const [selectedAdmin, setSelectedAdmin] = useState('');
     const [meetingTime, setMeetingTime] = useState('');
 
-    useEffect(() => {
-        //getAllAdmin();
-        //getsearchRepair();
-    }, []);
+    const getTodayDate = () => {
+        let today = new Date();
+        var formattedDate = `${today.getFullYear()}-${(today.getMonth()+1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}T${today.getHours().toString().padStart(2, '0')}:${today.getMinutes().toString().padStart(2, '0')}`;
+        return formattedDate;
+    }
 
    
     //처리 완료
     const complete = async (reId) => {
         try {
+            /*
             await axios.post('/api/repair/completeRepair',
                 reId,
+            );
+            */
+            await axios.post('/api/repair/completeRepair',
                 {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
+                    idx: reId
                 }
             );
 
-            setcheckChange("1");
+            reload()
         } catch (e) {
             console.log(e)
         }
@@ -54,11 +54,8 @@ const MemberListTable = ({ item, index, admins, setcheckChange }) => {
 
     // 이미 접수된 접수 담당 관리자, 방문 시간 초기화
     const selectItem = (item) => {
-        if (item.adminId === null && item.finished === 0) {
-            return;
-        }
         setSelectedAdmin(item.adminId);
-        setMeetingTime(item.visitDate);
+        setMeetingTime(item.visitDate == null? getTodayDate() : item.visitDate);
     };
 
     // // 접수
@@ -69,16 +66,10 @@ const MemberListTable = ({ item, index, admins, setcheckChange }) => {
                     repairIdx: reId,
                     adminId: selectedAdmin,
                     visitDate: meetingTime
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
                 }
             );
-            setcheckChange("1");
 
+            reload()
         } catch (e) {
             console.log(e)
         }
@@ -86,16 +77,14 @@ const MemberListTable = ({ item, index, admins, setcheckChange }) => {
     };
 
     
-    const validation = (idx) => {
+    const validation = () => {
 
 
         if (selectedAdmin === "") {
-            setError({ ...error, [idx]: { "admin": "관리자를 선택해주세요." } });
+            console.log(1)
+            setError({ ...error, "admin": "관리자를 선택해주세요." });
             return false;
-        } else if (selectedAdmin === "") {
-            setError({ ...error, [idx]: { "admin": "관리자를 선택해주세요." } });
-            return false;
-        }
+        } 
 
         return true;
     }
@@ -110,12 +99,6 @@ const MemberListTable = ({ item, index, admins, setcheckChange }) => {
                     repairResponseIdx: reId,
                     adminId: selectedAdmin,
                     visitDate: meetingTime
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
                 }
             );
 
@@ -126,7 +109,7 @@ const MemberListTable = ({ item, index, admins, setcheckChange }) => {
                 
             }
 
-            setcheckChange("1");
+            reload()
 
         } catch (e) {
             console.log(e)
@@ -193,16 +176,15 @@ const MemberListTable = ({ item, index, admins, setcheckChange }) => {
                     </div>
 
                     <div className="as-process">
-                        <select className="form-select form-select-lg" aria-label="Large select example" defaultValue={selectedAdmin} onChange={adminChange}>
-                            <option value="" selected>담당 기사를 배정해주세요</option>
+                        <select className="form-select form-select-lg" aria-label="Large select example" value={selectedAdmin} onChange={adminChange}>
+                            <option value="">담당 기사를 배정해주세요</option>
                             {admins.map((admin, idx) => (
                                 <><option value={`${admin.userId}`}>{admin.userName}</option></>
                             ))}
                         </select>
 
-                        {error[item.idx] !== undefined &&
-                            <div className="invalid-feedback show">{error[item.idx].admin}</div>
-                        }
+                        <div className="invalid-feedback show">{error.admin}</div>
+                    
 
                         <input
                             type="datetime-local"
@@ -210,7 +192,7 @@ const MemberListTable = ({ item, index, admins, setcheckChange }) => {
                             className="meeting-time"
                             name="meeting-time"
                             value={meetingTime}
-                            min="2023-12-22T16:04"
+                            min={getTodayDate()}
                             onChange={timeChange}
                         />
 

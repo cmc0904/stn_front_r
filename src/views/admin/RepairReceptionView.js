@@ -28,6 +28,11 @@ const RepairReception = () => {
     }, [checkChange]);
 
 
+
+    const reload = () => {
+        getFilteringData(selectedMode)
+    };
+
     // 접수 화면에 뜰 관리자 목록
     const getAllAdmin = async () => {
         try {
@@ -103,7 +108,7 @@ const RepairReception = () => {
                     </div>
                     
                     {repairs.map((item, index) => (
-                        <ReapirItem key={index} item={item} index={index} admins={admin} setcheckChange={setcheckChange}></ReapirItem>
+                        <ReapirItem key={index} reload={reload} item={item} index={index} admins={admin} setcheckChange={setcheckChange}></ReapirItem>
                     ))}
 
 

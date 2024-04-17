@@ -75,10 +75,10 @@ const AsView = () => {
                     <h2>A/S 접수</h2>
                     <label htmlFor="customerName">문제명:</label>
                     <input maxLength={50} type="text" id="customerName" name="customerName" value={title} onChange={(e) => setTitle(e.target.value)} autoFocus />
-                    <span className='invaild-feedback show' style={{"fontSize": "13px"}}>{errors.title}</span>
+                    <span className='invaild-feedback show' style={{"fontSize": "13px", "color": "red"}}>{errors.title}</span>
                     <label htmlFor="asDescription">문제 설명:</label>
                     <textarea maxLength={100} id="asDescription" name="asDescription" value={content} onChange={(e) => setContent(e.target.value)}></textarea>
-                    <span className='invaild-feedback show' style={{"fontSize": "13px"}}>{errors.content}</span>
+                    <span className='invaild-feedback show' style={{"fontSize": "13px", "color": "red"}}>{errors.content}</span>
 
                     <button type="submit" onClick={registration}>A/S 신청</button>
                 </div>

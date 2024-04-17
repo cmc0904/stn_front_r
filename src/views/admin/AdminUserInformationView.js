@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 
 import '../../style/customer/MyInfoView.css';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 
 import axios from 'axios';
@@ -162,15 +162,17 @@ const MyInfoView = () => {
 
 
                 <div className="section">
-                    <h2>내 문의 글</h2>
+                    <h2>작성글 목록</h2>
                     <div className="my_inquiry_list">
                         {boards.map((item, index) => (
-                            <div className="box" key={index}>
-                                <h3>제목 : {item.boardTitle} (작성일 : {item.createAt})</h3>
-                                <div className="btn-group">
-                                    <button className="btn-delete" onClick={() => deleteBoard(item.boardIdx)}>삭제</button>
+                            <Link to={`/customer/board/boardview/${item.boardIdx}`}>
+                                <div className="box" key={index}>
+                                    <h3>제목 : {item.boardTitle} (작성일 : {item.createAt})</h3>
+                                    <div className="btn-group">
+                                        <button className="btn-delete" onClick={() => deleteBoard(item.boardIdx)}>삭제</button>
+                                    </div>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </div>

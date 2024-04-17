@@ -163,13 +163,15 @@ const MyInfoView = () => {
                         <h2>내 문의 글</h2>
                         <div className="my_inquiry_list">
                             {boards.map((item, index) => (
-                                <div className="box" style={{"display" : "flex", "justifyContent" : "space-between"}}>
-                                    <h3 style={{"marginTop" : "auto", "marginBottom" : "auto"}}>제목 : {item.boardTitle} (작성일 : {new Date(item.createAt).toLocaleDateString()}) - {item.isPrivate === 0 ? <span>공개</span> : <span>비공개</span>}</h3>
-                                    <div className="btn-group">
-                                    <button className="btn-delete" onClick={() => changePrivate(item.boardIdx, item.isPrivate)}>공개/비공개 전환</button>
-                                        <button className="btn-delete" onClick={() => deleteBoard(item.boardIdx)}>삭제</button>
+                                <Link to={`/customer/board/boardview/${item.boardIdx}`}>
+                                    <div className="box" style={{"display" : "flex", "justifyContent" : "space-between"}}>
+                                        <h3 style={{"marginTop" : "auto", "marginBottom" : "auto"}}>제목 : {item.boardTitle} (작성일 : {new Date(item.createAt).toLocaleDateString()}) - {item.isPrivate === 0 ? <span>공개</span> : <span>비공개</span>}</h3>
+                                        <div className="btn-group">
+                                        <button className="btn-delete" onClick={() => changePrivate(item.boardIdx, item.isPrivate)}>공개/비공개 전환</button>
+                                            <button className="btn-delete" onClick={() => deleteBoard(item.boardIdx)}>삭제</button>
+                                        </div>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
                     </div>

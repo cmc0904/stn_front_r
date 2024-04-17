@@ -82,9 +82,11 @@ const BoardWriteView = () => {
 
                                  
             const response = await axios.post('/api/board/postBoard', formData);
+
+            console.log(response.data)
             
 
-            if (response.data.result === "ADD_BOARD_COMPLETE") {
+            if (response.data.results === "ADD_BOARD_COMPLETE") {
                 navigate(`/${type}/board`);
             };
             
