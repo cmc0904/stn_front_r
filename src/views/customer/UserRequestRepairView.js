@@ -12,30 +12,30 @@ const AsView = () => {
         title: '',
         content: '',
     });
+
     const validation = () => {
-        if (title.length < 5) {
-            setErrors({ ...errors, title: "5글자 이상 작성해주세요." });
-            return false;
-        } else if (title.length > 50) {
-            setErrors({ ...errors, title: "50글자 이하로 작성해주세요." });
+        const regExpTitleLength = /^.{5,50}$/; // 제목은 5에서 50글자 사이여야 합니다.
+        const regExpContentLength = /^.{5,150}$/; // 내용은 5에서 150글자 사이여야 합니다.
+        // 제목 길이 검사
+        if (!regExpTitleLength.test(title)) {
+            setErrors({ ...errors, title: "제목은 5글자 이상, 50글자 이하로 작성해주세요." });
             return false;
         } else if (title.replaceAll(" ", "").length === 0) {
-            setErrors({ ...errors, title: "공백만 적을 수 없습니다." });
-            return false;
-        }
+                setErrors({ ...errors, title: "공백만 적을 수 없습니다." });
+                return false;
+            }
 
-        if (content.length < 5) {
-            setErrors({ ...errors, content: "5글자 이상 작성해주세요." });
+        // 내용 길이 검사
+        if (!regExpContentLength.test(content)) {
+            setErrors({ ...errors, content: "내용은 5글자 이상, 150글자 이하로 작성해주세요." });
             return false;
-        } else if (content.length > 100) {
-            setErrors({ ...errors, content: "100글자 이하로 작성해주세요." });
-            return false;
-        } else if (content.replaceAll(" ", "").length === 0) {
+        }else if (content.replaceAll(" ", "").length === 0) {
             setErrors({ ...errors, content: "공백만 적을 수 없습니다." });
             return false;
         }
 
         return true;
+
     }
 
     const registration = async () => {

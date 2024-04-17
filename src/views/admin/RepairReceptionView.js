@@ -59,7 +59,7 @@ const RepairReception = () => {
             console.log(e)
         }
         
-    
+        
     };
 
     const getSearchRepair = async () => {

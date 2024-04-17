@@ -22,24 +22,23 @@ const BoardWriteView = () => {
         file: '',
     });
 
+    const regExpTitleLength = /^.{5,50}$/; // 제목은 5에서 50글자 사이여야 합니다.
+
+    const regExpContentLength = /^.{5,150}$/; // 글 내용은 5에서 150글자 사이여야 합니다.
+
+    const regExpFileNameLength = /^.{1,255}$/; // 파일 이름은 1에서 255글자 사이여야 합니다.
+
     const validation = () => {
-        if (title.length > 50) {
-            setErrors({ ...errors, title: "제목은 50글자를 초과할 수 없습니다" });
+        if (!regExpTitleLength.test(title)) {
+            setErrors({ ...errors, title: "제목은 5글자 이상, 50글자 이하여야 합니다." });
             return false;
-        } else if (title.length < 5) {
-            console.log(title)
-            setErrors({ ...errors, title: "제목은 5글자 이상이여야 합니다." });
-            return false;
-        } else if (title.replaceAll(" ", "").length === 0) {
+        }  else if (title.replaceAll(" ", "").length === 0) {
             setErrors({ ...errors, title: "제목은 공백만 적을 수 없습니다." });
             return false;
         }
 
-        if (content.length > 150) {
-            setErrors({ ...errors, content: "글내용은 150글자 이상일 수 없습니다." });
-            return false;
-        } else if (content.length < 5) {
-            setErrors({ ...errors, content: "글내용은 5글자 미만이여야 합니다." });
+        if (!regExpContentLength.test(content)) {
+            setErrors({ ...errors, content: "글 내용은 5글자 이상, 150글자 이하여야 합니다." });
             return false;
         } else if (content.replaceAll(" ", "").length === 0) {
             setErrors({ ...errors, content: "글내용은 공백만 적을 수 없습니다." });
@@ -51,17 +50,14 @@ const BoardWriteView = () => {
             return false;
         }
 
-
         if (file.length > 0) {
-            for (var fl of file) {
-                console.log(fl)
-                if(fl.name.length > 10) {
-                    setErrors({ ...errors, file: "파일 이름은 10글자를 넘을 수 없습니다." });
+            for (const fl of file) {
+                if (!regExpFileNameLength.test(fl.name)) {
+                    setErrors({ ...errors, file: "파일 이름은 1글자 이상, 255글자 이하여야 합니다." });
                     return false;
                 }
             }
         }
-
         return true;
 
     }
@@ -117,7 +113,7 @@ const BoardWriteView = () => {
                                 <tr style={{"borderBottom" : "1px dashed #ddd"}}>
                                     <th>제목</th>
                                     <td>
-                                        <input maxLength={20} type="text" placeholder="제목을 입력해주세요." value={title} onChange={(e) => setTitle(e.target.value)} />
+                                        <input maxLength={20} type="text" placeholder="제목을 입력해주세요." value={title} onChange={(e) => {setTitle(e.target.value); validation()}} />
                                         <span className="invalid-feedback show" style={{'fontSize' : "13px"}}>{errors.title}</span>
                                     </td>
                                 </tr>
