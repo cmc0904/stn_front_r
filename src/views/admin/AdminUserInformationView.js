@@ -17,17 +17,8 @@ const MyInfoView = () => {
 
     const getUserInformation = async () => {
         try {
-            const response = await axios.get('/api/user/getUserByUserId?userId=' + paramName,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
+            const response = await axios.get('/api/user/getUserByUserId?userId=' + paramName);
             setUserInformation(response.data.result);
-
-
         } catch (e) {
             console.log(e)
         }

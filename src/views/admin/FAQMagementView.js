@@ -30,14 +30,7 @@ const FAQMagementView = () => {
 
     const getAllFaq = async () => {
         try {
-            const response = await axios.get('/api/faq/getAllFaQ',
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
+            const response = await axios.get('/api/faq/getAllFaQ');
 
             setFaq(response.data);
         } catch (e) {
@@ -70,14 +63,7 @@ const FAQMagementView = () => {
     const deleteFaQ = async (faQidx) => {
 
         try {
-            await axios.delete('/api/faq/deleteFaQ?idx=' + faQidx,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
+            await axios.delete('/api/faq/deleteFaQ?idx=' + faQidx);
 
             getAllFaq();
 
@@ -90,14 +76,7 @@ const FAQMagementView = () => {
 
         try {
             setShowModal(true)
-            const response = await axios.get('/api/faq/getFaQByIdx?idx=' + faQidx,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
+            const response = await axios.get('/api/faq/getFaQByIdx?idx=' + faQidx);
             setQuestion(response.data.question);
             setAnswer(response.data.answer);
     
@@ -116,12 +95,6 @@ const FAQMagementView = () => {
                     idx: mode.idx,
                     question: question,
                     answer: answer
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
                 }
             );
 

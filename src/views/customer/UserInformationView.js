@@ -161,9 +161,7 @@ const MyInfoView = () => {
                                 <div className="box" style={{ "display": "flex", "justifyContent": "space-between" }}>
                                     
                                     <Link to={`/customer/board/boardview/${item.boardIdx}`} style={{"marginBottom":"auto", "marginTop":"auto"}}>
-                                        {/* <h3 style={{ "marginTop": "auto", "marginBottom": "auto"}}>제목 : {item.boardTitle} (작성일 : {new Date(item.createAt).toLocaleDateString()}) - {item.isPrivate === 0 ? <span>공개</span> : <span>비공개</span>}</h3> */}
                                         제목 : {item.boardTitle} (작성일 : {new Date(item.createAt).toLocaleDateString()}) - {item.isPrivate === 0 ? <span>공개</span> : <span>비공개</span>}
-
                                     </Link>
                                     
                                     <div className="btn-group">

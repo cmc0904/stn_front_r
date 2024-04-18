@@ -15,7 +15,6 @@ const FaqView = () => {
 
     const getAllFaq = async () => {
         try {
-            
             const response = await axios.get('/api/faq/getAllFaQ');
     
             setFaq(response.data);

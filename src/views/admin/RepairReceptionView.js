@@ -78,12 +78,9 @@ const RepairReception = () => {
 
     return (
         <>
-
             <section id="main">
                 <div className="page-title">A/S 접수 및 처리</div>
                 <div className="container-md">
-
-
                     <div className="search-container" style={{"width":"100%"}}>
                         <div style={{"width":"100%", "display" : 'flex'}}>
                             
