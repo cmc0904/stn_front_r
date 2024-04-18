@@ -44,6 +44,7 @@ const MemberList = () => {
         try {
             
             const response = await axios.get(`/api/user/search?type=${findMode}&content=${content}&currentPage=${currentPage}`);
+            setShowData(response.data.data);
             setPageNumber(Array.from({ length: Math.ceil(response.data.totalData / 5) }, (_, index) => index + 1));
 
         } catch (e) {
