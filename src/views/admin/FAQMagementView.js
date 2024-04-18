@@ -7,6 +7,7 @@ import '../../style/admin/askList.css';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap 스타일 import
 
 const FAQMagementView = () => {
+    const [validationResult, setValidationResult] = useState({"question":false, "answer":false}); 
     const [question, setQuestion] = useState('');
     const [answer, setAnswer] = useState('');
     const [mode, setMode] = useState({ 'mode': "add", "idx": null }); // 'add' by default
@@ -48,7 +49,7 @@ const FAQMagementView = () => {
     const addFaQ = async () => {
         try {
 
-            if(!validation()) return;
+            if(!(validationResult.question && validationResult.answer)) return;
 
             const res = await axios.post('/api/faq/addFaQ',
                 {
@@ -109,7 +110,7 @@ const FAQMagementView = () => {
 
     const editFaQ = async () => {
         try {
-            if(!validation()) return;
+            if(!(validationResult.question && validationResult.answer)) return;
 
             await axios.put('/api/faq/updateFaQ',
                 {
@@ -138,34 +139,60 @@ const FAQMagementView = () => {
     const clearFaQInput = () => {
         setAnswer("");
         setQuestion("");
-        setErrors({
-            question: '',
-            answer: '',
-        });
+        clearError();   
         setShowModal(false)
     };
 
-    const validation = () => {
+
+    const qusetionValidation = (que) =>{
+        console.log(validationResult)
+        setErrors({
+            ...errors,
+            question: '',
+        });
+        
         const regExpQusetionLength = /^.{5,50}$/;
-        if (regExpQusetionLength.test(question)) {
+        
+       
+
+        if (!regExpQusetionLength.test(que)) {
             setErrors({ ...errors, question: "질문은 5글자 이상, 50글자 이하로 작성해주세요." });
             return false;
-        }  else if (question.replaceAll(" ", "").length === 0) {
-            setErrors({ ...errors, question: "질문는 공백을 가질 수 없습니다." });
+        } else if (que.replaceAll(" ", "").length === 0) {
+            setErrors({ ...errors, question: "질문은 공백을 가질 수 없습니다." });
             return false;
         }
+        setValidationResult({ ...validationResult, question: true });
 
+
+    }
+
+    const answerValidation = (anw) => {
+        setErrors({
+            ...errors, answer: '',
+        });
+        console.log(anw.replaceAll(" ", ""))
+        console.log(anw.includes(" "))
         const regExpAnswerLength = /^.{5,150}$/;
-        if (regExpAnswerLength.test(answer)) {
-            setErrors({ ...errors, answer: "질문은 5글자 이상, 150글자 이하로 작성해주세요." });
+        if (!regExpAnswerLength.test(anw)) {
+            setErrors({ ...errors, answer: "답변은 5글자 이상, 150글자 이하로 작성해주세요." });
             return false;
-        } else if (answer.replaceAll(" ", "").length === 0) {
-            setErrors({ ...errors, answer: "답변는 공백을 가질 수 없습니다." });
+        } else if (anw.replaceAll(" ", "").length === 0) {
+            setErrors({ ...errors, answer: "답변은 공백을 가질 수 없습니다." });
             return false;
         }
 
-        return true;
-    };
+
+        setValidationResult({ ...validationResult, answer: true });
+    }
+
+
+    const clearError= () => {
+        setErrors({
+         question: '',
+         answer: '',
+        })
+    }
 
     return (
         <>
@@ -207,14 +234,14 @@ const FAQMagementView = () => {
                         <Form>
                             <Form.Group className="mb-3">
                                 <Form.Label>질문</Form.Label>
-                                <Form.Control type="text" value={question} onChange={(e) => setQuestion(e.target.value)} maxLength={50} required />
+                                <Form.Control type="text" value={question} onChange={(e) => {setQuestion(e.target.value); qusetionValidation(e.target.value)}} maxLength={50} required />
                                 <div className='invaild-feedback show' style={{"color":"red"}}>
                                     {errors.question}
                                 </div>
                             </Form.Group>
                             <Form.Group className="mb-3">
                                 <Form.Label>답변</Form.Label>
-                                <Form.Control as="textarea" rows={3} value={answer} onChange={(e) => setAnswer(e.target.value)} maxLength={100} required />
+                                <Form.Control as="textarea" rows={3} value={answer} onChange={(e) => {setAnswer(e.target.value); answerValidation(e.target.value)}} maxLength={100} required />
                                 <div className='invaild-feedback show' style={{"color":"red"}}>
                                     {errors.answer}
                                 </div>                            

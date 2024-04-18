@@ -25,10 +25,19 @@ const Register = () => {
     password: '',
     name: '',
     email: '',
-    phone: '',
+    phone: ',',
     gender: '',
     address: ''
   });
+
+  const [validationResult, setValidationResult] = useState({
+    "userId" : false,
+    "password" : false,
+    "name" : false,
+    "phone" : false,
+    "gender" : false,
+    "address" : false,
+  }); 
 
   const [modalState, setModalState] = useState(false);
   const [isDuplicate, setIsDuplicate] = useState(false);
@@ -37,35 +46,23 @@ const Register = () => {
   const navigate = useNavigate();
 
 
-  const validation = (type) => {
-
-
-    setErrors({
-      userId: '',
-      password: '',
-      name: '',
-      email: '',
-      phone: '',
-      gender: '',
-      address: ''
-    });
+  const idValidation = (type) =>{
     // 유저 아이디
     const regExpUserIdFormat = /^[a-zA-Z0-9]+$/; // 아이디의 형식을 검사하는 정규식
     const regExpUserIdLength = /^.{4,10}$/; // 아이디의 길이를 검사하는 정규식
 
-    if (!input.userId) {
-      setErrors({ ...errors, userId: "아이디를 입력해주세요." });
-      return false;
-    }
+    setErrors({
+      ...errors,
+      userId: ''
+    })
+
     if (input.userId.includes(" ")) {
       setErrors({ ...errors, userId: "아이디는 공백을 가질 수 없습니다." });
       return false;
-    }
-    if (!regExpUserIdLength.test(input.userId)) {
+    } else if (!regExpUserIdLength.test(input.userId)) {
       setErrors({ ...errors, userId: "아이디는 최소(4) 이상 (10) 이하이어야 합니다." });
       return false;
-    }
-    if (!regExpUserIdFormat.test(input.userId)) {
+    } else if (!regExpUserIdFormat.test(input.userId)) {
       setErrors({ ...errors, userId: "아이디는 영어/숫자로만 조합해주세요." });
       return false;
     }
@@ -80,9 +77,17 @@ const Register = () => {
       return false;
     }
 
+    setValidationResult({...validationResult, userId : true})
+  }
 
+  const passwordValidation = () =>{
     const regExpPasswordFormat = /^^[a-zA-Z\\d`~!@#$%^&*()-_=+]+$/;
     const regExpPasswordLength = /^.{4,10}$/;
+
+    setErrors({
+      ...errors,
+      password: ''
+    })
 
     if (!input.password) {
       setErrors({ ...errors, password: "비밀번호를 입력해주세요." });
@@ -101,12 +106,19 @@ const Register = () => {
       return false;
     }
 
+    setValidationResult({...validationResult, password : true})
+  }
 
-
-    // name
+  const nameValidation = () =>{
+      // name
 
     const regExpNameFormat = /^[가-힣a-zA-Z]+$/; // 이름의 형식을 검사하는 정규식
     const regExpNameLength = /^.{2,8}$/; // 이름의 길이를 검사하는 정규식
+
+    setErrors({
+      ...errors,
+      name: ''
+    })
 
     if (!input.name) {
       setErrors({ ...errors, name: "성함을 입력해주세요." });
@@ -121,9 +133,17 @@ const Register = () => {
       return false;
     }
 
+    setValidationResult({...validationResult, name : true})
+  }
 
-    // email
+  const emailValidation = () =>{
+      // email
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    setErrors({
+      ...errors,
+      email: ''
+    })
     if (!input.email) {
       setErrors({ ...errors, email: "이메일을 입력해주세요." });
       return false;
@@ -132,10 +152,19 @@ const Register = () => {
       return false;
     }
 
+    setValidationResult({...validationResult, email : true})
+  }
 
-    // phone
+  const phoneValidation = () =>{
+      // phone
     const phoneNumberRegex = /^\d{3}\d{3,4}\d{4}$/;
     const phoneNumberRegexLength = /^.{1,11}$/
+
+    setErrors({
+      ...errors,
+      phone: ''
+    })
+
     if (!input.phone) {
       setErrors({ ...errors, phone: "전화번호를 입력해주세요." });
       return false;
@@ -147,32 +176,57 @@ const Register = () => {
       return false;
     }
 
-    // gender
+    setValidationResult({...validationResult, phone : true})
+  }
+
+  const genderValidation = () =>{
+
+    setErrors({
+      ...errors,
+      gender: ''
+    })
+      // gender
     if (!input.gender) {
       setErrors({ ...errors, gender: "성별을 선택해주세요." });
       return false;
     }
 
-  
-    // address
+    setValidationResult({...validationResult, gender : true})
+  }
+
+  const addressValidation = () =>{
+
+    setErrors({
+      ...errors,
+      address: ''
+    })
+       // address
     if (!input.address) { 
       setErrors({ ...errors, address: "주소를 입력해주세요." });
       return false;
     }
 
-    return true;
-  };
+    setValidationResult({...validationResult, address : true})
+  }
+
+
+
+
+
+
+
+
 
   const checkDuplicateUser = async () => {
     try {
-      if (!validation("DUPLICATE_CHECK")) {
+      if (!idValidation("DUPLICATE_CHECK")) {
         return;
       }
       setIsCheckedDuplicate(true);
       const response = await axios.get('/api/user/checkDuplicate?userId=' + input.userId);
 
 
-      if (response.data.result === "DUPLICATE_USER") {
+      if (response.data.results === "DUPLICATE_USER") {
         setIsDuplicate(true);
         setErrors({ ...errors, userId: "중복된 아이디 입니다." });
 
@@ -210,9 +264,7 @@ const Register = () => {
   const handleRegister = async () => {
     try {
 
-      if (!validation()) {
-        return;
-      }
+      if (!(validationResult.userId && validationResult.password && validationResult.name && validationResult.email && validationResult.address && validationResult.phone && validationResult.gender)) return;
   
       const response = await axios.post('/api/user/register', {
         userId: input.userId,
@@ -275,7 +327,7 @@ const Register = () => {
                               className="form-control"
                               name="id"
                               value={input.userId}
-                              onChange={(e) => setInput({ ...input, userId: e.target.value })}
+                              onChange={(e) => {setInput({ ...input, userId: e.target.value });{idValidation({ ...input, userId: e.target.value })}}}
                               style={{ "border": "1px solid lightgreen" }}
                               autoFocus
                               disabled
@@ -288,7 +340,7 @@ const Register = () => {
                               className="form-control"
                               name="id"
                               value={input.userId}
-                              onChange={(e) => setInput({ ...input, userId: e.target.value })}
+                              onChange={(e) => {setInput({ ...input, userId: e.target.value });{idValidation({ ...input, userId: e.target.value })}}}
                               autoFocus
                             />
                           }
@@ -308,7 +360,7 @@ const Register = () => {
                           className="form-control"
                           name="password"
                           value={input.password}
-                          onChange={(e) => setInput({ ...input, password: e.target.value })}
+                          onChange={(e) => {setInput({ ...input, password: e.target.value });{passwordValidation({ ...input, password: e.target.value })}}}
                           data-eye
                         />
 
@@ -324,7 +376,7 @@ const Register = () => {
                           className="form-control"
                           name="name"
                           value={input.name}
-                          onChange={(e) => setInput({ ...input, name: e.target.value })}
+                          onChange={(e) =>{setInput({ ...input, name: e.target.value });{nameValidation({ ...input, name: e.target.value })}}}
 
                         />
 
@@ -341,7 +393,7 @@ const Register = () => {
                           className="form-control"
                           name="email"
                           value={input.email}
-                          onChange={(e) => setInput({ ...input, email: e.target.value })}
+                          onChange={(e) => {setInput({ ...input, email: e.target.value });{emailValidation({ ...input, email: e.target.value })}}}
 
                         />
 
@@ -358,7 +410,7 @@ const Register = () => {
                           className="form-control"
                           name="phone"
                           value={input.phone}
-                          onChange={(e) => setInput({ ...input, phone: e.target.value })}
+                          onChange={(e) => {setInput({ ...input, phone: e.target.value });{phoneValidation({ ...input, phone: e.target.value })}}}
                         />
                         <div className="invalid-feedback show">{errors.phone}</div>
 
@@ -418,7 +470,7 @@ const Register = () => {
                             className="form-control"
                             name="address"
                             value={input.address}
-                            onChange={(e) => setInput({ ...input, address: e.target.value })}
+                            onChange={(e) => {setInput({ ...input, address: e.target.value });{addressValidation({ ...input, address: e.target.value })}}}
                             disabled
                           />
                           <input type="button" onClick={() => setModalState(true)} className="btn btn-outline-primary" value="주소" />
