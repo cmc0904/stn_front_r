@@ -35,7 +35,7 @@ const Login = () => {
                 return;
             }
 
-            setLoginUserInformation()
+            await setLoginUserInformation()
             
             if (response.data.data.roles.includes("Admin")) {
                 navigate('/manager/repaireprocess');
@@ -55,12 +55,7 @@ const Login = () => {
 
         try {
 
-            const response = await axios.get('/api/user/getUserByUserId', {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                }
-            });
+            const response = await axios.get('/api/user/getUserByUserId');
             
             window.localStorage.setItem("name", response.data.result.userName);
             window.localStorage.setItem("userId", response.data.result.userId);

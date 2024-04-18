@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../../component/Header.js';
-import SideBar from '../../component/SideBar.js';
+
 import axios from 'axios';
 import MemberListTable from '../../component/member/MemberList.js';
 
@@ -51,7 +50,7 @@ const AdminList = () => {
                     <div className='page_selector'>
                         <nav>
                             <ul className="pagination pagination-sm">
-                                {currentPage === 1 ? 
+                                {currentPage === 1 || pageNumber.length === 0?
                                     <li class="page-item disabled">
                                         <a class="page-link">Previous</a>
                                     </li>
@@ -71,7 +70,7 @@ const AdminList = () => {
                                         </li>
                                     )
                                 ))}
-                                {currentPage === pageNumber.length ? 
+                                {currentPage === pageNumber.length || pageNumber.length === 0?
                                     <li class="page-item disabled">
                                         <a class="page-link">Next</a>
                                     </li>

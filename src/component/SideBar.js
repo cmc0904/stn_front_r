@@ -9,14 +9,8 @@ import axios from 'axios';
 class SideBar extends Component {
 
     logout = async () =>  {
-        // 로컬 스토리지에서 jwt_token 삭제
-
-        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
         try {
-            
             await axios.get('/api/user/logout');
-
         } catch (e) {
             console.log(e);     
         }
@@ -31,7 +25,7 @@ class SideBar extends Component {
         return (
             <nav id="side-bar">
                 <div className="welcome">
-                    {localStorage.getItem('name')}님, 환영합니다!
+                    {window.localStorage.getItem("name")} 님, 환영합니다!
                 </div>
 
                 <div className="nav-bar">

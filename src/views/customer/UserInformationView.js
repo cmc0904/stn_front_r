@@ -127,7 +127,7 @@ const MyInfoView = () => {
                         {repairs.map((item, index) => (
                             <div className="box" key={index}>
                                 <h3>A/S 신청 내역#{index + 1}</h3>
-                                <p>신청일: {item.createAt[0]}/{item.createAt[1]}/{item.createAt[2]}</p>
+                                <p>신청일: {item.createAt}</p>
                                 <p>
                                     처리 상태:
                                     {item.adminId == null &&
@@ -139,7 +139,7 @@ const MyInfoView = () => {
                                     }
 
                                     {item.adminId != null && item.finished === 0 &&
-                                        <><span className="status-ing" style={{ "color": "orange" }}>[방문대기]</span><span> (방문 예정일  : {item.visitDate[0]}/{item.visitDate[1]}/{item.visitDate[2]}-{item.visitDate[3]}:{item.visitDate[4]})</span></>
+                                        <><span className="status-ing" style={{ "color": "orange" }}>[방문대기]</span><br></br><span> - 방문 예정일  : {item.visitDate}</span></>
 
                                     }
 

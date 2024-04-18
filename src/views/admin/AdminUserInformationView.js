@@ -39,9 +39,9 @@ const MyInfoView = () => {
 
     const getBoard = async () => {
         try {
-            
+
             const response = await axios.get('/api/board/getBoardByUserIdx?userId=' + paramName);
-    
+
             setBoards(response.data);
         } catch (e) {
             console.log(e);
@@ -51,9 +51,9 @@ const MyInfoView = () => {
     const getRepairs = async () => {
         try {
             const response = await axios.get('/api/repair/getRepairStatusByUserId?userId=' + paramName);
-    
+
             setRepairs(response.data);
-            
+
         } catch (e) {
             console.log(e);
         }
@@ -64,7 +64,7 @@ const MyInfoView = () => {
         try {
             await axios.delete('/api/board/deleteBoard?boardIdx=' + boardIdx);
             getBoard();
-            
+
         } catch (e) {
             console.log(e);
         }
@@ -97,7 +97,7 @@ const MyInfoView = () => {
 
     return (
         <>
-          <section id="main">
+            <section id="main">
                 <div className="page-title">내 정보</div>
 
 
@@ -140,14 +140,22 @@ const MyInfoView = () => {
                     {repairs.map((item, index) => (
                         <div className="box" key={index}>
                             <h3>A/S 신청 내역#{index + 1}</h3>
-                            <p>신청일: {item.createAt.split("T")[0]}</p>
+                            <p>신청일: {item.createAt}</p>
                             <p>
-                                처리 상태: {
-                                    item.adminId == null ?
-                                        <span className="status-ing">[접수 대기]</span>
-                                        :
-                                        <><span className="status-ing" style={{ "color": "green" }}>[접수 완료]</span><span>  방문 예정일  : {item.visitDate.replaceAll("T", " ")}</span></>
+                                처리 상태:
+                                {item.adminId == null &&
+                                    <span className="status-ing">[접수 대기]</span>
                                 }
+
+                                {item.adminId != null && item.finished === 1 &&
+                                    <span className="status-ing" style={{ "color": "green" }}>[처리완료]</span>
+                                }
+
+                                {item.adminId != null && item.finished === 0 &&
+                                    <><span className="status-ing" style={{ "color": "orange" }}>[방문대기]</span><br></br><span> - 방문 예정일  : {item.visitDate}</span></>
+
+                                }
+
                             </p>
 
                             <p>내용: {item.problemComment}</p>
@@ -161,14 +169,14 @@ const MyInfoView = () => {
                     <h2>작성글 목록</h2>
                     <div className="my_inquiry_list">
                         {boards.map((item, index) => (
-                            <Link to={`/customer/board/boardview/${item.boardIdx}`}>
-                                <div className="box" key={index}>
-                                    <h3>제목 : {item.boardTitle} (작성일 : {item.createAt})</h3>
-                                    <div className="btn-group">
-                                        <button className="btn-delete" onClick={() => deleteBoard(item.boardIdx)}>삭제</button>
-                                    </div>
+                            <div className="box" key={index} style={{"justifyContent":"space-between", "display":"flex"}}>
+                                <Link to={`/manager/board/boardview/${item.boardIdx}`} style={{"marginTop":"auto","marginBottom":"auto"}}>
+                                    제목 : {item.boardTitle} (작성일 : {item.createAt})
+                                </Link>
+                                <div className="btn-group">
+                                    <button className="btn-delete" onClick={() => deleteBoard(item.boardIdx)}>삭제</button>
                                 </div>
-                            </Link>
+                            </div>
                         ))}
                     </div>
                 </div>

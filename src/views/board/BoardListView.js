@@ -19,7 +19,7 @@ const Board = () => {
     const [pageNumber, setPageNumber] = useState([]);
     const [showData, setShowData] = useState([]);
     const [searchInput, setSearchInput] = useState('');
-    const [searchMode, setSearchMode] = useState("title");
+    const [searchMode, setSearchMode] = useState("all_data");
 
 
     useEffect(() => {
@@ -31,6 +31,12 @@ const Board = () => {
     useEffect(() => {
         search()
     }, [currentPage]);
+
+    useEffect(() => {
+        if(searchMode === "all_data") {
+            search()
+        }
+    }, [searchMode]);
 
 
 
@@ -62,18 +68,24 @@ const Board = () => {
 
                         <div className="search-container">
                             <div>
-                                <div>
-                                    <input type='text' placeholder={searchMode === "title" ? "제목을 입력 해주세요." : searchMode === "writerId" ? "아이디를 정확하게 입력해주세요." : searchMode === "date" && "날짜를 입력해주세요. 예)2024-03-27"} value={searchInput} onChange={(e) => setSearchInput(e.target.value)} />
-                                    <button type="button" className="btn btn-dark" onClick={search}>검색</button>
-                                </div>
+                                {searchMode === "all_data" ?
+                                    <div>
+                                        <input type='text' placeholder={searchMode === "title" ? "제목을 입력 해주세요." : searchMode === "writerId" ? "아이디를 정확하게 입력해주세요." : searchMode === "date" && "날짜를 입력해주세요. 예)2024-03-27"} value={searchInput} onChange={(e) => setSearchInput(e.target.value)} disabled/>
+                                        <button type="button" className="btn btn-dark" onClick={search} disabled>검색</button>
+                                    </div>
+                                :
+                                <><input type='text' placeholder={searchMode === "title" ? "제목을 입력 해주세요." : searchMode === "writerId" ? "아이디를 정확하게 입력해주세요." : searchMode === "date" && "날짜를 입력해주세요. 예)2024-03-27"} value={searchInput} onChange={(e) => setSearchInput(e.target.value)} /><button type="button" className="btn btn-dark" onClick={search}>검색</button></>
+                                }
                                 <div className='mode-btn-wrap'>
+                                    <button className={searchMode === "all_data" ? 'mode-btn selected' : 'mode-btn'} type='button' onClick={() => {setSearchMode("all_data"); }}>
+                                        전체 데이터
+                                    </button>
                                     <button className={searchMode === "title" ? 'mode-btn selected' : 'mode-btn'} type='button' onClick={() => setSearchMode("title")}>
                                         제목으로 검색
                                     </button>
                                     <button className={searchMode === "writerId" ? 'mode-btn selected' : 'mode-btn'} type='button' onClick={() => setSearchMode("writerId")}>
                                         글쓴이로 검색
                                     </button>
-
                                     <button className={searchMode === "date" ? 'mode-btn selected' : 'mode-btn'} type='button' onClick={() => setSearchMode("date")}>
                                         날짜로 검색
                                     </button>
@@ -86,7 +98,7 @@ const Board = () => {
                     <div className='page_selector'>
                         <nav style={{ display: 'flex', justifyContent: 'center' }}>
                             <ul className="pagination pagination-sm">
-                                {currentPage === 1 ? 
+                                {currentPage === 1 || pageNumber.length === 0? 
                                     <li class="page-item disabled">
                                         <a class="page-link">Previous</a>
                                     </li>
@@ -106,7 +118,7 @@ const Board = () => {
                                         </li>
                                     )
                                 ))}
-                                {currentPage === pageNumber.length ?
+                                {currentPage === pageNumber.length || pageNumber.length === 0?
                                     <li class="page-item disabled">
                                         <a class="page-link">Next</a>
                                     </li>

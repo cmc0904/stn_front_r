@@ -29,14 +29,7 @@ const AdminBoardView = () => {
 
     const getBoardContent = async () => {
         try {
-            const response = await axios.get('/api/board/getBoardByIdx?boardIdx=' + paramName,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
+            const response = await axios.get('/api/board/getBoardByIdx?boardIdx=' + paramName);
 
             setContent(response.data)
         } catch (e) {
@@ -49,12 +42,6 @@ const AdminBoardView = () => {
             await axios.put('/api/board/readBoard',
                 {
                     boardIdx: paramName
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
                 }
             );
         } catch (e) {
@@ -89,14 +76,7 @@ const AdminBoardView = () => {
 
     const getComments = async () => {
         try {
-            const response = await axios.get('/api/board/getComment?boardIdx=' + paramName,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
+            const response = await axios.get('/api/board/getComment?boardIdx=' + paramName);
 
             setCommentLists(response.data);
         } catch (e) {
@@ -111,10 +91,6 @@ const AdminBoardView = () => {
         try {
             const response = await axios.get(apiUrl,
                 {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    },
                     responseType: 'blob' // Blob 형식으로 데이터 받기
                 }
             );
@@ -144,14 +120,7 @@ const AdminBoardView = () => {
 
     const getFileName = async () => {
         try {
-            const response = await axios.get('/api/board/getFileNames?boardIdx=' + paramName,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + window.localStorage.getItem("jwt_token"),
-                    }
-                }
-            );
+            const response = await axios.get('/api/board/getFileNames?boardIdx=' + paramName);
             setFileNames(response.data)
         } catch (e) {
             console.log(e)

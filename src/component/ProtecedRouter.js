@@ -5,8 +5,6 @@ import axios from 'axios';
 
 // 인증 여부를 확인하고 인증되지 않은 사용자를 로그인 페이지로 리다이렉트
 const ProtectedRoute = () => {
-    const isAuthenticated = localStorage.getItem('jwt_token');
-
     const [isVaild, setIsVaild] = useState(false);
     const [loading, setLoading] = useState(true);
 

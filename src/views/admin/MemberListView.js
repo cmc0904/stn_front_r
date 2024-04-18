@@ -44,8 +44,6 @@ const MemberList = () => {
         try {
             
             const response = await axios.get(`/api/user/search?type=${findMode}&content=${content}&currentPage=${currentPage}`);
-    
-            setShowData(response.data.data);
             setPageNumber(Array.from({ length: Math.ceil(response.data.totalData / 5) }, (_, index) => index + 1));
 
         } catch (e) {
@@ -68,7 +66,7 @@ const MemberList = () => {
                     <div className='page_selector'>
                         <nav>
                             <ul className="pagination pagination-sm">
-                                {currentPage === 1 ? 
+                                {currentPage === 1 || showData.length === 0?
                                     <li class="page-item disabled">
                                         <a class="page-link">Previous</a>
                                     </li>
@@ -88,7 +86,7 @@ const MemberList = () => {
                                         </li>
                                     )
                                 ))}
-                                {currentPage === pageNumber.length ? 
+                                {currentPage === pageNumber.length || showData.length === 0?
                                     <li class="page-item disabled">
                                         <a class="page-link">Next</a>
                                     </li>
