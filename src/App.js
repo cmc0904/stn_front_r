@@ -17,13 +17,15 @@ import AdminUserInformationView from './views/admin/AdminUserInformationView.js'
 import AdminBoardWriteView from './views/board/BoardWriteView.js';
 import AdminBoardDetailView from './views/board/BoardView.js';
 import AdminBoardView from './views/board/BoardListView.js';
+import AdminDashBoard from './views/admin/AdminDashBoard.js';
+
 
 import ProtecedRouter from './component/ProtecedRouter.js';
 
 import { useEffect, useState } from 'react';
 
 
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import {Route, Routes, useLocation } from 'react-router-dom';
 
 import SideBar from './component/SideBar.js';
 
@@ -50,6 +52,16 @@ function App() {
         {
           "logindUserName": window.localStorage.getItem("name"),
           "allMenus": [
+            {
+              "categoryName": "대시보드",
+              "subMenus": [
+                {
+                  "subMenuName": "대시보드",
+                  "link": "/manager/dashboard",
+                  "isSelected": location.pathname === "/manager/dashboard"
+                },
+              ]
+            },
             {
               "categoryName": "회원 관리",
               "subMenus": [
@@ -174,6 +186,7 @@ function App() {
           <Route path="/manager/repaireprocess" element={<RepairReceptionView />} />
           <Route path="/manager/asklist" element={<FAQMagementView />} />
           <Route path="/manager/user/:paramName" element={<AdminUserInformationView />} />
+          <Route path="/manager/dashboard" element={<AdminDashBoard />} />
 
 
           {/* 게시판 부분 */}

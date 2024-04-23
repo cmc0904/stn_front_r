@@ -1,0 +1,15 @@
+.container.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 5px;
+    height: 100%;
+}
+
+.mainMinusHeader {
+    height: calc(100vh - 160px);
+}
+
+.box {
+    height: 100%;
+}
