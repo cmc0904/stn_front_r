@@ -7,97 +7,218 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 import '../../style/admin/dashboard.css';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap 스타일 import
+import { cos } from '@amcharts/amcharts4/.internal/core/utils/Math';
 
 const Dashboard = () => {
+    const [repaireData, setRepairData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [repairPage, setRepairPage] = useState(0);
+
+
+    const [boardData, setBoardrData] = useState([]);
+    const [bcurrentPage, setBCurrentPage] = useState(1);
+    const [boardPage, setBoardPage] = useState(0);
+
+
+
 
     useEffect(() => {
-        // 차트를 생성합니다.
-        let chart = am4core.create('board_chart', am4charts.XYChart);
+        getRepairSelectedAdminsForChartData();
+        getBoardPostingDayForChartData()
+    }, []);
+
+    useEffect(() => {
+        getRepairSelectedAdminsForChartData();
+    }, [currentPage]);
+
+    useEffect(() => {
+        getBoardPostingDayForChartData();
+    }, [bcurrentPage]);
+
+    useEffect(() => {
+        const chart = am4core.create('repair_admin_chart', am4charts.XYChart);
         chart.autoMargins = false; // 오토마진 비활성화
+        chart.data = repaireData;
 
-        // 데이터를 추가합니다.
-        chart.data = [{
-            "country": "USA",
-            "visits": 30
-        }, {
-            "country": "China",
-            "visits": 1882
-        }, {
-            "country": "Japan",
-            "visits": 1809
-        }, {
-            "country": "Germany",
-            "visits": 1322
-        }, {
-            "country": "UK",
-            "visits": 1122
-        }, {
-            "country": "France",
-            "visits": 1114
-        }, {
-            "country": "India",
-            "visits": 984
-        }, {
-            "country": "Spain",
-            "visits": 711
-        }, {
-            "country": "Netherlands",
-            "visits": 665
-        }, {
-            "country": "Russia",
-            "visits": 580
-        }, {
-            "country": "South Korea",
-            "visits": 443
-        }, {
-            "country": "Canada",
-            "visits": 441
-        }];
-
+    
         // X축을 설정합니다.
-        let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-        categoryAxis.dataFields.category = "country";
+        const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+        categoryAxis.dataFields.category = "adminId";
         categoryAxis.renderer.grid.template.location = 0;
-        categoryAxis.renderer.minGridDistance = 30;
-
+        categoryAxis.renderer.minGridDistance = 70;
+    
         // Y축을 설정합니다.
-        let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-
+        const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        valueAxis.renderer.minGridDistance = 10; // Y축의 최소 그리드 간격을 10으로 설정합니다.
+    
         // 시리즈를 생성합니다.
-        let series = chart.series.push(new am4charts.ColumnSeries());
-        series.dataFields.valueY = "visits";
-        series.dataFields.categoryX = "country";
-        series.name = "Visits";
-        series.columns.template.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+        const series = chart.series.push(new am4charts.ColumnSeries());
+        series.dataFields.valueY = "count";
+        series.dataFields.categoryX = "adminId";
+        series.name = "adminId";
+        series.columns.template.tooltipText = "{categoryX}: {valueY}[/]";
         series.columns.template.fillOpacity = .8;
 
-        // 차트를 업데이트합니다.
-        chart.current = chart;
-
-        // 컴포넌트가 언마운트 될 때 차트를 정리합니다.
         return () => {
-            chart.dispose();
+            chart.dispose(); // 차트 객체 해제
         };
-    }, []);
+    }, [repaireData]);
+
+
+    useEffect(() => {
+        const chart = am4core.create('board_chart', am4charts.XYChart);
+        chart.autoMargins = false; // 오토마진 비활성화
+        chart.data = boardData;
+
+    
+        // X축을 설정합니다.
+        const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+        categoryAxis.dataFields.category = "day";
+        categoryAxis.renderer.grid.template.location = 0;
+        categoryAxis.renderer.minGridDistance = 70;
+    
+        // Y축을 설정합니다.
+        const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        valueAxis.renderer.minGridDistance = 10; // Y축의 최소 그리드 간격을 10으로 설정합니다.
+        valueAxis.min = 0;
+        valueAxis.max = 100;
+
+        // 시리즈를 생성합니다.
+        const series = chart.series.push(new am4charts.ColumnSeries());
+        series.dataFields.valueY = "count";
+        series.dataFields.categoryX = "day";
+        series.name = "day";
+        series.columns.template.tooltipText = "{categoryX}: {valueY}[/]";
+        series.columns.template.fillOpacity = .8;
+
+        let range = valueAxis.axisRanges.create();
+        range.value = 300;
+        range.endValue = 1100;
+
+        return () => {
+            chart.dispose(); // 차트 객체 해제
+        };
+    }, [boardData]);
+
+    const getRepairSelectedAdminsForChartData = async () => {
+        try {
+
+            const response = await axios.get(`/api/repair/getSelectedAdminsCountForChart?currentPage=${currentPage}`);
+            setRepairData(response.data.data);
+            setRepairPage(Math.ceil(response.data.totalData / 5))
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const getBoardPostingDayForChartData = async () => {
+        try {
+            console.log("gg")
+            const response = await axios.get(`/api/board/getDataForChart?currentPage=${bcurrentPage}`);
+            setBoardPage(Math.ceil(response.data.totalData / 5))
+            setBoardrData(response.data.data)
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
     return (
         <>
             <section id="main" className='mainMinusHeader'>
-                <div className="page-title">대시보드</div>
+                {/* <div className="page-title">대시보드</div> */}
                 <div className='container grid'>
                     <div className="box">
-                        <span>일별 글 등록 수</span>
-                        <div className='board_chart'></div>
+                        <div style={{"justifyContent":"space-between", "display":"flex"}}>
+                            <span>A/S 담당 관리자 배정 건수</span>
+                            <ul className="pagination pagination-sm" style={{ "margin": "0" }}>
+                                <li className="page-item">
+                                    {currentPage === 1 ? 
+                                        <a className="page-link disable">Previous</a>
+                                        : 
+                                        <a className="page-link" onClick={() => {setCurrentPage(currentPage - 1)}}>Previous</a>
+                                    }
+                                </li>
+                                <li className="page-item">
+                                    {currentPage === repairPage ? 
+                                        <a className="page-link disable">Next</a>
+                                        : 
+                                        <a className="page-link" onClick={() => {setCurrentPage(currentPage + 1)}}>Next</a>
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                        <div className='repair_admin_chart' style={{ "width": "100%", "height": "300px" }}></div>
                     </div>
+
                     <div className="box">
-                        <span className='repair_admin_chart'>관리자별 A/S 방문 건수</span>
+                        <div style={{"justifyContent":"space-between", "display":"flex"}}>
+                            <span>게시판 일별 업로드 횟수</span>
+                            <ul className="pagination pagination-sm" style={{ "margin": "0" }}>
+                                <li className="page-item">
+                                    {bcurrentPage === 1 ? 
+                                        <a className="page-link disable">Previous</a>
+                                        : 
+                                        <a className="page-link" onClick={() => {setBCurrentPage(bcurrentPage - 1)}}>Previous</a>
+                                    }
+                                </li>
+                                <li className="page-item">
+                                    {bcurrentPage === boardPage ? 
+                                        <a className="page-link disable">Next</a>
+                                        : 
+                                        <a className="page-link" onClick={() => {setBCurrentPage(bcurrentPage + 1)}}>Next</a>
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                        <div className='board_chart' style={{ "width": "100%", "height": "300px" }}></div>
                     </div>
+
                     <div className="box">
-                        <span className='request_day_chart'>일별 A/S 접수건 수</span>
+                        <div style={{"justifyContent":"space-between", "display":"flex"}}>
+                            <span>A/S 담당 관리자 배정 건수</span>
+                            <ul className="pagination pagination-sm" style={{ "margin": "0" }}>
+                                <li className="page-item">
+                                    {currentPage === 1 ? 
+                                        <a className="page-link disable">Previous</a>
+                                        : 
+                                        <a className="page-link" onClick={() => {setCurrentPage(currentPage - 1)}}>Previous</a>
+                                    }
+                                </li>
+                                <li className="page-item">
+                                    {currentPage === repairPage ? 
+                                        <a className="page-link disable">Next</a>
+                                        : 
+                                        <a className="page-link" onClick={() => {setCurrentPage(currentPage + 1)}}>Next</a>
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                        <div className='repair_admin_chart' style={{ "width": "100%", "height": "300px" }}></div>
                     </div>
+
                     <div className="box">
-                        <span className='join_day_chart'>일별 가입자 수</span>
+                        <div style={{"justifyContent":"space-between", "display":"flex"}}>
+                            <span>A/S 담당 관리자 배정 건수</span>
+                            <ul className="pagination pagination-sm" style={{ "margin": "0" }}>
+                                <li className="page-item">
+                                    {currentPage === 1 ? 
+                                        <a className="page-link disable">Previous</a>
+                                        : 
+                                        <a className="page-link" onClick={() => {setCurrentPage(currentPage - 1)}}>Previous</a>
+                                    }
+                                </li>
+                                <li className="page-item">
+                                    {currentPage === repairPage ? 
+                                        <a className="page-link disable">Next</a>
+                                        : 
+                                        <a className="page-link" onClick={() => {setCurrentPage(currentPage + 1)}}>Next</a>
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                        <div className='repair_admin_chart' style={{ "width": "100%", "height": "300px" }}></div>
                     </div>
+                    
                 </div>
             </section>
         </>
