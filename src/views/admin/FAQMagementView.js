@@ -120,7 +120,7 @@ const FAQMagementView = () => {
 
     const validation = () => {
         const regExpQusetionLength = /^.{5,50}$/;
-        if (regExpQusetionLength.test(question)) {
+        if (!regExpQusetionLength.test(question)) {
             setErrors({ ...errors, question: "질문은 5글자 이상, 50글자 이하로 작성해주세요." });
             return false;
         }  else if (question.replaceAll(" ", "").length === 0) {
@@ -129,7 +129,7 @@ const FAQMagementView = () => {
         }
 
         const regExpAnswerLength = /^.{5,150}$/;
-        if (regExpAnswerLength.test(answer)) {
+        if (!regExpAnswerLength.test(answer)) {
             setErrors({ ...errors, answer: "질문은 5글자 이상, 150글자 이하로 작성해주세요." });
             return false;
         } else if (answer.replaceAll(" ", "").length === 0) {

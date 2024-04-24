@@ -1,51 +1,46 @@
 import React, { useEffect, useState } from 'react';
 
-import '../../style/customer/Board.css';
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import { cos } from '@amcharts/amcharts4/.internal/core/utils/Math';
 
 
-
-const ChartBox = ({chartName, data, currentPage, setCurrentPage, valueY, categoryX}) => {
-    const [chartData, setChartData] = useState(data);
+const ChartBox = ({chartId, chartName, chartData, currentPage, setCurrentPage, x, y}) => {
 
     useEffect(() => {
-        console.log(chartName)
-        console.log(data)
-
-    }, []);
-
-    useEffect(() => {
-        const chart = am4core.create('chart', am4charts.XYChart);
+        const chart = am4core.create(chartId, am4charts.XYChart);
         chart.autoMargins = false; // 오토마진 비활성화
         chart.data = chartData.data;
-
+        chart.exporting.menu = new am4core.ExportMenu();
+        chart.exporting.menu.align = "right";
+        console.log(chart.exporting.menu);
+        chart.exporting.menu.verticalAlign = "bottom";
     
         // X축을 설정합니다.
         const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-        categoryAxis.dataFields.category = "adminId";
+        categoryAxis.dataFields.category = x;
         categoryAxis.renderer.grid.template.location = 0;
         categoryAxis.renderer.minGridDistance = 70;
     
         // Y축을 설정합니다.
         const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        valueAxis.renderer.minGridDistance = 10; // Y축의 최소 그리드 간격을 10으로 설정합니다.
-    
+        valueAxis.renderer.minGridDistance = 15; // Y축의 최소 그리드 간격을 10으로 설정합니다.
+        valueAxis.min = 0;
+        valueAxis.max = 70;
         // 시리즈를 생성합니다.
         const series = chart.series.push(new am4charts.ColumnSeries());
-        series.dataFields.valueY = "count";
-        series.dataFields.categoryX = "adminId";
-        series.name = "adminId";
+        series.dataFields.valueY = y;
+        series.dataFields.categoryX = x;
+        series.name = x;
         series.columns.template.tooltipText = "{categoryX}: {valueY}[/]";
         series.columns.template.fillOpacity = .8;
 
         return () => {
             chart.dispose(); // 차트 객체 해제
         };
+
     }, [chartData]);
+
 
     
 
@@ -62,7 +57,7 @@ const ChartBox = ({chartName, data, currentPage, setCurrentPage, valueY, categor
                         }
                     </li>
                     <li className="page-item">
-                        {currentPage === 100 ? 
+                        {currentPage === Math.ceil(chartData.totalData / 5) ? 
                             <a className="page-link disable">Next</a>
                             : 
                             <a className="page-link" onClick={() => {setCurrentPage(currentPage + 1)}}>Next</a>
@@ -70,7 +65,7 @@ const ChartBox = ({chartName, data, currentPage, setCurrentPage, valueY, categor
                     </li>
                 </ul>
             </div>
-            <div className='chart' style={{ "width": "100%", "height": "300px" }}></div>
+            <div id={chartId} style={{ "width": "100%", "height": "300px" }}></div>
         </div>
     );
 
